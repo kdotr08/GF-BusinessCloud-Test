@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --navy: #0b1f33;
+  --navy-2: #122c47;
+  --blue: #1d70b8;
+  --blue-deep: #124d80;
+  --green: #00703c;
+  --amber-bg: #fef9c3;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #fbfaf7;
+  color: #0b1f33;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-serif, Georgia, serif);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--navy);
+  margin: 0 0 0.4em;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+@layer components {
+  .wrap {
+    @apply mx-auto w-full max-w-wrap px-6;
+  }
+
+  .eyebrow {
+    @apply font-sans text-xs font-bold uppercase tracking-[0.12em] text-brand-blue-deep;
+  }
+
+  .muted {
+    @apply text-muted;
+  }
+
+  .btn {
+    @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded border border-transparent px-5 py-3 font-sans text-[15px] font-bold no-underline transition-colors;
+  }
+
+  .btn-primary {
+    @apply bg-brand-green text-white hover:bg-[#005a30];
+  }
+
+  .btn-secondary {
+    @apply border-line bg-white text-navy hover:border-brand-blue;
+  }
+
+  .btn-ghost {
+    @apply border-white/50 bg-transparent text-white hover:border-white;
+  }
+}

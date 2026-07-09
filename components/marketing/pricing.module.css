@@ -1,0 +1,413 @@
+/* Bespoke, page-specific styles for the Business Cloud pricing page.
+   Shared primitives (.wrap, .btn, .eyebrow) live in app/globals.css. */
+
+.hero {
+  background: linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 100%);
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 48px;
+  align-items: center;
+  padding-bottom: 36px;
+}
+
+.guardrail {
+  margin-top: 22px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 4px;
+  font-size: 14px;
+  color: #cfe0ee;
+  max-width: 52ch;
+}
+.guardrail a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.ladderRail {
+  position: relative;
+  padding-left: 30px;
+}
+.ladderRail::before {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  background: linear-gradient(180deg, #8eb8dc, #00703c 70%, var(--amber-bg));
+}
+.rung {
+  position: relative;
+  padding: 14px 0 14px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.rung:last-child {
+  border-bottom: none;
+}
+.rung::before {
+  content: "";
+  position: absolute;
+  left: -30px;
+  top: 22px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #0b1f33;
+  border: 2px solid #8eb8dc;
+}
+.rungActive::before {
+  border-color: #00703c;
+}
+.rname {
+  font-weight: 700;
+  color: #fff;
+  font-size: 14px;
+}
+.rprice {
+  font-family: Georgia, serif;
+  font-size: 20px;
+  color: #fff;
+}
+.rnote {
+  font-size: 12.5px;
+  color: #9fb6c9;
+}
+
+.plans {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.planCard {
+  background: #fff;
+  border: 1px solid #d8dadc;
+  border-radius: 8px;
+  padding: 26px 22px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.planCardPopular {
+  border-color: var(--green);
+  box-shadow: 0 0 0 1px var(--green);
+}
+.badgePopular {
+  position: absolute;
+  top: -12px;
+  left: 22px;
+  background: var(--green);
+  color: #fff;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.03em;
+}
+.planList {
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+  font-size: 14px;
+  flex-grow: 1;
+}
+.planList li {
+  padding: 7px 0;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.planList li:first-child {
+  border-top: none;
+}
+
+.vsTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 26px;
+  font-size: 14.5px;
+  background: #fff;
+  border: 1px solid #d8dadc;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.vsTable th,
+.vsTable td {
+  padding: 12px 16px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid #d8dadc;
+}
+.vsTable thead th {
+  background: #f4f8fb;
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #505a5f;
+}
+.vsTable tr:last-child td {
+  border-bottom: none;
+}
+.vsTable td.win {
+  color: var(--green);
+  font-weight: 600;
+}
+
+.estateBanner {
+  background: var(--navy);
+  color: #fff;
+  border-radius: 10px;
+  padding: 34px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.estateTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+  margin-top: 10px;
+}
+.estateTable th,
+.estateTable td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #d8dadc;
+  text-align: left;
+}
+.estateTable thead th {
+  background: #f4f8fb;
+  font-weight: 700;
+}
+.estateDetail summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14.5px;
+  color: var(--blue-deep);
+  padding: 8px 0;
+  list-style: none;
+}
+.estateDetail summary::-webkit-details-marker {
+  display: none;
+}
+.estateDetail summary::before {
+  content: "▸ ";
+  color: var(--blue);
+}
+.estateDetail[open] summary::before {
+  content: "▾ ";
+}
+
+.includes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.incItem {
+  background: #fff;
+  border: 1px solid #d8dadc;
+  border-radius: 4px;
+  padding: 14px 16px;
+  font-size: 14px;
+}
+.incItem strong {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 2px;
+  color: var(--navy);
+}
+
+.addons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.addonCard {
+  background: #fff;
+  border: 1px solid #d8dadc;
+  border-radius: 4px;
+  padding: 18px 20px;
+}
+.addonPrice {
+  font-family: Georgia, serif;
+  font-size: 19px;
+  color: var(--blue-deep);
+  margin-bottom: 6px;
+}
+
+.calc {
+  background: #fff;
+  border: 1px solid #d8dadc;
+  border-radius: 10px;
+  padding: 30px;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 34px;
+}
+.calcField {
+  margin-bottom: 16px;
+}
+.calcField label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+.calcField input[type="range"] {
+  width: 100%;
+}
+.calcVal {
+  font-family: Georgia, serif;
+  font-size: 15px;
+  color: var(--blue-deep);
+  float: right;
+}
+.calcField select {
+  width: 100%;
+  padding: 9px 10px;
+  border: 1px solid #d8dadc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+.calcOut {
+  background: #f4f8fb;
+  border-radius: 8px;
+  padding: 24px;
+  align-self: start;
+}
+.calcPlan {
+  font-family: Georgia, serif;
+  font-size: 26px;
+  color: var(--navy);
+  margin-bottom: 2px;
+}
+.calcPrice {
+  font-family: Georgia, serif;
+  font-size: 38px;
+  color: var(--green);
+  margin: 8px 0 2px;
+}
+.calcLine {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13.5px;
+  padding: 6px 0;
+  border-top: 1px solid #d8dadc;
+}
+.calcWarn {
+  margin-top: 14px;
+  font-size: 12.5px;
+  background: var(--amber-bg);
+  color: #7a6400;
+  border-radius: 4px;
+  padding: 10px 12px;
+}
+
+.simpleTable {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid #d8dadc;
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 14.5px;
+}
+.simpleTable th,
+.simpleTable td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #d8dadc;
+  text-align: left;
+}
+.simpleTable thead th {
+  background: #f4f8fb;
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #505a5f;
+}
+.simpleTable tr:last-child td {
+  border-bottom: none;
+}
+
+.scenarios {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.scenarioCard {
+  background: #fff;
+  border: 1px solid #d8dadc;
+  border-radius: 4px;
+  padding: 18px 20px;
+}
+.sprice {
+  font-family: Georgia, serif;
+  font-size: 20px;
+  color: var(--green);
+  margin: 6px 0 4px;
+}
+
+.faqItem {
+  border-bottom: 1px solid #d8dadc;
+  padding: 16px 0;
+}
+.faqItem summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--navy);
+  list-style: none;
+}
+.faqItem summary::-webkit-details-marker {
+  display: none;
+}
+.faqItem summary::before {
+  content: "+ ";
+  color: var(--blue);
+}
+.faqItem[open] summary::before {
+  content: "\2013 ";
+  color: var(--blue);
+}
+
+.finalCta {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--blue-deep) 100%);
+  color: #fff;
+  border-radius: 12px;
+  padding: 44px;
+  text-align: center;
+}
+.finalCtaButtons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 920px) {
+  .heroGrid {
+    grid-template-columns: 1fr;
+  }
+  .plans {
+    grid-template-columns: 1fr;
+  }
+  .includes {
+    grid-template-columns: 1fr 1fr;
+  }
+  .addons {
+    grid-template-columns: 1fr;
+  }
+  .calc {
+    grid-template-columns: 1fr;
+  }
+  .scenarios {
+    grid-template-columns: 1fr;
+  }
+}

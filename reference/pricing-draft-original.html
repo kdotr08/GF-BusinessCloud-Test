@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Govform.com — Business Cloud pricing (draft)</title>
+<style>
+  :root{
+    --navy:#0b1f33;
+    --navy-2:#122c47;
+    --blue:#1d70b8;
+    --blue-deep:#124d80;
+    --green:#00703c;
+    --paper:#fbfaf7;
+    --panel:#f4f8fb;
+    --panel-alt:#f3f2f1;
+    --line:#d8dadc;
+    --line-soft:#dfe6ec;
+    --ink:#0b1f33;
+    --muted:#505a5f;
+    --amber-bg:#fef9c3;
+    --amber-ink:#7a6400;
+    --radius:4px;
+    --serif: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "Helvetica Neue", sans-serif;
+    --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans);
+    font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased;
+  }
+  img,svg{max-width:100%;display:block;}
+  a{color:var(--blue);}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 24px;}
+  h1,h2,h3,h4{font-family:var(--serif); font-weight:600; margin:0 0 .4em; letter-spacing:-0.01em; color:var(--navy);}
+  .eyebrow{
+    font-family:var(--sans); text-transform:uppercase; letter-spacing:.12em; font-size:12px;
+    font-weight:700; color:var(--blue-deep);
+  }
+  p{margin:0 0 1em;}
+  .muted{color:var(--muted);}
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding:12px 20px; border-radius:var(--radius); font-weight:700; font-size:15px;
+    text-decoration:none; cursor:pointer; border:1px solid transparent; font-family:var(--sans);
+  }
+  .btn-primary{background:var(--green); color:#fff;}
+  .btn-primary:hover{background:#005a30;}
+  .btn-secondary{background:#fff; color:var(--navy); border-color:var(--line);}
+  .btn-secondary:hover{border-color:var(--blue);}
+  .btn-ghost{background:transparent; color:#fff; border-color:rgba(255,255,255,.5);}
+  .btn-ghost:hover{border-color:#fff;}
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    background:linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 100%);
+    color:#fff; padding:56px 0 0;
+  }
+  .topbar{display:flex; align-items:center; justify-content:space-between; padding-bottom:40px;}
+  .logo{font-family:var(--serif); font-weight:700; font-size:20px; color:#fff; letter-spacing:-0.01em;}
+  .logo span{color:#8eb8dc;}
+  nav.toplinks a{color:#cfe0ee; text-decoration:none; font-size:14px; margin-left:26px;}
+  nav.toplinks a:hover{color:#fff;}
+
+  .hero-grid{display:grid; grid-template-columns:1.15fr .85fr; gap:48px; align-items:center; padding-bottom:36px;}
+  .hero h1{color:#fff; font-size:44px; line-height:1.08; max-width:15ch;}
+  .hero .lede{font-size:19px; color:#d9e6f0; max-width:46ch;}
+  .guardrail{
+    margin-top:22px; padding:14px 16px; background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.18); border-radius:var(--radius); font-size:14px; color:#cfe0ee; max-width:52ch;
+  }
+  .guardrail a{color:#fff; text-decoration:underline;}
+  .hero-ctas{display:flex; gap:12px; margin-top:26px; flex-wrap:wrap;}
+  .hero-fine{font-size:12.5px; color:#8fa9bf; margin-top:14px;}
+
+  /* Ladder signature element */
+  .ladder{position:relative; padding:8px 0 8px 0;}
+  .ladder-rail{position:relative; padding-left:30px;}
+  .ladder-rail::before{
+    content:""; position:absolute; left:9px; top:6px; bottom:6px; width:2px;
+    background:linear-gradient(180deg,#8eb8dc, #00703c 70%, var(--amber-bg));
+  }
+  .rung{position:relative; padding:14px 0 14px 18px; border-bottom:1px solid rgba(255,255,255,.08);}
+  .rung:last-child{border-bottom:none;}
+  .rung::before{
+    content:""; position:absolute; left:-30px; top:22px; width:12px; height:12px; border-radius:50%;
+    background:#0b1f33; border:2px solid #8eb8dc;
+  }
+  .rung.active::before{border-color:#00703c;}
+  .rung .rname{font-weight:700; color:#fff; font-size:14px;}
+  .rung .rprice{font-family:var(--serif); font-size:20px; color:#fff;}
+  .rung .rnote{font-size:12.5px; color:#9fb6c9;}
+
+  /* ---------- SECTION shells ---------- */
+  section{padding:64px 0;}
+  section.alt{background:var(--panel);}
+  section.alt2{background:var(--panel-alt);}
+  .section-head{max-width:60ch; margin-bottom:34px;}
+  .section-head h2{font-size:30px;}
+
+  /* ---------- PLAN CARDS ---------- */
+  .plans{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  .plan-card{
+    background:#fff; border:1px solid var(--line); border-radius:8px; padding:26px 22px;
+    display:flex; flex-direction:column; position:relative;
+  }
+  .plan-card.popular{border-color:var(--green); box-shadow:0 0 0 1px var(--green);}
+  .badge-popular{
+    position:absolute; top:-12px; left:22px; background:var(--green); color:#fff; font-size:11.5px;
+    font-weight:700; padding:4px 10px; border-radius:999px; letter-spacing:.03em;
+  }
+  .plan-name{font-family:var(--serif); font-size:22px; margin-bottom:2px;}
+  .plan-for{font-size:13px; color:var(--muted); margin-bottom:18px; min-height:32px;}
+  .plan-price{font-family:var(--serif); font-size:34px; color:var(--navy); line-height:1;}
+  .plan-price span{font-family:var(--sans); font-size:14px; color:var(--muted); font-weight:400;}
+  .plan-sub{font-size:12.5px; color:var(--muted); margin:6px 0 18px;}
+  .plan-list{list-style:none; margin:0 0 20px; padding:0; font-size:14px; flex-grow:1;}
+  .plan-list li{padding:7px 0; border-top:1px solid #eee; display:flex; justify-content:space-between; gap:10px;}
+  .plan-list li:first-child{border-top:none;}
+  .plan-list .k{color:var(--muted);}
+  .plan-list .v{font-weight:600; text-align:right;}
+  .plan-card .btn{width:100%;}
+  .plans-note{
+    margin-top:22px; font-size:13.5px; color:var(--muted); background:#fff; border:1px solid var(--line);
+    border-radius:var(--radius); padding:14px 16px;
+  }
+
+  /* differentiator table */
+  .vs-table{width:100%; border-collapse:collapse; margin-top:26px; font-size:14.5px; background:#fff; border:1px solid var(--line); border-radius:8px; overflow:hidden;}
+  .vs-table th,.vs-table td{padding:12px 16px; text-align:left; vertical-align:top; border-bottom:1px solid var(--line);}
+  .vs-table thead th{background:var(--panel); font-family:var(--sans); font-size:12.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted);}
+  .vs-table tr:last-child td{border-bottom:none;}
+  .vs-table td.win{color:var(--green); font-weight:600;}
+
+  /* ---------- ESTATE BANNER ---------- */
+  .estate-banner{
+    background:var(--navy); color:#fff; border-radius:10px; padding:34px 30px; display:flex;
+    justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap;
+  }
+  .estate-banner h3{color:#fff; font-size:22px; margin-bottom:6px;}
+  .estate-banner p{color:#c9dbe9; margin:0; max-width:52ch;}
+  details.estate-detail{margin-top:20px;}
+  details.estate-detail summary{
+    cursor:pointer; font-weight:700; font-size:14.5px; color:var(--blue-deep); padding:8px 0;
+    list-style:none;
+  }
+  details.estate-detail summary::-webkit-details-marker{display:none;}
+  details.estate-detail summary::before{content:"▸ "; color:var(--blue);}
+  details.estate-detail[open] summary::before{content:"▾ ";}
+  .estate-table{width:100%; border-collapse:collapse; font-size:13.5px; margin-top:10px;}
+  .estate-table th,.estate-table td{padding:10px 12px; border-bottom:1px solid var(--line); text-align:left;}
+  .estate-table thead th{background:var(--panel); font-weight:700;}
+
+  /* ---------- includes grid ---------- */
+  .includes{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+  .inc-item{background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:14px 16px; font-size:14px;}
+  .inc-item strong{display:block; font-size:14px; margin-bottom:2px; color:var(--navy);}
+
+  /* ---------- addon cards ---------- */
+  .addons{display:grid; grid-template-columns:repeat(2,1fr); gap:16px;}
+  .addon-card{background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:18px 20px;}
+  .addon-card h4{font-family:var(--sans); font-size:15px; margin-bottom:4px; color:var(--navy);}
+  .addon-price{font-family:var(--serif); font-size:19px; color:var(--blue-deep); margin-bottom:6px;}
+  .addon-card p{font-size:13.5px; color:var(--muted); margin:0;}
+
+  /* ---------- calculator ---------- */
+  .calc{
+    background:#fff; border:1px solid var(--line); border-radius:10px; padding:30px; display:grid;
+    grid-template-columns:1.1fr .9fr; gap:34px;
+  }
+  .calc-field{margin-bottom:16px;}
+  .calc-field label{display:block; font-size:13px; font-weight:700; color:var(--navy); margin-bottom:6px;}
+  .calc-field input[type=range]{width:100%;}
+  .calc-field .val{font-family:var(--serif); font-size:15px; color:var(--blue-deep); float:right;}
+  .calc-field select{width:100%; padding:9px 10px; border:1px solid var(--line); border-radius:var(--radius); font-size:14px; font-family:var(--sans);}
+  .calc-out{background:var(--panel); border-radius:8px; padding:24px; align-self:start;}
+  .calc-out .eyebrow{margin-bottom:6px;}
+  .calc-plan{font-family:var(--serif); font-size:26px; color:var(--navy); margin-bottom:2px;}
+  .calc-price{font-family:var(--serif); font-size:38px; color:var(--green); margin:8px 0 2px;}
+  .calc-price span{font-size:15px; font-family:var(--sans); color:var(--muted);}
+  .calc-line{display:flex; justify-content:space-between; font-size:13.5px; padding:6px 0; border-top:1px solid var(--line);}
+  .calc-warn{
+    margin-top:14px; font-size:12.5px; background:var(--amber-bg); color:var(--amber-ink);
+    border-radius:var(--radius); padding:10px 12px; display:none;
+  }
+  .calc-warn.show{display:block;}
+
+  /* ---------- go-live table ---------- */
+  table.simple{width:100%; border-collapse:collapse; background:#fff; border:1px solid var(--line); border-radius:8px; overflow:hidden; font-size:14.5px;}
+  table.simple th,table.simple td{padding:12px 16px; border-bottom:1px solid var(--line); text-align:left;}
+  table.simple thead th{background:var(--panel); font-size:12.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted);}
+  table.simple tr:last-child td{border-bottom:none;}
+
+  /* ---------- scenarios ---------- */
+  .scenarios{display:grid; grid-template-columns:repeat(2,1fr); gap:16px;}
+  .scenario-card{background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:18px 20px;}
+  .scenario-card .sprice{font-family:var(--serif); font-size:20px; color:var(--green); margin:6px 0 4px;}
+  .scenario-card p{font-size:13.5px; color:var(--muted); margin:0;}
+
+  /* ---------- faq ---------- */
+  .faq-item{border-bottom:1px solid var(--line); padding:16px 0;}
+  .faq-item summary{cursor:pointer; font-weight:700; font-size:15px; color:var(--navy); list-style:none;}
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary::before{content:"+ "; color:var(--blue);}
+  .faq-item[open] summary::before{content:"– "; color:var(--blue);}
+  .faq-item .a{margin-top:10px; font-size:14.5px; color:var(--muted);}
+
+  /* ---------- final CTA ---------- */
+  .final-cta{
+    background:linear-gradient(135deg, var(--navy) 0%, var(--blue-deep) 100%); color:#fff;
+    border-radius:12px; padding:44px; text-align:center;
+  }
+  .final-cta h2{color:#fff;}
+  .final-cta p{color:#d9e6f0; max-width:56ch; margin:0 auto 24px;}
+  .final-ctas{display:flex; gap:12px; justify-content:center; flex-wrap:wrap;}
+
+  footer{padding:36px 0; background:var(--panel); border-top:3px solid var(--blue); font-size:13px; color:var(--muted);}
+  footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;}
+
+  @media (max-width:920px){
+    .hero-grid{grid-template-columns:1fr;}
+    .plans{grid-template-columns:1fr;}
+    .includes{grid-template-columns:1fr 1fr;}
+    .addons{grid-template-columns:1fr;}
+    .calc{grid-template-columns:1fr;}
+    .scenarios{grid-template-columns:1fr;}
+    .hero h1{font-size:34px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="topbar">
+      <div class="logo">govform<span>.com</span></div>
+      <nav class="toplinks">
+        <a href="#plans">Pricing</a>
+        <a href="#addons">Add-ons</a>
+        <a href="#calculator">Calculator</a>
+        <a href="#institutional">Institutional</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+    </div>
+
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Business Cloud pricing</div>
+        <h1>Build and test for free. Go live from £75/month.</h1>
+        <p class="lede">Account-level pricing for organisations that need accessible, secure, production-grade digital service forms — without paying for central-government-level delivery support they don't need.</p>
+
+        <div class="guardrail">
+          Business Cloud is for teams that configure and manage their own services using documentation, standard platform features and ticket-based product support. Need dedicated support, custom SLAs or bespoke integrations? <a href="#institutional">See Institutional &amp; Central Government pricing →</a>
+        </div>
+
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#plans">Start building free</a>
+          <a class="btn btn-ghost" href="#calculator">Calculate your live cost</a>
+          <a class="btn btn-ghost" href="#institutional">Talk to us</a>
+        </div>
+        <div class="hero-fine">Prices exclude VAT / local sales taxes. Annual-plan prices shown. Monthly-flex plans are available at +20%.</div>
+      </div>
+
+      <div class="ladder">
+        <div class="ladder-rail">
+          <div class="rung active">
+            <div class="rname">Launch</div>
+            <div class="rprice">£75/mo</div>
+            <div class="rnote">First production services</div>
+          </div>
+          <div class="rung active">
+            <div class="rname">Portfolio</div>
+            <div class="rprice">£195/mo</div>
+            <div class="rnote">Multi-service organisational teams</div>
+          </div>
+          <div class="rung active">
+            <div class="rname">Scale</div>
+            <div class="rprice">£595/mo</div>
+            <div class="rnote">High-volume, light-touch teams</div>
+          </div>
+          <div class="rung">
+            <div class="rname">Business Estate</div>
+            <div class="rprice">from £18,000/yr</div>
+            <div class="rnote">100+ live services, portfolio economics</div>
+          </div>
+          <div class="rung">
+            <div class="rname">Institutional &amp; Central Government</div>
+            <div class="rprice">Custom</div>
+            <div class="rnote">Dedicated support, assurance, delivery</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- PLAN CARDS -->
+<section id="plans">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Business Cloud plans</div>
+      <h2>Which plan am I?</h2>
+      <p class="muted">Three plans cover almost every business-grade organisation. Everything above this is Business Estate or Institutional — see below.</p>
+    </div>
+
+    <div class="plans">
+      <div class="plan-card">
+        <div class="plan-name">Launch</div>
+        <div class="plan-for">First production services</div>
+        <div class="plan-price">£75<span>/month</span></div>
+        <div class="plan-sub">£900/year annual · £90/month monthly-flex</div>
+        <ul class="plan-list">
+          <li><span class="k">Live services</span><span class="v">2</span></li>
+          <li><span class="k">Submissions</span><span class="v">2,500/mo</span></li>
+          <li><span class="k">Automation actions</span><span class="v">10,000/mo</span></li>
+          <li><span class="k">Hosted storage</span><span class="v">25GB</span></li>
+          <li><span class="k">Darcy assists</span><span class="v">100/mo (Fast)</span></li>
+          <li><span class="k">Builder users</span><span class="v">3</span></li>
+          <li><span class="k">Support</span><span class="v">Email/ticket · 2 day</span></li>
+          <li><span class="k">Extra service</span><span class="v">£10/mo</span></li>
+        </ul>
+        <a class="btn btn-secondary" href="#">Start free</a>
+      </div>
+
+      <div class="plan-card popular">
+        <span class="badge-popular">Most popular</span>
+        <div class="plan-name">Portfolio</div>
+        <div class="plan-for">Multi-service organisational teams</div>
+        <div class="plan-price">£195<span>/month</span></div>
+        <div class="plan-sub">£2,340/year annual · £234/month monthly-flex</div>
+        <ul class="plan-list">
+          <li><span class="k">Live services</span><span class="v">12</span></li>
+          <li><span class="k">Submissions</span><span class="v">15,000/mo</span></li>
+          <li><span class="k">Automation actions</span><span class="v">75,000/mo</span></li>
+          <li><span class="k">Hosted storage</span><span class="v">250GB</span></li>
+          <li><span class="k">Darcy assists</span><span class="v">500/mo (Fast)</span></li>
+          <li><span class="k">Builder users</span><span class="v">10</span></li>
+          <li><span class="k">Support</span><span class="v">Priority + onboarding call</span></li>
+          <li><span class="k">Extra service</span><span class="v">£9/mo</span></li>
+        </ul>
+        <a class="btn btn-primary" href="#">Start free</a>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-name">Scale</div>
+        <div class="plan-for">High-volume or larger light-touch teams</div>
+        <div class="plan-price">£595<span>/month</span></div>
+        <div class="plan-sub">£7,140/year annual · £714/month monthly-flex</div>
+        <ul class="plan-list">
+          <li><span class="k">Live services</span><span class="v">50</span></li>
+          <li><span class="k">Submissions</span><span class="v">75,000/mo</span></li>
+          <li><span class="k">Automation actions</span><span class="v">300,000/mo</span></li>
+          <li><span class="k">Hosted storage</span><span class="v">1TB</span></li>
+          <li><span class="k">Darcy assists</span><span class="v">2,000/mo (Fast + Pro)</span></li>
+          <li><span class="k">Builder users</span><span class="v">25</span></li>
+          <li><span class="k">Support</span><span class="v">Priority product support</span></li>
+          <li><span class="k">Extra service</span><span class="v">£8.50/mo</span></li>
+        </ul>
+        <a class="btn btn-secondary" href="#">Talk to us / Start free</a>
+      </div>
+    </div>
+
+    <div class="plans-note">
+      All Business Cloud plans include free build/test access, hosting, standard platform updates, production monitoring, backups, standard security evidence, custom domains, standard secure file handling, product documentation and ticket-based product support.
+    </div>
+
+    <table class="vs-table">
+      <thead><tr><th>Other form builders</th><th>Govform.com Business Cloud</th></tr></thead>
+      <tbody>
+        <tr><td>Capture data in the browser and send a webhook after submission.</td><td class="win">Submit each page server-side, validate as you go, and run controlled automation while the journey is in progress.</td></tr>
+        <tr><td>Store API credentials or integration logic in third-party automation tools.</td><td class="win">Keep credentials, mapping and branching inside a server-side production service model.</td></tr>
+        <tr><td>Treat integration as an add-on or Enterprise custom feature.</td><td class="win">Generous standard automation actions included in every plan, advanced actions priced transparently.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ESTATE BANNER -->
+<section class="alt">
+  <div class="wrap">
+    <div class="estate-banner">
+      <div>
+        <h3>Running a large form estate?</h3>
+        <p>Business Estate pricing is for organisations with 100+ live services that need portfolio economics, not high-touch delivery support.</p>
+      </div>
+      <a class="btn btn-ghost" href="#institutional">Talk to us about Estate</a>
+    </div>
+
+    <details class="estate-detail">
+      <summary>View Business Estate bands</summary>
+      <table class="estate-table">
+        <thead><tr><th>Estate plan</th><th>Annual price</th><th>Live services</th><th>Annual submissions</th><th>Annual automation actions</th><th>Darcy assists</th><th>AI form builds</th></tr></thead>
+        <tbody>
+          <tr><td>Estate 100</td><td>£18,000/yr</td><td>100</td><td>750,000</td><td>2,000,000</td><td>5,000/mo</td><td>150/mo</td></tr>
+          <tr><td>Estate 250</td><td>£36,000/yr</td><td>250</td><td>1,500,000</td><td>4,000,000</td><td>10,000/mo</td><td>300/mo</td></tr>
+          <tr><td>Estate 1000</td><td>£60,000/yr</td><td>1,000</td><td>3,000,000</td><td>8,000,000</td><td>20,000/mo</td><td>500/mo</td></tr>
+          <tr><td>Estate 2000</td><td>£96,000/yr</td><td>2,000</td><td>6,000,000</td><td>15,000,000</td><td>30,000/mo</td><td>1,000/mo</td></tr>
+        </tbody>
+      </table>
+      <p class="muted" style="margin-top:14px; font-size:13.5px;">Business Estate covers platform access and light-touch product support. Migration factories, form conversion, service redesign, bespoke integrations and managed delivery are outside Estate and use professional-services rates or Institutional routing.</p>
+    </details>
+  </div>
+</section>
+
+<!-- WHAT'S INCLUDED -->
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Every plan includes</div>
+      <h2>The platform, secured and supported</h2>
+    </div>
+    <div class="includes">
+      <div class="inc-item"><strong>Hosting &amp; reliability</strong>Monitoring, maintenance, backups, product updates.</div>
+      <div class="inc-item"><strong>Docs &amp; templates</strong>Help centre, API documentation, examples, self-service first.</div>
+      <div class="inc-item"><strong>Product support</strong>Ticket/email support for product usage and defects.</div>
+      <div class="inc-item"><strong>Security evidence</strong>Standard, reusable compliance evidence pack.</div>
+      <div class="inc-item"><strong>Custom domains</strong>Standard documented domain configuration.</div>
+      <div class="inc-item"><strong>Malware &amp; privacy processing</strong>Scanning, EXIF removal, resizing, face blurring on uploads.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ADD-ONS -->
+<section class="alt" id="addons">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Pay only for what scales</div>
+      <h2>Add capacity and premium capabilities when you need them</h2>
+      <p class="muted">Darcy AI is included on every plan, with clear monthly limits. Use Darcy Fast for quick help and routine building; use Darcy Pro for complex, higher-stakes reasoning and generation.</p>
+    </div>
+
+    <div class="addons">
+      <div class="addon-card">
+        <h4>Darcy AI Capacity Pack</h4>
+        <div class="addon-price">£99/month</div>
+        <p>Adds 1,000 Darcy assists and 25 AI form builds/month. Unlocks Darcy Pro on Launch and Portfolio. Stackable, no rollover.</p>
+      </div>
+      <div class="addon-card">
+        <h4>Document Assurance Pack</h4>
+        <div class="addon-price">£49/month</div>
+        <p>1,000 sealed PDFs/month included, then £0.05 each. For regular signed/sealed answer PDF use.</p>
+      </div>
+      <div class="addon-card">
+        <h4>Govforms CDR Capacity Pack</h4>
+        <div class="addon-price">£99/month</div>
+        <p>Adds 10,000 protected files/month — safe read-only rendering for uploaded DOCX, XLSX and PDF files.</p>
+      </div>
+      <div class="addon-card">
+        <h4>Automation volume packs</h4>
+        <div class="addon-price">from £250/month</div>
+        <p>100,000 actions/month for £250, or 1,000,000 actions/month for £1,500 — for integration-heavy services.</p>
+      </div>
+      <div class="addon-card">
+        <h4>Advanced sealed PDF</h4>
+        <div class="addon-price">£0.12 per PDF</div>
+        <p>Signed and sealed answer PDFs using Govform.com's verified organisation seal. Legal terminology varies by jurisdiction.</p>
+      </div>
+      <div class="addon-card">
+        <h4>Extra storage &amp; processing</h4>
+        <div class="addon-price">from £0.03/GB</div>
+        <p>£0.10/GB/month hosted storage overage · £0.03/GB processing (no scan) · £0.10/GB processing (malware-scanned).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<section id="calculator">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Estimate your cost</div>
+      <h2>Pricing calculator</h2>
+      <p class="muted">A rough guide only — draft logic based on published Business Cloud rates. Wire up to real plan data before launch.</p>
+    </div>
+
+    <div class="calc">
+      <div>
+        <div class="calc-field">
+          <label>Live services <span class="val" id="v-services">4</span></label>
+          <input type="range" id="services" min="1" max="120" value="4">
+        </div>
+        <div class="calc-field">
+          <label>Monthly submissions <span class="val" id="v-subs">3,000</span></label>
+          <input type="range" id="subs" min="100" max="150000" step="100" value="3000">
+        </div>
+        <div class="calc-field">
+          <label>Monthly automation actions <span class="val" id="v-actions">8,000</span></label>
+          <input type="range" id="actions" min="0" max="400000" step="500" value="8000">
+        </div>
+        <div class="calc-field">
+          <label>Do you need file uploads, authentication, reviewer workflows or custom identity?</label>
+          <select id="complex">
+            <option value="no">No — standard components only</option>
+            <option value="yes">Yes</option>
+          </select>
+        </div>
+        <div class="calc-field">
+          <label>Do you need a dedicated support contact, custom SLA or security questionnaire help?</label>
+          <select id="institutional-need">
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="calc-out">
+        <div class="eyebrow">Recommended plan</div>
+        <div class="calc-plan" id="out-plan">Launch</div>
+        <div class="calc-price" id="out-price">£75<span>/month</span></div>
+        <div class="calc-line"><span>Base plan</span><span id="line-base">£75</span></div>
+        <div class="calc-line"><span>Extra services</span><span id="line-services">£0</span></div>
+        <div class="calc-line"><span>Submission overage</span><span id="line-subs">£0</span></div>
+        <div class="calc-line"><span>Automation overage</span><span id="line-actions">£0</span></div>
+        <div class="calc-warn" id="out-warn">This looks like an Institutional scenario — talk to us before buying Business Cloud.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUSINESS CLOUD VS INSTITUTIONAL -->
+<section class="alt2" id="institutional">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Choosing the right route</div>
+      <h2>Business Cloud when you want product access. Institutional when you need us involved.</h2>
+    </div>
+    <table class="vs-table">
+      <thead><tr><th>Business Cloud is right when…</th><th>Institutional &amp; Central Government is right when…</th></tr></thead>
+      <tbody>
+        <tr><td>Your team can build and manage services using the platform, docs and examples.</td><td>You need us to help design, build, migrate or operate services.</td></tr>
+        <tr><td>You need standard business-grade support by email/ticket.</td><td>You need a dedicated support contact, account management or a custom SLA.</td></tr>
+        <tr><td>You use documented features and standard automation patterns.</td><td>You need bespoke integration architecture, custom identity or special file handling.</td></tr>
+        <tr><td>You can use the standard security/compliance evidence pack.</td><td>You need us to complete questionnaires, join assurance workshops or negotiate DR/RPO/RTO.</td></tr>
+        <tr><td>You can buy by card or standard invoice.</td><td>You need bespoke procurement, contract redlines or custom commercial packaging.</td></tr>
+      </tbody>
+    </table>
+    <div style="text-align:center; margin-top:24px;">
+      <a class="btn btn-primary" href="#">Need Institutional pricing? Talk to us</a>
+    </div>
+  </div>
+</section>
+
+<!-- GO-LIVE -->
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Optional assurance</div>
+      <h2>Go-live checks and hands-on help</h2>
+      <p class="muted">Most simple services can be self-certified. Complex, high-risk or business-critical services may need a paid review.</p>
+    </div>
+    <table class="simple">
+      <thead><tr><th>Review / service</th><th>Price</th><th>Use when</th></tr></thead>
+      <tbody>
+        <tr><td>Self-certified go-live</td><td>£0</td><td>Simple services using standard components, no unusual risk.</td></tr>
+        <tr><td>Simple go-live check</td><td>£350/service</td><td>Up to 25 pages, no API, no custom auth, no reviewer workflow.</td></tr>
+        <tr><td>Standard go-live review</td><td>£750/service</td><td>Up to 75 pages, standard integrations, ordinary file upload.</td></tr>
+        <tr><td>Complex business review</td><td>£1,500/service</td><td>Authentication, reviewer workflow, sensitive uploads, several API actions, or 75+ pages.</td></tr>
+        <tr><td>Professional services</td><td>From £950/day</td><td>Service build, migration, UX/content support, bespoke integration, delivery help.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- SCENARIOS -->
+<section class="alt">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Example prices</div>
+      <h2>What this looks like in practice</h2>
+    </div>
+    <div class="scenarios">
+      <div class="scenario-card">
+        <strong>Small organisation launching 1–2 services</strong>
+        <div class="sprice">£75/month</div>
+        <p>2 live services, 300 submissions/month, light support — Launch.</p>
+      </div>
+      <div class="scenario-card">
+        <strong>Team running several public-facing forms</strong>
+        <div class="sprice">£99/month</div>
+        <p>5 live services, 1,000 submissions/month — Launch + 3 extra services.</p>
+      </div>
+      <div class="scenario-card">
+        <strong>Organisational portfolio</strong>
+        <div class="sprice">£195/month</div>
+        <p>10 live services, 10,000 submissions/month, standard automation usage — Portfolio.</p>
+      </div>
+      <div class="scenario-card">
+        <strong>High-volume simple service</strong>
+        <div class="sprice">~£685/month</div>
+        <p>1 live service, 80,000 submissions/month — Scale + overage (5,000 × £0.018).</p>
+      </div>
+    </div>
+    <p class="muted" style="margin-top:16px; font-size:13.5px;">Complex, low-volume regulated services — authentication, sensitive files, reviewer workflow or bespoke assurance — may need a go-live review, professional services or Institutional pricing even if submission volume is low.</p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Questions</div>
+      <h2>FAQ &amp; definitions</h2>
+    </div>
+
+    <details class="faq-item"><summary>What is a submission?</summary><div class="a">One production journey instance after the user submits at least one page. Page-by-page server validation isn't counted separately. Draft, prototype and test traffic is excluded.</div></details>
+    <details class="faq-item"><summary>What is a standard automation action?</summary><div class="a">One executed server-side integration step: an outbound API call, inbound API interaction, webhook delivery, Notify/email action, or standard mapping/transform step. A chain of three external calls counts as three actions.</div></details>
+    <details class="faq-item"><summary>What is a Darcy assist vs an AI form build?</summary><div class="a">A Darcy assist is one request to ask a question, get guidance, draft content, or make a small/moderate change. An AI form build is creating a new form, generating a multi-page structure, or substantially rebuilding a service.</div></details>
+    <details class="faq-item"><summary>What happens if we exceed our included submissions or automation actions?</summary><div class="a">Your service keeps running. Overage is charged at your plan's rate, or you can move to a higher plan or buy a volume pack.</div></details>
+    <details class="faq-item"><summary>What support is included in Business Cloud?</summary><div class="a">Documentation, examples, standard evidence packs and email/ticket product support — covering use of the product, not service design, delivery, migration or bespoke integration work.</div></details>
+    <details class="faq-item"><summary>Can Govform.com build forms for us?</summary><div class="a">Yes, as paid professional services. Business Cloud does not include hands-on build, UX/content design, migration factories or project delivery.</div></details>
+    <details class="faq-item"><summary>Do you offer charity or public-benefit discounts?</summary><div class="a">Up to 20% off base plan fees only. No discount on usage overage, pass-through costs, sealed PDFs, professional services or institutional support.</div></details>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section>
+  <div class="wrap">
+    <div class="final-cta">
+      <div class="eyebrow" style="color:#8eb8dc;">Central government, regulated programmes, custom SLA</div>
+      <h2>Need dedicated delivery support?</h2>
+      <p>Institutional &amp; Central Government pricing covers dedicated support, custom SLAs, security assurance, delivery help and bespoke procurement — the way Govform.com works with high-touch public-sector organisations.</p>
+      <div class="final-ctas">
+        <a class="btn btn-primary" href="#">Talk to us</a>
+        <a class="btn btn-ghost" href="#plans">Back to Business Cloud plans</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© Govform.com — draft pricing page, not final copy.</div>
+    <div>Business Cloud · Business Estate · Institutional &amp; Central Government</div>
+  </div>
+</footer>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const fmt = n => '£' + n.toLocaleString('en-GB', {maximumFractionDigits:0});
+  const fmtInt = n => n.toLocaleString('en-GB');
+
+  const plans = [
+    { name:'Launch',    base:75,  services:2,  subs:2500,  actions:10000,  extraService:10,   subRate:0.08,   actionRate:0.006 },
+    { name:'Portfolio', base:195, services:12, subs:15000, actions:75000,  extraService:9,    subRate:0.035,  actionRate:0.0035 },
+    { name:'Scale',     base:595, services:50, subs:75000, actions:300000, extraService:8.5,  subRate:0.018,  actionRate:0.0015 },
+  ];
+
+  function recommendPlan(services, subs, actions){
+    for(const p of plans){
+      if(services <= p.services && subs <= p.subs && actions <= p.actions){
+        return p;
+      }
+    }
+    return plans[plans.length-1];
+  }
+
+  function update(){
+    const services = parseInt($('services').value,10);
+    const subs = parseInt($('subs').value,10);
+    const actions = parseInt($('actions').value,10);
+    const complex = $('complex').value;
+    const instNeed = $('institutional-need').value;
+
+    $('v-services').textContent = services;
+    $('v-subs').textContent = fmtInt(subs);
+    $('v-actions').textContent = fmtInt(actions);
+
+    const plan = recommendPlan(services, subs, actions);
+    const extraServices = Math.max(0, services - plan.services);
+    const extraSubs = Math.max(0, subs - plan.subs);
+    const extraActions = Math.max(0, actions - plan.actions);
+
+    const serviceCost = extraServices * plan.extraService;
+    const subCost = extraSubs * plan.subRate;
+    const actionCost = extraActions * plan.actionRate;
+    const total = plan.base + serviceCost + subCost + actionCost;
+
+    $('out-plan').textContent = plan.name;
+    $('out-price').innerHTML = fmt(Math.round(total)) + '<span>/month</span>';
+    $('line-base').textContent = fmt(plan.base);
+    $('line-services').textContent = fmt(Math.round(serviceCost));
+    $('line-subs').textContent = fmt(Math.round(subCost));
+    $('line-actions').textContent = fmt(Math.round(actionCost));
+
+    const warn = $('out-warn');
+    if(instNeed === 'yes' || (complex === 'yes' && services > 20)){
+      warn.classList.add('show');
+    } else {
+      warn.classList.remove('show');
+    }
+  }
+
+  ['services','subs','actions','complex','institutional-need'].forEach(id=>{
+    $(id).addEventListener('input', update);
+  });
+  update();
+</script>
+
+</body>
+</html>
