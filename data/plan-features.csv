@@ -1,0 +1,25 @@
+plan,label,value
+Launch,Live services,2
+Launch,Submissions,"2,500/mo"
+Launch,Automation actions,"10,000/mo"
+Launch,Hosted storage,25GB
+Launch,Darcy assists,100/mo (Fast)
+Launch,Builder users,3
+Launch,Support,Email/ticket · 2 day
+Launch,Extra service,£10/mo
+Portfolio,Live services,12
+Portfolio,Submissions,"15,000/mo"
+Portfolio,Automation actions,"75,000/mo"
+Portfolio,Hosted storage,250GB
+Portfolio,Darcy assists,500/mo (Fast)
+Portfolio,Builder users,10
+Portfolio,Support,Priority + onboarding call
+Portfolio,Extra service,£9/mo
+Scale,Live services,50
+Scale,Submissions,"75,000/mo"
+Scale,Automation actions,"300,000/mo"
+Scale,Hosted storage,1TB
+Scale,Darcy assists,"2,000/mo (Fast + Pro)"
+Scale,Builder users,25
+Scale,Support,Priority product support
+Scale,Extra service,£8.50/mo

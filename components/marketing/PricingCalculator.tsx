@@ -1,10 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { estimateCost, formatGbp, formatInt } from "@/lib/pricing";
+import { estimateCost, formatGbp, formatInt, type Plan } from "@/lib/pricing";
 import styles from "./pricing.module.css";
 
-export function PricingCalculator() {
+export function PricingCalculator({ plans }: { plans: Plan[] }) {
   const [services, setServices] = useState(4);
   const [subs, setSubs] = useState(3000);
   const [actions, setActions] = useState(8000);
@@ -12,8 +12,8 @@ export function PricingCalculator() {
   const [needsInstitutional, setNeedsInstitutional] = useState(false);
 
   const estimate = useMemo(
-    () => estimateCost(services, subs, actions, complex, needsInstitutional),
-    [services, subs, actions, complex, needsInstitutional]
+    () => estimateCost(plans, services, subs, actions, complex, needsInstitutional),
+    [plans, services, subs, actions, complex, needsInstitutional]
   );
 
   return (

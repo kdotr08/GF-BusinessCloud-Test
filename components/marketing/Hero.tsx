@@ -1,15 +1,8 @@
 import { Header } from "@/components/marketing/Header";
+import type { HeroRung } from "@/lib/content";
 import styles from "./pricing.module.css";
 
-const RUNGS = [
-  { name: "Launch", price: "£75/mo", note: "First production services", active: true },
-  { name: "Portfolio", price: "£195/mo", note: "Multi-service organisational teams", active: true },
-  { name: "Scale", price: "£595/mo", note: "High-volume, light-touch teams", active: true },
-  { name: "Business Estate", price: "from £18,000/yr", note: "100+ live services, portfolio economics", active: false },
-  { name: "Institutional & Central Government", price: "Custom", note: "Dedicated support, assurance, delivery", active: false },
-];
-
-export function Hero() {
+export function Hero({ rungs }: { rungs: HeroRung[] }) {
   return (
     <header className={`${styles.hero} pt-14`}>
       <div className="wrap">
@@ -52,7 +45,7 @@ export function Hero() {
           </div>
 
           <div className={styles.ladderRail}>
-            {RUNGS.map((rung) => (
+            {rungs.map((rung) => (
               <div key={rung.name} className={`${styles.rung} ${rung.active ? styles.rungActive : ""}`}>
                 <div className={styles.rname}>{rung.name}</div>
                 <div className={styles.rprice}>{rung.price}</div>

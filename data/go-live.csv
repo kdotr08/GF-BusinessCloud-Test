@@ -1,0 +1,6 @@
+name,price,use_when
+Self-certified go-live,£0,"Simple services using standard components, no unusual risk."
+Simple go-live check,£350/service,"Up to 25 pages, no API, no custom auth, no reviewer workflow."
+Standard go-live review,£750/service,"Up to 75 pages, standard integrations, ordinary file upload."
+Complex business review,"£1,500/service","Authentication, reviewer workflow, sensitive uploads, several API actions, or 75+ pages."
+Professional services,From £950/day,"Service build, migration, UX/content support, bespoke integration, delivery help."

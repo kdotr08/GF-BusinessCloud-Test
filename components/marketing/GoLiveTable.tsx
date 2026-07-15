@@ -1,18 +1,7 @@
+import type { GoLiveRow } from "@/lib/content";
 import styles from "./pricing.module.css";
 
-const ROWS: [string, string, string][] = [
-  ["Self-certified go-live", "£0", "Simple services using standard components, no unusual risk."],
-  ["Simple go-live check", "£350/service", "Up to 25 pages, no API, no custom auth, no reviewer workflow."],
-  ["Standard go-live review", "£750/service", "Up to 75 pages, standard integrations, ordinary file upload."],
-  [
-    "Complex business review",
-    "£1,500/service",
-    "Authentication, reviewer workflow, sensitive uploads, several API actions, or 75+ pages.",
-  ],
-  ["Professional services", "From £950/day", "Service build, migration, UX/content support, bespoke integration, delivery help."],
-];
-
-export function GoLiveTable() {
+export function GoLiveTable({ rows }: { rows: GoLiveRow[] }) {
   return (
     <section className="py-16">
       <div className="wrap">
@@ -33,11 +22,11 @@ export function GoLiveTable() {
             </tr>
           </thead>
           <tbody>
-            {ROWS.map(([name, price, when]) => (
+            {rows.map(({ name, price, use_when }) => (
               <tr key={name}>
                 <td>{name}</td>
                 <td>{price}</td>
-                <td>{when}</td>
+                <td>{use_when}</td>
               </tr>
             ))}
           </tbody>

@@ -9,19 +9,16 @@ export type Plan = {
   actionRate: number;
 };
 
-export const PLANS: Plan[] = [
-  { name: "Launch", base: 75, services: 2, subs: 2500, actions: 10000, extraService: 10, subRate: 0.08, actionRate: 0.006 },
-  { name: "Portfolio", base: 195, services: 12, subs: 15000, actions: 75000, extraService: 9, subRate: 0.035, actionRate: 0.0035 },
-  { name: "Scale", base: 595, services: 50, subs: 75000, actions: 300000, extraService: 8.5, subRate: 0.018, actionRate: 0.0015 },
-];
-
-export function recommendPlan(services: number, subs: number, actions: number): Plan {
-  for (const plan of PLANS) {
+// Plan data itself now lives in data/plans.csv (see lib/content.ts's loadPlans,
+// server-only) so it can be edited without touching code. These functions stay
+// pure and plan-agnostic so they're safe to import from client components too.
+export function recommendPlan(plans: Plan[], services: number, subs: number, actions: number): Plan {
+  for (const plan of plans) {
     if (services <= plan.services && subs <= plan.subs && actions <= plan.actions) {
       return plan;
     }
   }
-  return PLANS[PLANS.length - 1];
+  return plans[plans.length - 1];
 }
 
 export type PricingEstimate = {
@@ -34,13 +31,14 @@ export type PricingEstimate = {
 };
 
 export function estimateCost(
+  plans: Plan[],
   services: number,
   subs: number,
   actions: number,
   needsComplexFeatures: boolean,
   needsInstitutionalSupport: boolean
 ): PricingEstimate {
-  const plan = recommendPlan(services, subs, actions);
+  const plan = recommendPlan(plans, services, subs, actions);
   const extraServices = Math.max(0, services - plan.services);
   const extraSubs = Math.max(0, subs - plan.subs);
   const extraActions = Math.max(0, actions - plan.actions);

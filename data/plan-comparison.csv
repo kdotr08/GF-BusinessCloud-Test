@@ -1,0 +1,4 @@
+old_way,new_way
+Capture data in the browser and send a webhook after submission.,"Submit each page server-side, validate as you go, and run controlled automation while the journey is in progress."
+Store API credentials or integration logic in third-party automation tools.,"Keep credentials, mapping and branching inside a server-side production service model."
+Treat integration as an add-on or Enterprise custom feature.,"Generous standard automation actions included in every plan, advanced actions priced transparently."

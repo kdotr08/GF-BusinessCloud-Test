@@ -1,13 +1,7 @@
+import type { EstateBand } from "@/lib/content";
 import styles from "./pricing.module.css";
 
-const ESTATE_BANDS: [string, string, string, string, string, string, string][] = [
-  ["Estate 100", "£18,000/yr", "100", "750,000", "2,000,000", "5,000/mo", "150/mo"],
-  ["Estate 250", "£36,000/yr", "250", "1,500,000", "4,000,000", "10,000/mo", "300/mo"],
-  ["Estate 1000", "£60,000/yr", "1,000", "3,000,000", "8,000,000", "20,000/mo", "500/mo"],
-  ["Estate 2000", "£96,000/yr", "2,000", "6,000,000", "15,000,000", "30,000/mo", "1,000/mo"],
-];
-
-export function EstateBanner() {
+export function EstateBanner({ bands }: { bands: EstateBand[] }) {
   return (
     <section className="bg-panel py-16">
       <div className="wrap">
@@ -39,11 +33,15 @@ export function EstateBanner() {
               </tr>
             </thead>
             <tbody>
-              {ESTATE_BANDS.map((row) => (
-                <tr key={row[0]}>
-                  {row.map((cell, i) => (
-                    <td key={i}>{cell}</td>
-                  ))}
+              {bands.map((band) => (
+                <tr key={band.plan}>
+                  <td>{band.plan}</td>
+                  <td>{band.annual_price}</td>
+                  <td>{band.live_services}</td>
+                  <td>{band.annual_submissions}</td>
+                  <td>{band.annual_actions}</td>
+                  <td>{band.darcy_assists}</td>
+                  <td>{band.ai_form_builds}</td>
                 </tr>
               ))}
             </tbody>

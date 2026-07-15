@@ -1,0 +1,4 @@
+name,audience,price,sub,popular,cta,ctaVariant
+Launch,First production services,£75,"£900/year annual · £90/month monthly-flex",false,Start free,secondary
+Portfolio,Multi-service organisational teams,£195,"£2,340/year annual · £234/month monthly-flex",true,Start free,primary
+Scale,High-volume or larger light-touch teams,£595,"£7,140/year annual · £714/month monthly-flex",false,Talk to us / Start free,secondary
