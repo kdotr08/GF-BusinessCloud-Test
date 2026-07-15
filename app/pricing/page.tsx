@@ -27,18 +27,31 @@ export const metadata: Metadata = {
 };
 
 // Pricing figures, plan features, addons, go-live tiers, estate bands and
-// scenarios are all read from the CSVs in /data — edit those files (e.g. in
-// Excel/Sheets) to update the page without touching this component.
-export default function PricingPage() {
-  const plans = loadPlans();
-  const planCards = loadPlanCards();
-  const planComparison = loadPlanComparison();
-  const addons = loadAddons();
-  const goLive = loadGoLive();
-  const estateBands = loadEstateBands();
-  const scenarios = loadScenarios();
-  const institutionalComparison = loadInstitutionalComparison();
-  const heroRungs = loadHeroRungs();
+// scenarios are read from the shared Google Sheet when PRICING_SHEET_ID and
+// a tab gid are configured (see lib/sheets.ts), otherwise from the matching
+// file in /data — see lib/content.ts for the fallback logic.
+export default async function PricingPage() {
+  const [
+    plans,
+    planCards,
+    planComparison,
+    addons,
+    goLive,
+    estateBands,
+    scenarios,
+    institutionalComparison,
+    heroRungs,
+  ] = await Promise.all([
+    loadPlans(),
+    loadPlanCards(),
+    loadPlanComparison(),
+    loadAddons(),
+    loadGoLive(),
+    loadEstateBands(),
+    loadScenarios(),
+    loadInstitutionalComparison(),
+    loadHeroRungs(),
+  ]);
 
   return (
     <>
