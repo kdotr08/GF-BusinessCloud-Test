@@ -8,7 +8,7 @@ export function EstateBanner({ bands }: { bands: EstateBand[] }) {
         <div className={styles.estateBanner}>
           <div>
             <h3 className="text-[22px] text-white">Running a large form estate?</h3>
-            <p className="max-w-[52ch] text-[#c9dbe9]">
+            <p className="max-w-[52ch] text-white/75">
               Business Estate pricing is for organisations with 100+ live services that need
               portfolio economics, not high-touch delivery support.
             </p>

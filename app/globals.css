@@ -2,62 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Geist isn't in this Next.js version's next/font/google catalog yet, so it's
-   self-hosted here the same way the source export did — straight from the
-   same Google-hosted woff2 files, Latin subset only (the weights this site
-   actually uses: 500 body, 600/700 emphasis, 900 display-weight numerals). */
-@font-face {
-  font-family: "Geist";
-  src: url("https://fonts.gstatic.com/s/geist/v4/gyBhhwUxId8gMGYQMKR3pzfaWI_RruM4mJPby1QNtA.woff2")
-    format("woff2");
-  font-display: swap;
-  font-style: normal;
-  font-weight: 500;
-}
-@font-face {
-  font-family: "Geist";
-  src: url("https://fonts.gstatic.com/s/geist/v4/gyBhhwUxId8gMGYQMKR3pzfaWI_RQuQ4mJPby1QNtA.woff2")
-    format("woff2");
-  font-display: swap;
-  font-style: normal;
-  font-weight: 600;
-}
-@font-face {
-  font-family: "Geist";
-  src: url("https://fonts.gstatic.com/s/geist/v4/gyBhhwUxId8gMGYQMKR3pzfaWI_Re-Q4mJPby1QNtA.woff2")
-    format("woff2");
-  font-display: swap;
-  font-style: normal;
-  font-weight: 700;
-}
-@font-face {
-  font-family: "Geist";
-  src: url("https://fonts.gstatic.com/s/geist/v4/gyBhhwUxId8gMGYQMKR3pzfaWI_RNeQ4mJPby1QNtA.woff2")
-    format("woff2");
-  font-display: swap;
-  font-style: normal;
-  font-weight: 900;
-}
-/* Metric-matched local fallback so text doesn't jump while Geist loads. */
-@font-face {
-  font-family: "Geist Placeholder";
-  src: local("Arial");
-  ascent-override: 94.47%;
-  descent-override: 27.73%;
-  line-gap-override: 0%;
-  size-adjust: 106.39%;
-}
-
 :root {
   /* Legacy variable names kept as-is (pricing.module.css reads these
-     directly via var(...) in ~20 places) — only the hex values changed,
-     from the old GOV.UK navy/blue/green to the new single-accent system. */
-  --navy: #16324f;
-  --navy-2: #081422;
-  --blue: #1d70b8;
-  --blue-deep: #1d70b8;
-  --green: #1d70b8;
-  --amber-bg: #daecff;
+     directly via var(...) in ~20 places) — only the hex values changed.
+     Single cool navy accent throughout — no warm orange/seafoam accents. */
+  --navy: #111a4a;
+  --blue: #111a4a;
+  --blue-deep: #011821;
+  --green: #111a4a;
+  --amber-bg: rgba(17, 26, 74, 0.08);
+  /* Dark-surface treatment (hero, estate banner, final CTA only) — a dotted
+     texture on Deep Sea, replacing the old navy-to-black gradient. */
+  --color-cyan-900: #023247;
+  --hero-accent: #88deeb;
 }
 
 html {
@@ -66,7 +23,7 @@ html {
 
 body {
   background: #fafafa;
-  color: #1c1c1c;
+  color: #3b3e47;
   font-weight: 500;
 }
 
@@ -74,7 +31,7 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: var(--font-display), "Bricolage Grotesque", Georgia, serif;
+  font-family: var(--font-display), "Inter", ui-sans-serif, system-ui, sans-serif;
   font-weight: 500;
   letter-spacing: -0.02em;
   line-height: 1.1;
@@ -100,7 +57,7 @@ p {
   }
 
   .btn {
-    @apply inline-flex cursor-pointer items-center justify-center gap-3 rounded-full border border-transparent px-6 py-3 font-sans text-[15px] font-semibold no-underline transition-colors;
+    @apply inline-flex cursor-pointer items-center justify-center gap-3 rounded-lg border border-transparent px-6 py-3 font-sans text-[15px] font-semibold no-underline transition-colors;
   }
 
   .btn-primary {

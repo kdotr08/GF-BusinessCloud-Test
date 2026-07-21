@@ -1,23 +1,14 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import { Footer } from "@/components/marketing/Footer";
 import "./globals.css";
 
-// Bricolage Grotesque backs the "serif"-named display token (headings,
-// wordmark, plan prices). Inter is the fallback for the "sans" body token —
-// Geist itself is self-hosted via @font-face in globals.css since this
-// Next.js version's next/font/google catalog doesn't include it yet.
-const displayFont = Bricolage_Grotesque({
-  subsets: ["latin"],
-  weight: ["500", "700"],
-  variable: "--font-display",
-  display: "swap",
-});
-
-const sansFallback = Inter({
+// Column's type system runs on Inter end to end (headings, body, prices) —
+// no separate display face, no self-hosted Geist.
+const displayFont = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-sans-fallback",
+  variable: "--font-display",
   display: "swap",
 });
 
@@ -28,7 +19,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${displayFont.variable} ${sansFallback.variable}`}>
+    <html lang="en" className={displayFont.variable}>
       <body>
         {children}
         <Footer />

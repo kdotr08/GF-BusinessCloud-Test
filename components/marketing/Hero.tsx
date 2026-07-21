@@ -10,11 +10,11 @@ export function Hero({ rungs }: { rungs: HeroRung[] }) {
 
         <div className={styles.heroGrid}>
           <div>
-            <div className="eyebrow">Business Cloud pricing</div>
+            <div className="eyebrow text-[var(--hero-accent)]">Business Cloud pricing</div>
             <h1 className="max-w-[15ch] text-[44px] leading-[1.08] text-white">
               Build and test for free. Go live from £75/month.
             </h1>
-            <p className="max-w-[46ch] text-[19px] text-[#d9e6f0]">
+            <p className="max-w-[46ch] text-[19px] text-white/75">
               Account-level pricing for organisations that need accessible, secure,
               production-grade digital service forms &mdash; without paying for
               central-government-level delivery support they don&apos;t need.
@@ -28,7 +28,7 @@ export function Hero({ rungs }: { rungs: HeroRung[] }) {
             </div>
 
             <div className="mt-7 flex flex-wrap gap-3">
-              <a className="btn btn-primary" href="#plans">
+              <a className="btn btn-secondary" href="#plans">
                 Start building free
               </a>
               <a className="btn btn-ghost" href="#calculator">
@@ -38,7 +38,7 @@ export function Hero({ rungs }: { rungs: HeroRung[] }) {
                 Talk to us
               </a>
             </div>
-            <div className="mt-3.5 text-[12.5px] text-[#8fa9bf]">
+            <div className="mt-3.5 text-[12.5px] text-white/50">
               Prices exclude VAT / local sales taxes. Annual-plan prices shown. Monthly-flex
               plans are available at +20%.
             </div>
@@ -46,7 +46,7 @@ export function Hero({ rungs }: { rungs: HeroRung[] }) {
 
           <div className={styles.ladderRail}>
             {rungs.map((rung) => (
-              <div key={rung.name} className={`${styles.rung} ${rung.active ? styles.rungActive : ""}`}>
+              <div key={rung.name} className={styles.rung}>
                 <div className={styles.rname}>{rung.name}</div>
                 <div className={styles.rprice}>{rung.price}</div>
                 <div className={styles.rnote}>{rung.note}</div>
