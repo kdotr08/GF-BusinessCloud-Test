@@ -10,7 +10,9 @@ export function Hero({ rungs }: { rungs: HeroRung[] }) {
 
         <div className={styles.heroGrid}>
           <div>
-            <div className="eyebrow text-[var(--hero-accent)]">Business Cloud pricing</div>
+            <div className="eyebrow border-white/25 bg-white/10 text-[var(--hero-accent)]">
+              Business Cloud pricing
+            </div>
             <h1 className="max-w-[15ch] text-[44px] leading-[1.08] text-white">
               Build and test for free. Go live from £75/month.
             </h1>

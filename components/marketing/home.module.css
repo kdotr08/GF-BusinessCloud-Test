@@ -1,0 +1,344 @@
+﻿/* Bespoke, homepage-only styles. Shared primitives (.wrap, .btn, .eyebrow)
+   live in app/globals.css; dark-surface/table/card patterns shared with the
+   pricing page live in pricing.module.css and are imported where reused. */
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 48px;
+  align-items: center;
+  padding-bottom: 40px;
+}
+
+/* Workflow visual — a light card floating on the dark hero, standing in for
+   a product screenshot until a real one is dropped in. */
+/* --wf-success is scoped to this card only — the rest of the design
+   system deliberately stays single-accent navy (see the note by
+   --hero-accent in globals.css), so this "done/approved" green is a
+   contained exception for this one status indicator, not a palette
+   addition. */
+.wfCard {
+  --wf-success: #0f7a3d;
+  background: #fff;
+  border-radius: 12px;
+  padding: 22px;
+  box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.45);
+}
+.wfHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e3e4e8;
+}
+.wfRef {
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 11.5px;
+  color: #7c7f88;
+}
+.wfStatus {
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: rgba(17, 26, 74, 0.08);
+  color: var(--navy);
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+.wfStatus.approved {
+  background: rgba(15, 122, 61, 0.12);
+  color: var(--wf-success);
+}
+.wfTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 2px;
+}
+.wfDesc {
+  font-size: 12.5px;
+  color: #7c7f88;
+  margin-bottom: 16px;
+}
+.wfSteps {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+.wfStep {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 8px 0;
+}
+.wfStep::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 24px;
+  bottom: -8px;
+  width: 1px;
+  background: #e3e4e8;
+}
+.wfStep:last-child::before {
+  display: none;
+}
+.wfStepIcon {
+  position: relative;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 1.5px solid #e3e4e8;
+  background: #fafafa;
+  flex-shrink: 0;
+  z-index: 1;
+  transition: background-color 0.4s ease, border-color 0.4s ease, border-width 0.4s ease;
+}
+.wfStepIcon::after {
+  content: "\2713";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  line-height: 1;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.wfStep.done .wfStepIcon {
+  background: var(--wf-success);
+  border-color: var(--wf-success);
+}
+.wfStep.done .wfStepIcon::after {
+  opacity: 1;
+}
+.wfStep.active .wfStepIcon {
+  background: #fff;
+  border-color: var(--navy);
+  border-width: 3px;
+}
+.wfStepLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--navy);
+  flex: 1;
+  transition: color 0.4s ease;
+}
+.wfStep.pending .wfStepLabel {
+  color: #b0b3ba;
+}
+.wfStepTime {
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 11px;
+  color: #7c7f88;
+  transition: opacity 0.4s ease;
+}
+.wfJson {
+  background: #fafafa;
+  border: 1px solid #e3e4e8;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 11.5px;
+  line-height: 1.7;
+  color: #3b3e47;
+  overflow-x: auto;
+}
+.wfJson .k {
+  color: var(--navy);
+}
+.wfJson .s {
+  color: #0a7a4a;
+}
+
+/* Real-numbers stats bar */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.statNum {
+  font-family: var(--font-display), "Inter", sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  color: var(--navy);
+  letter-spacing: -0.01em;
+}
+.statLabel {
+  font-size: 13px;
+  color: #7c7f88;
+  margin-top: 3px;
+}
+
+/* Feature grid — hairline seam grid, numbered instead of icon-led */
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: #e3e4e8;
+  border: 1px solid #e3e4e8;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.featureItem {
+  background: #fff;
+  padding: 28px 24px;
+}
+.featureNum {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  background: rgba(17, 26, 74, 0.08);
+  color: var(--navy);
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+.featureTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+.featureDesc {
+  font-size: 13.5px;
+  color: #7c7f88;
+  line-height: 1.55;
+}
+
+/* Security badge grid */
+.secGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.secCard {
+  border: 1px solid #e3e4e8;
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  gap: 13px;
+  align-items: flex-start;
+}
+.secBadge {
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--navy);
+  background: rgba(17, 26, 74, 0.08);
+  padding: 4px 8px;
+  border-radius: 5px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.secTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+.secDesc {
+  font-size: 13px;
+  color: #7c7f88;
+  line-height: 1.5;
+}
+
+/* Solutions / use-case grid */
+.solutions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.solutionCard {
+  border: 1px solid #e3e4e8;
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+}
+.solutionTag {
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 10.5px;
+  color: #7c7f88;
+  display: block;
+  margin-bottom: 12px;
+}
+.solutionTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+.solutionDesc {
+  font-size: 13px;
+  color: #7c7f88;
+  line-height: 1.5;
+}
+
+/* Media placeholders — dashed hand-off boxes for screenshots/video that
+   haven't been produced yet. Drop a real asset in and remove the wrapper. */
+.placeholder {
+  border: 1.5px dashed #cfd2d8;
+  border-radius: 8px;
+  background: repeating-linear-gradient(135deg, rgba(17, 26, 74, 0.035) 0 12px, transparent 12px 24px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 24px;
+  text-align: center;
+  width: 100%;
+}
+.placeholderLabel {
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--navy);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.placeholder.compact {
+  padding: 14px;
+  margin-bottom: 14px;
+}
+.placeholder.compact .placeholderLabel {
+  font-size: 10.5px;
+}
+
+.platformGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+@media (max-width: 920px) {
+  .platformGrid {
+    grid-template-columns: 1fr;
+  }
+  .heroGrid {
+    grid-template-columns: 1fr;
+  }
+  .stats {
+    grid-template-columns: 1fr 1fr;
+  }
+  .features {
+    grid-template-columns: 1fr;
+  }
+  .secGrid {
+    grid-template-columns: 1fr;
+  }
+  .solutions {
+    grid-template-columns: 1fr 1fr;
+  }
+}

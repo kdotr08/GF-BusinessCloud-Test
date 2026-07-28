@@ -3,10 +3,12 @@ import styles from "./pricing.module.css";
 
 export function GoLiveTable({ rows }: { rows: GoLiveRow[] }) {
   return (
-    <section className="py-16">
+    <section id="go-live" className="py-16">
       <div className="wrap">
         <div className="mb-8 max-w-[60ch]">
-          <div className="eyebrow">Optional assurance</div>
+          <div className="eyebrow border-seafoam/25 bg-seafoam/10 text-seafoam">
+            Optional assurance
+          </div>
           <h2 className="text-[30px]">Go-live checks and hands-on help</h2>
           <p className="muted">
             Most simple services can be self-certified. Complex, high-risk or business-critical

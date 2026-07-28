@@ -1,0 +1,183 @@
+/* Header nav + mega-menu dropdown. Self-contained so Header.tsx works the
+   same on any dark hero surface, regardless of which page renders it. */
+
+.trigger {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  /* font-family only — the full `font` shorthand also resets font-size/
+     line-height, which was clobbering the text-sm utility class applied
+     alongside it and making this button's label render at the body's
+     base size instead of matching the other nav links. */
+  font-family: inherit;
+  color: rgba(255, 255, 255, 0.85);
+}
+.trigger:hover {
+  color: #fff;
+}
+
+.chevron {
+  width: 11px;
+  height: 11px;
+  transition: transform 0.2s ease;
+}
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+/* Layout (including display/flex) lives in Tailwind classes on the button
+   itself, not here — a CSS-module display:flex on the same element fought
+   the md:hidden Tailwind utility for the display property (same 0,1,0,0
+   specificity), and the module rule was winning regardless of viewport,
+   so the button never actually hid on desktop. Tailwind's own responsive
+   variants are generated in the same stylesheet in the correct order, so
+   letting Tailwind own display avoids the cascade race entirely. */
+.hamburgerBar {
+  width: 20px;
+  height: 2px;
+  border-radius: 2px;
+  background: #fff;
+}
+
+/* padding-bottom + a matching negative margin-bottom extends .menuWrap's
+   own hoverable box to cover the visual gap above the panel, without
+   affecting the nav row's layout height. Without this, the gap is dead
+   space that belongs to the nav bar, not the dropdown — the mouse crosses
+   it, fires mouseleave on .menuWrap, and the panel closes mid-hover. */
+.menuWrap {
+  position: relative;
+  padding-bottom: 20px;
+  margin-bottom: -20px;
+}
+
+.panel {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 720px;
+  max-width: 92vw;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow:
+    0 30px 80px -20px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(17, 26, 74, 0.06);
+  padding: 24px;
+  z-index: 50;
+  text-align: left;
+}
+
+.megaLayout {
+  display: flex;
+  gap: 28px;
+}
+
+.gridArea {
+  flex: 1.5;
+  padding-right: 26px;
+  border-right: 1px solid #e3e4e8;
+}
+
+.listArea {
+  flex: 1;
+}
+
+.sectionTitle {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #7c7f88;
+  margin-bottom: 12px;
+}
+.sectionTitleMuted {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #b0b3ba;
+  margin-bottom: 12px;
+}
+
+.iconGrid {
+  display: flex;
+  gap: 20px;
+}
+.gridCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.gridItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 6px;
+  margin: 0 -6px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  text-decoration: none;
+}
+.gridItem:hover {
+  background: #fafafa;
+}
+
+.itemIcon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: rgba(17, 26, 74, 0.08);
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.listLink {
+  display: block;
+  padding: 7px 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy);
+  text-decoration: none;
+}
+.listLink:hover {
+  text-decoration: underline;
+}
+
+.banner {
+  margin-top: 18px;
+  padding: 14px 18px;
+  border-radius: 8px;
+  background: rgba(17, 26, 74, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy);
+}
+
+.bannerCta {
+  flex-shrink: 0;
+  background: var(--navy);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}

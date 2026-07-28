@@ -1,6 +1,20 @@
-import Link from "next/link";
+"use client";
 
-const NAV_LINKS = [
+import Link from "next/link";
+import { useState } from "react";
+import styles from "./header.module.css";
+
+type SimpleLink = { label: string; href: string };
+type MegaConfig = {
+  gridTitle: string;
+  gridColumns: SimpleLink[][];
+  listTitle: string;
+  listItems: SimpleLink[];
+  banner: { title: string; cta: string; href: string };
+};
+type NavLink = { href: string; label: string; mega?: MegaConfig };
+
+const PRICING_NAV_LINKS: NavLink[] = [
   { href: "/pricing#plans", label: "Pricing" },
   { href: "/pricing#addons", label: "Add-ons" },
   { href: "/pricing#calculator", label: "Calculator" },
@@ -8,23 +22,182 @@ const NAV_LINKS = [
   { href: "/pricing#faq", label: "FAQ" },
 ];
 
-export function Header() {
+function MegaMenu({ config }: { config: MegaConfig }) {
   return (
-    <div className="flex items-center justify-between pb-10">
-      <Link href="/" className="font-serif text-xl font-bold tracking-tight text-white">
-        govform<span className="text-[var(--hero-accent)]">.com</span>
-      </Link>
-      <nav className="flex">
-        {NAV_LINKS.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className="ml-6 text-sm text-white/85 no-underline hover:text-white"
-          >
-            {link.label}
-          </Link>
-        ))}
-      </nav>
+    <div className={styles.panel}>
+      <div className={styles.megaLayout}>
+        <div className={styles.gridArea}>
+          <div className={styles.sectionTitle}>{config.gridTitle}</div>
+          <div className={styles.iconGrid}>
+            {config.gridColumns.map((column, i) => (
+              <div key={i} className={styles.gridCol}>
+                {column.map((item) => (
+                  <Link key={item.href} href={item.href} className={styles.gridItem}>
+                    <span className={styles.itemIcon}>{item.label.slice(0, 2).toUpperCase()}</span>
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className={styles.listArea}>
+          <div className={styles.sectionTitleMuted}>{config.listTitle}</div>
+          {config.listItems.map((item) => (
+            <Link key={item.href} href={item.href} className={styles.listLink}>
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      </div>
+      <div className={styles.banner}>
+        <span>{config.banner.title}</span>
+        <Link href={config.banner.href} className={styles.bannerCta}>
+          {config.banner.cta}
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+export function Header({
+  links = PRICING_NAV_LINKS,
+  cta,
+}: {
+  links?: NavLink[];
+  cta?: NavLink;
+}) {
+  const [open, setOpen] = useState<string | null>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const closeAll = () => {
+    setOpen(null);
+    setMobileOpen(false);
+  };
+
+  return (
+    <div className="pb-10">
+      <div className="flex items-center justify-between">
+        <Link href="/" className="font-serif text-xl font-bold tracking-tight text-white">
+          govform<span className="text-[var(--hero-accent)]">.com</span>
+        </Link>
+
+        <nav className="hidden items-center md:flex">
+          {links.map((link) =>
+            link.mega ? (
+              <div
+                key={link.href}
+                className={`${styles.menuWrap} ml-6`}
+                onMouseEnter={() => setOpen(link.href)}
+                onMouseLeave={() => setOpen(null)}
+              >
+                <button
+                  type="button"
+                  className={`${styles.trigger} text-sm`}
+                  aria-expanded={open === link.href}
+                  onClick={() => setOpen(open === link.href ? null : link.href)}
+                >
+                  {link.label}
+                  <svg
+                    className={`${styles.chevron} ${open === link.href ? styles.chevronOpen : ""}`}
+                    viewBox="0 0 12 8"
+                    fill="none"
+                  >
+                    <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                  </svg>
+                </button>
+                {open === link.href && <MegaMenu config={link.mega} />}
+              </div>
+            ) : (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="ml-6 text-sm text-white/85 no-underline hover:text-white"
+              >
+                {link.label}
+              </Link>
+            )
+          )}
+          {cta && (
+            <Link
+              href={cta.href}
+              className="ml-6 rounded-lg border border-white/40 px-4 py-1.5 text-sm text-white no-underline hover:border-white"
+            >
+              {cta.label}
+            </Link>
+          )}
+        </nav>
+
+        <button
+          type="button"
+          className="flex md:hidden flex-col gap-1.5 border-0 bg-transparent p-1.5 -mr-1.5 cursor-pointer"
+          aria-label="Toggle menu"
+          aria-expanded={mobileOpen}
+          onClick={() => setMobileOpen((v) => !v)}
+        >
+          <span className={styles.hamburgerBar} />
+          <span className={styles.hamburgerBar} />
+          <span className={styles.hamburgerBar} />
+        </button>
+      </div>
+
+      {mobileOpen && (
+        <nav className="flex flex-col gap-1 pt-5 md:hidden">
+          {links.map((link) =>
+            link.mega ? (
+              <div key={link.href}>
+                <button
+                  type="button"
+                  className="flex w-full items-center justify-between py-2.5 text-sm font-semibold text-white"
+                  aria-expanded={open === link.href}
+                  onClick={() => setOpen(open === link.href ? null : link.href)}
+                >
+                  {link.label}
+                  <svg
+                    className={`${styles.chevron} ${open === link.href ? styles.chevronOpen : ""}`}
+                    viewBox="0 0 12 8"
+                    fill="none"
+                  >
+                    <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                  </svg>
+                </button>
+                {open === link.href && (
+                  <div className="flex flex-col gap-0.5 border-l border-white/15 pb-2 pl-3.5">
+                    {link.mega.listItems.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className="py-2 text-sm text-white/70 no-underline hover:text-white"
+                        onClick={closeAll}
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="py-2.5 text-sm text-white/85 no-underline hover:text-white"
+                onClick={closeAll}
+              >
+                {link.label}
+              </Link>
+            )
+          )}
+          {cta && (
+            <Link
+              href={cta.href}
+              className="btn btn-secondary mt-3 justify-center"
+              onClick={closeAll}
+            >
+              {cta.label}
+            </Link>
+          )}
+        </nav>
+      )}
     </div>
   );
 }

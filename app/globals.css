@@ -48,8 +48,27 @@ p {
     @apply mx-auto w-full max-w-wrap px-6;
   }
 
+  /* Terminal-style badge: pill, monospace, border/tint in the current
+     text color, blinking cursor at the end. Only two tones exist site-wide
+     — navy (default, for light sections) and the hero-accent cyan (dark
+     hero/CTA sections, via an additional border/bg override at each call
+     site) — see the note by --hero-accent in :root for why. */
   .eyebrow {
-    @apply font-sans text-xs font-bold uppercase tracking-[0.12em] text-brand-blue-deep;
+    @apply relative mb-3.5 inline-flex items-center gap-1.5 rounded-full border border-brand-blue/15 bg-brand-blue/5 px-3 py-1 font-mono text-[11px] font-bold uppercase tracking-[0.1em] text-brand-blue-deep;
+  }
+  .eyebrow::after {
+    content: "";
+    display: inline-block;
+    width: 5px;
+    height: 11px;
+    background: currentColor;
+    opacity: 0.55;
+    animation: eyebrow-cursor 1.1s steps(2, jump-none) infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .eyebrow::after {
+      animation: none;
+    }
   }
 
   .muted {
@@ -89,5 +108,11 @@ p {
       #1d70b8 80%,
       transparent 98%
     );
+  }
+}
+
+@keyframes eyebrow-cursor {
+  50% {
+    opacity: 0;
   }
 }

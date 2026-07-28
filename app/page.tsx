@@ -1,17 +1,25 @@
-import Link from "next/link";
+import { HomeHero } from "@/components/marketing/HomeHero";
+import { StatsBar } from "@/components/marketing/StatsBar";
+import { SolutionsGrid } from "@/components/marketing/SolutionsGrid";
+import { ProductTour } from "@/components/marketing/ProductTour";
+import { FeatureGrid } from "@/components/marketing/FeatureGrid";
+import { PlatformShowcase } from "@/components/marketing/PlatformShowcase";
+import { SecurityGrid } from "@/components/marketing/SecurityGrid";
+import { AudienceTracks } from "@/components/marketing/AudienceTracks";
+import { HomeFinalCta } from "@/components/marketing/HomeFinalCta";
 
 export default function HomePage() {
   return (
-    <main className="wrap flex min-h-[60vh] flex-col items-start justify-center gap-4 py-24">
-      <div className="eyebrow">Govform.com</div>
-      <h1 className="text-4xl">Homepage &mdash; coming soon</h1>
-      <p className="muted max-w-[46ch]">
-        This is a placeholder. Start with the{" "}
-        <Link href="/pricing" className="text-brand-blue underline">
-          Business Cloud pricing page
-        </Link>{" "}
-        while the rest of the site is built out.
-      </p>
-    </main>
+    <>
+      <HomeHero />
+      <StatsBar />
+      <SolutionsGrid />
+      <ProductTour />
+      <FeatureGrid />
+      <PlatformShowcase />
+      <SecurityGrid />
+      <AudienceTracks />
+      <HomeFinalCta />
+    </>
   );
 }

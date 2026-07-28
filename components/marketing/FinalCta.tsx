@@ -5,7 +5,7 @@ export function FinalCta() {
     <section className="py-16">
       <div className="wrap">
         <div className={styles.finalCta}>
-          <div className="eyebrow mb-1.5 text-[var(--hero-accent)]">
+          <div className="eyebrow border-white/25 bg-white/10 text-[var(--hero-accent)]">
             Central government, regulated programmes, custom SLA
           </div>
           <h2 className="text-white">Need dedicated delivery support?</h2>

@@ -26,6 +26,11 @@ const config: Config = {
           bg: "rgba(17, 26, 74, 0.08)",
           ink: "#111a4a",
         },
+        // Reintroduced accents, scoped to eyebrow/badge use only (see the
+        // .eyebrow variants in globals.css) — not for buttons, backgrounds,
+        // or anywhere the single-navy-accent rule above still applies.
+        seafoam: "#167e6c",
+        plum: "#771c86",
       },
       fontFamily: {
         serif: ["var(--font-display)", "Inter", "ui-sans-serif", "system-ui", "sans-serif"],
