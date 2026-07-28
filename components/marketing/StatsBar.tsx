@@ -4,7 +4,7 @@ const STATS: [string, string][] = [
   ["12M+", "Forms submitted"],
   ["99.98%", "Platform uptime"],
   ["40+", "Organisations on the platform"],
-  ["WCAG 2.2 AA", "Compliant by default"],
+  ["ISO 27001", "Information security certified"],
 ];
 
 export function StatsBar() {
