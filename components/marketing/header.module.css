@@ -20,6 +20,15 @@
   color: #fff;
 }
 
+/* Light-surface counterpart to .trigger, used when Header renders on a
+   transparent/light hero (variant="light") instead of a dark one. */
+.triggerLight {
+  color: rgba(17, 26, 74, 0.85);
+}
+.triggerLight:hover {
+  color: var(--navy);
+}
+
 .chevron {
   width: 11px;
   height: 11px;
@@ -41,6 +50,9 @@
   height: 2px;
   border-radius: 2px;
   background: #fff;
+}
+.hamburgerBarLight {
+  background: var(--navy);
 }
 
 /* padding-bottom + a matching negative margin-bottom extends .menuWrap's

@@ -63,12 +63,15 @@ function MegaMenu({ config }: { config: MegaConfig }) {
 export function Header({
   links = PRICING_NAV_LINKS,
   cta,
+  variant = "dark",
 }: {
   links?: NavLink[];
   cta?: NavLink;
+  variant?: "dark" | "light";
 }) {
   const [open, setOpen] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const light = variant === "light";
 
   const closeAll = () => {
     setOpen(null);
@@ -78,7 +81,10 @@ export function Header({
   return (
     <div className="pb-10">
       <div className="flex items-center justify-between">
-        <Link href="/" className="font-serif text-xl font-bold tracking-tight text-white">
+        <Link
+          href="/"
+          className={`font-serif text-xl font-bold tracking-tight ${light ? "text-navy" : "text-white"}`}
+        >
           govform<span className="text-[var(--hero-accent)]">.com</span>
         </Link>
 
@@ -93,7 +99,7 @@ export function Header({
               >
                 <button
                   type="button"
-                  className={`${styles.trigger} text-sm`}
+                  className={`${styles.trigger} ${light ? styles.triggerLight : ""} text-sm`}
                   aria-expanded={open === link.href}
                   onClick={() => setOpen(open === link.href ? null : link.href)}
                 >
@@ -112,18 +118,26 @@ export function Header({
               <Link
                 key={link.href}
                 href={link.href}
-                className="ml-6 text-sm text-white/85 no-underline hover:text-white"
+                className={`ml-6 text-sm no-underline ${light ? "text-navy/85 hover:text-navy" : "text-white/85 hover:text-white"}`}
               >
                 {link.label}
               </Link>
             )
           )}
           {cta && (
-            <Link
-              href={cta.href}
-              className="ml-6 rounded-lg border border-white/40 px-4 py-1.5 text-sm text-white no-underline hover:border-white"
-            >
+            <Link href={cta.href} className="btn-pill-primary ml-6 h-9 text-sm">
               {cta.label}
+              <span className="btn-pill-icon h-6 w-6">
+                <svg width="11" height="11" viewBox="0 0 14 14" fill="none">
+                  <path
+                    d="M4 10L10 4M10 4H5M10 4V9"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
             </Link>
           )}
         </nav>
@@ -135,9 +149,9 @@ export function Header({
           aria-expanded={mobileOpen}
           onClick={() => setMobileOpen((v) => !v)}
         >
-          <span className={styles.hamburgerBar} />
-          <span className={styles.hamburgerBar} />
-          <span className={styles.hamburgerBar} />
+          <span className={`${styles.hamburgerBar} ${light ? styles.hamburgerBarLight : ""}`} />
+          <span className={`${styles.hamburgerBar} ${light ? styles.hamburgerBarLight : ""}`} />
+          <span className={`${styles.hamburgerBar} ${light ? styles.hamburgerBarLight : ""}`} />
         </button>
       </div>
 
@@ -148,7 +162,7 @@ export function Header({
               <div key={link.href}>
                 <button
                   type="button"
-                  className="flex w-full items-center justify-between py-2.5 text-sm font-semibold text-white"
+                  className={`flex w-full items-center justify-between py-2.5 text-sm font-semibold ${light ? "text-navy" : "text-white"}`}
                   aria-expanded={open === link.href}
                   onClick={() => setOpen(open === link.href ? null : link.href)}
                 >
@@ -162,12 +176,14 @@ export function Header({
                   </svg>
                 </button>
                 {open === link.href && (
-                  <div className="flex flex-col gap-0.5 border-l border-white/15 pb-2 pl-3.5">
+                  <div
+                    className={`flex flex-col gap-0.5 border-l pb-2 pl-3.5 ${light ? "border-navy/15" : "border-white/15"}`}
+                  >
                     {link.mega.listItems.map((item) => (
                       <Link
                         key={item.href}
                         href={item.href}
-                        className="py-2 text-sm text-white/70 no-underline hover:text-white"
+                        className={`py-2 text-sm no-underline ${light ? "text-navy/70 hover:text-navy" : "text-white/70 hover:text-white"}`}
                         onClick={closeAll}
                       >
                         {item.label}
@@ -180,7 +196,7 @@ export function Header({
               <Link
                 key={link.href}
                 href={link.href}
-                className="py-2.5 text-sm text-white/85 no-underline hover:text-white"
+                className={`py-2.5 text-sm no-underline ${light ? "text-navy/85 hover:text-navy" : "text-white/85 hover:text-white"}`}
                 onClick={closeAll}
               >
                 {link.label}
@@ -190,10 +206,21 @@ export function Header({
           {cta && (
             <Link
               href={cta.href}
-              className="btn btn-secondary mt-3 justify-center"
+              className="btn-pill-primary mt-3 justify-center"
               onClick={closeAll}
             >
               {cta.label}
+              <span className="btn-pill-icon">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path
+                    d="M4 10L10 4M10 4H5M10 4V9"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
             </Link>
           )}
         </nav>

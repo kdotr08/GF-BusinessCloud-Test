@@ -91,6 +91,22 @@ p {
     @apply border-white/50 bg-transparent text-white hover:border-white;
   }
 
+  /* Pill-shaped button language (home hero + nav CTA): fully rounded, primary
+     variant ends in a circular icon badge. Same navy/white palette and font
+     as the rest of the design system — this is a new addition alongside
+     .btn, not a replacement for it, so existing .btn usage is unaffected. */
+  .btn-pill-primary {
+    @apply inline-flex h-12 cursor-pointer items-center gap-3 rounded-full bg-navy pl-6 pr-1.5 font-sans text-[15px] font-semibold text-white no-underline transition-colors hover:bg-brand-blue-deep;
+  }
+
+  .btn-pill-secondary {
+    @apply inline-flex h-12 cursor-pointer items-center rounded-full border border-navy/30 bg-transparent px-6 font-sans text-[15px] font-semibold text-navy no-underline transition-colors hover:border-navy hover:bg-navy/5;
+  }
+
+  .btn-pill-icon {
+    @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-navy;
+  }
+
   /* Soft elevated surface, lifted from the source export's card pattern. */
   .card {
     @apply rounded-lg border border-line bg-white p-8 shadow-soft;

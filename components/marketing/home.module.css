@@ -3,11 +3,52 @@
    pricing page live in pricing.module.css and are imported where reused. */
 
 .heroGrid {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 48px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  padding-bottom: 40px;
+  text-align: center;
+  max-width: 840px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 112px;
+  padding-bottom: 56px;
+}
+
+/* Flat white — matches the video's own near-white sky so the handoff from
+   copy to footage is seamless instead of showing the page's off-white
+   (#fafafa) body background as a visible seam. position:relative makes this
+   the containing block for the absolutely-positioned video.
+
+   height is spelled out as calc(56.25vw + offset) — NOT aspect-ratio —
+   because .heroVideo gets pushed down by `top` at some breakpoints (see
+   below) to keep it clear of the hero copy. aspect-ratio alone has no idea
+   about that offset, so the section's box came out shorter than the video's
+   actual bottom edge, and the video spilled past the section into whatever
+   came next (the "Proven in high-stakes services" stats bar). This calc
+   keeps the two in lockstep: the offset added here must always match the
+   `top` value on .heroVideo at that width. Base case is offset:0 (video
+   really does start at literal top:0, matching 56.25vw exactly), which is
+   why nothing needs overriding above 1440px — at that width the video's own
+   "sky" headroom already clears the hero copy without any push. */
+.heroSection {
+  background: #fff;
+  position: relative;
+  height: calc(56.25vw + 0px);
+}
+
+/* Absolutely positioned so it starts at the top of the section, pinned
+   behind the nav/copy (z-index:0, vs .heroGrid's z-10) via the same
+   stacking-context mechanism. height:auto (not object-fit:cover) is what
+   guarantees the video is never cropped top-to-bottom, at every width —
+   `top` only moves the whole uncropped frame down, it never resizes it. */
+.heroVideo {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  z-index: 0;
 }
 
 /* Workflow visual — a light card floating on the dark hero, standing in for
@@ -174,6 +215,13 @@
   color: #7c7f88;
   margin-top: 3px;
 }
+.statDesc {
+  font-size: 12px;
+  color: #7c7f88;
+  opacity: 0.8;
+  line-height: 1.4;
+  margin-top: 4px;
+}
 
 /* Feature grid — hairline seam grid, numbered instead of icon-led */
 .features {
@@ -256,7 +304,7 @@
 /* Solutions / use-case grid */
 .solutions {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
 }
 .solutionCard {
@@ -264,13 +312,6 @@
   background: #fff;
   border-radius: 8px;
   padding: 20px;
-}
-.solutionTag {
-  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
-  font-size: 10.5px;
-  color: #7c7f88;
-  display: block;
-  margin-bottom: 12px;
 }
 .solutionTitle {
   font-size: 15px;
@@ -322,11 +363,41 @@
   align-items: center;
 }
 
+/* Below ~1673px the video (height driven purely by width × 9/16) is short
+   enough that its "sky" headroom no longer clears the hero copy on its own,
+   so text starts sitting on top of the buildings — and it keeps shrinking
+   as the viewport narrows further, so a single fixed push-down amount only
+   ever looks right at exactly one width and under-compensates below that.
+   `649px - 38.8vw` is a linear formula calibrated so effective clearance
+   (sky headroom + push-down) stays constant across the whole range instead
+   of shrinking as the video does — it evaluates to 0 at ~1673px, which is
+   why the breakpoint is set there and not at a rounder number: cutting it
+   off any earlier (e.g. at 1440px) leaves a hard jump from a positive
+   offset straight to 0 right at that boundary, which is visible as text
+   suddenly overlapping the buildings one pixel past the breakpoint. Whatever
+   this offset evaluates to MUST also be added to .heroSection's height
+   (both below), or the video's bottom edge spills past the section into
+   whatever comes after it (see the long comment on .heroSection above).
+   Cutoff is 1950px, not the ~1673px zero-crossing itself — the formula
+   stays internally consistent past that point (it's still exactly
+   "video's natural height + offset", however small or negative offset
+   gets), and the buffer absorbs the mismatch between this range's 64px
+   .heroGrid margin-top and the base case's 112px, which would otherwise
+   create its own small jump right at the crossing. */
+@media (max-width: 1950px) {
+  .heroGrid {
+    margin-top: 64px;
+  }
+  .heroSection {
+    height: calc(17.45vw + 649px);
+  }
+  .heroVideo {
+    top: calc(649px - 38.8vw);
+  }
+}
+
 @media (max-width: 920px) {
   .platformGrid {
-    grid-template-columns: 1fr;
-  }
-  .heroGrid {
     grid-template-columns: 1fr;
   }
   .stats {

@@ -1,6 +1,4 @@
 import { Header } from "@/components/marketing/Header";
-import { WorkflowCard } from "@/components/marketing/WorkflowCard";
-import shared from "./pricing.module.css";
 import styles from "./home.module.css";
 
 const NAV_LINKS = [
@@ -47,40 +45,54 @@ const NAV_LINKS = [
 
 export function HomeHero() {
   return (
-    <header className={`${shared.hero} pt-14`}>
-      <div className="wrap">
-        <Header links={NAV_LINKS} cta={{ href: "/pricing#institutional", label: "Talk to us" }} />
+    <header className={`${styles.heroSection} pt-4`}>
+      <div className="wrap relative z-10">
+        <Header
+          links={NAV_LINKS}
+          cta={{ href: "/pricing#institutional", label: "Talk to us" }}
+          variant="light"
+        />
 
         <div className={styles.heroGrid}>
-          <div>
-            <div className="eyebrow border-white/25 bg-white/10 text-[var(--hero-accent)]">
-              Digital service forms platform
-            </div>
-            <h1 className="max-w-[16ch] text-[44px] leading-[1.08] text-white">
-              Digital services built to withstand scrutiny.
-            </h1>
-            <p className="max-w-[48ch] text-[19px] text-white/75">
-              Govform.com is server-side infrastructure for accessible, secure, production-grade
-              forms for organisations that answer to regulators, auditors and the public
-              they serve.
-            </p>
+          <div className="eyebrow">Digital service forms platform</div>
+          <h1 className="max-w-[26ch] text-[44px] leading-[1.08] text-navy">
+            Digital services built for serious organisations.
+          </h1>
+          <p className="max-w-[738px] text-base text-navy/75">
+            Build accessible forms and services, automate workflows and manage sensitive
+            information on a secure platform proven and trusted in UK public services.
+            <br />
+            Now available to organisations everywhere.
+          </p>
 
-            <div className="mt-7 flex flex-wrap gap-3">
-              <a className="btn btn-secondary" href="/pricing#plans">
-                Start building free
-              </a>
-              <a className="btn btn-ghost" href="/pricing#institutional">
-                Talk to us
-              </a>
-            </div>
-            <div className="mt-3.5 text-[12.5px] text-white/50">
-              Free to build and test. Plans start at £75/month when you go live.
-            </div>
+          <div className="mt-3.5 flex flex-wrap justify-center gap-3">
+            <a className="btn-pill-secondary" href="/pricing#institutional">
+              Talk to us
+            </a>
+            <a className="btn-pill-primary" href="/pricing#plans">
+              Start building free
+              <span className="btn-pill-icon">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path
+                    d="M4 10L10 4M10 4H5M10 4V9"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
+            </a>
           </div>
-
-          <WorkflowCard />
+          <div className="mt-3.5 text-[12.5px] text-navy/50">
+            Free to build and test. Plans start at £75/month when you go live.
+          </div>
         </div>
       </div>
+
+      <video className={styles.heroVideo} autoPlay muted loop playsInline poster="/videos/hero-poster.jpg">
+        <source src="/videos/hero_bg.mp4" type="video/mp4" />
+      </video>
     </header>
   );
 }

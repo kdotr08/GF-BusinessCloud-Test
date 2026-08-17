@@ -11,7 +11,7 @@ export default function ResourcesPage() {
       <div className="eyebrow">Govform.com</div>
       <h1 className="text-4xl">Resources &mdash; coming soon</h1>
       <p className="muted max-w-[46ch]">
-        Documentation, guides and templates are on the way. In the meantime, see the{" "}
+        Documentation, tutorials, guides and templates are on the way. In the meantime, see the{" "}
         <Link href="/pricing" className="text-brand-blue underline">
           Business Cloud pricing page
         </Link>{" "}
@@ -21,6 +21,14 @@ export default function ResourcesPage() {
         </Link>
         .
       </p>
+      <div className="mt-2 flex flex-wrap gap-4">
+        <Link href="/resources/documentation" className="text-brand-blue underline">
+          Documentation
+        </Link>
+        <Link href="/resources/tutorials" className="text-brand-blue underline">
+          Tutorials
+        </Link>
+      </div>
     </main>
   );
 }
