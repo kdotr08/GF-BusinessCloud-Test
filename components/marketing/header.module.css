@@ -23,7 +23,7 @@
 /* Light-surface counterpart to .trigger, used when Header renders on a
    transparent/light hero (variant="light") instead of a dark one. */
 .triggerLight {
-  color: rgba(17, 26, 74, 0.85);
+  color: rgba(0, 31, 63, 0.85);
 }
 .triggerLight:hover {
   color: var(--navy);
@@ -77,7 +77,7 @@
   border-radius: 10px;
   box-shadow:
     0 30px 80px -20px rgba(0, 0, 0, 0.35),
-    0 0 0 1px rgba(17, 26, 74, 0.06);
+    0 0 0 1px rgba(0, 31, 63, 0.06);
   padding: 24px;
   z-index: 50;
   text-align: left;
@@ -146,7 +146,7 @@
   width: 24px;
   height: 24px;
   border-radius: 6px;
-  background: rgba(17, 26, 74, 0.08);
+  background: rgba(0, 31, 63, 0.08);
   color: var(--navy);
   display: flex;
   align-items: center;
@@ -172,7 +172,7 @@
   margin-top: 18px;
   padding: 14px 18px;
   border-radius: 8px;
-  background: rgba(17, 26, 74, 0.05);
+  background: rgba(0, 31, 63, 0.05);
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -11,9 +11,9 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        navy: "#111a4a",
+        navy: "#001f3f",
         brand: {
-          blue: "#111a4a",
+          blue: "#001f3f",
           "blue-deep": "#011821",
         },
         paper: "#fafafa",
@@ -23,8 +23,8 @@ const config: Config = {
         ink: "#3b3e47",
         muted: "#7c7f88",
         amber: {
-          bg: "rgba(17, 26, 74, 0.08)",
-          ink: "#111a4a",
+          bg: "rgba(0, 31, 63, 0.08)",
+          ink: "#001f3f",
         },
         // Reintroduced accents, scoped to eyebrow/badge use only (see the
         // .eyebrow variants in globals.css) — not for buttons, backgrounds,

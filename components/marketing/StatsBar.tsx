@@ -30,9 +30,11 @@ export function StatsBar() {
           </p>
         </div>
         <div className={styles.stats}>
-          {STATS.map(([num, label, desc]) => (
+          {STATS.map(([num, label, desc], i) => (
             <div key={label}>
-              <div className={styles.statNum}>{num}</div>
+              <div className={i === STATS.length - 1 ? styles.statNumFeatured : styles.statNum}>
+                {num}
+              </div>
               <div className={styles.statLabel}>{label}</div>
               {desc && <div className={styles.statDesc}>{desc}</div>}
             </div>

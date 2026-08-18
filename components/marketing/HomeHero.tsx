@@ -56,19 +56,19 @@ export function HomeHero() {
 
         <div className={styles.heroGrid}>
           <TypingEyebrow
-            className={`${styles.heroReveal} ${styles.heroRevealEyebrow} xl:mb-5 2xl:mb-6`}
+            className={`${styles.heroReveal} ${styles.heroRevealEyebrow} border-[#003366]/25 bg-[#003366]/10 text-[#003366] xl:mb-5 2xl:mb-6`}
             eager
           >
             SECURE DIGITAL SERVICE PLATFORM
           </TypingEyebrow>
           <h1
-            className={`${styles.heroReveal} ${styles.heroRevealHeading} max-w-[26ch] text-[34px] font-semibold leading-[1.08] text-navy sm:text-[38px] lg:m-0 lg:text-[44px] xl:max-w-none xl:whitespace-nowrap xl:text-[52px] 2xl:text-[64px]`}
+            className={`${styles.heroReveal} ${styles.heroRevealHeading} ${styles.heroHeadingFont} max-w-[26ch] text-[34px] font-semibold leading-[1.18] text-navy sm:text-[38px] lg:m-0 lg:text-[44px] xl:max-w-none xl:whitespace-nowrap xl:text-[52px] 2xl:text-[64px]`}
           >
             Digital services built for
             <br className="hidden lg:block" /> serious organisations.
           </h1>
           <p
-            className={`${styles.heroReveal} ${styles.heroRevealBody} max-w-[738px] text-sm text-navy/75 sm:text-[15px] lg:mt-4 lg:text-base xl:mb-0 xl:max-w-[860px] xl:text-lg 2xl:mt-5 2xl:max-w-[980px] 2xl:text-xl 2xl:leading-[1.45]`}
+            className={`${styles.heroReveal} ${styles.heroRevealBody} max-w-[738px] text-sm text-navy/90 sm:text-[15px] lg:mt-4 lg:max-w-[620px] lg:text-base xl:mb-0 xl:max-w-[700px] xl:text-lg 2xl:mt-5 2xl:max-w-[980px] 2xl:text-xl 2xl:leading-[1.45]`}
           >
             Build accessible forms and services, automate workflows, and manage sensitive
             information on a secure platform trusted in UK public services. Now available to
@@ -79,7 +79,7 @@ export function HomeHero() {
             className={`${styles.heroReveal} ${styles.heroRevealButtons} mt-3.5 flex flex-wrap justify-center gap-3 xl:mt-8 2xl:mt-9 2xl:gap-4`}
           >
             <a
-              className="btn-pill-secondary btn-hover-shrink bg-white shadow-sm 2xl:h-14 2xl:px-7 2xl:text-[17px]"
+              className={`btn-pill-secondary btn-hover-shrink ${styles.heroSecondaryCta} 2xl:h-14 2xl:px-7 2xl:text-[17px]`}
               href="/pricing#institutional"
             >
               Talk to us
@@ -109,6 +109,7 @@ export function HomeHero() {
         <source src="/videos/hero_bg1.mp4" type="video/mp4" />
       </video>
 
+      <div className={styles.heroBottomScrim} aria-hidden="true" />
       <OrganisationLogoMarquee />
     </header>
   );

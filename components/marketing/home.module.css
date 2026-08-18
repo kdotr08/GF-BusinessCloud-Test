@@ -2,6 +2,26 @@
    live in app/globals.css; dark-surface/table/card patterns shared with the
    pricing page live in pricing.module.css and are imported where reused. */
 
+/* Switzer, loaded via the Fontshare <link> in layout.tsx — Fontshare's
+   free alternative to Column's actual (paid, unavailable here) Suisse
+   Int'l. Falls back to var(--font-display) (Inter) — this heading's font
+   before any of this — if Switzer's stylesheet fails to load; not
+   ui-sans-serif, not Hanken Grotesk. Radial gradient text fill: lighter
+   blue at center fading to dark navy at the edges, per the reference
+   image. */
+.heroHeadingFont {
+  font-family: "Switzer", var(--font-display), "Inter", ui-sans-serif, system-ui, sans-serif;
+  /* Softened from a flat 2-stop #004e9c->#001f3f: that jump was too
+     abrupt/dark at the edges relative to the center. A mid stop plus
+     pushing the darkest stop out past 100% (so full --navy only
+     theoretically completes beyond the visible letters) spreads the same
+     two brand colors more gradually across the text. */
+  background: radial-gradient(ellipse at center, #004e9c 0%, #0a3d66 55%, #001f3f 130%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 .heroGrid {
   position: relative;
   isolation: isolate;
@@ -20,18 +40,24 @@
   height: 100%;
 }
 
+/* Resting fill is the navy-to-turquoise gradient, by explicit decision —
+   not a hover-only treatment. background (not background-color), since
+   this is a gradient, not a flat color. */
 .heroPrimaryCta {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  background-color: var(--navy) !important;
+  background: var(--gradient, linear-gradient(85deg, #036 7.97%, #00b4d8 69.74%, #40e0d0 97.14%)) !important;
 }
 
+/* Hover darkens to solid --cta-blue via the same sliding-overlay trick
+   used elsewhere — reusing the token that's no longer this button's
+   resting color, now that the resting fill is the gradient above. */
 .heroPrimaryCta::before {
   position: absolute;
   z-index: 0;
   inset: 0;
-  background: var(--blue-deep);
+  background: var(--cta-blue);
   content: "";
   transform: scaleX(0);
   transform-origin: left center;
@@ -57,6 +83,26 @@
 .heroPrimaryCta:hover .heroCtaIcon svg,
 .heroPrimaryCta:focus-visible .heroCtaIcon svg {
   transform: rotate(45deg);
+}
+
+/* Solid --navy fill by explicit decision, replacing the translucent
+   navy/[0.14] outline .btn-pill-secondary normally uses — deliberately a
+   shade darker than .heroPrimaryCta's --cta-blue fill next to it. */
+.heroSecondaryCta {
+  background-color: var(--navy) !important;
+  border-color: var(--navy) !important;
+  color: #fff !important;
+  /* Same raised-look shadow as .btn-pill-primary in globals.css. */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    0 1px 2px rgba(0, 0, 0, 0.18),
+    0 4px 10px rgba(0, 0, 0, 0.12) !important;
+}
+
+.heroSecondaryCta:hover,
+.heroSecondaryCta:focus-visible {
+  background-color: var(--cta-blue) !important;
+  border-color: var(--cta-blue) !important;
 }
 
 .heroReveal {
@@ -137,6 +183,22 @@
   animation: hero-video-reveal 1200ms ease-out 80ms forwards;
 }
 
+.heroBottomScrim {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 5;
+  height: clamp(180px, 24vw, 360px);
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 31, 63, 0) 0%,
+    rgba(0, 31, 63, 0.08) 42%,
+    rgba(0, 31, 63, 0.26) 100%
+  );
+  pointer-events: none;
+}
+
 @keyframes hero-video-reveal {
   to {
     opacity: 1;
@@ -183,7 +245,7 @@
   font-weight: 500;
   padding: 4px 10px;
   border-radius: 20px;
-  background: rgba(17, 26, 74, 0.08);
+  background: rgba(0, 31, 63, 0.08);
   color: var(--navy);
   transition: background-color 0.4s ease, color 0.4s ease;
 }
@@ -309,6 +371,15 @@
   color: var(--navy);
   letter-spacing: -0.01em;
 }
+/* One stat call-out per Column's pattern (see StatsBar.tsx) — a single
+   colored element among neutral peers, not a systemic accent. */
+.statNumFeatured {
+  font-family: var(--font-display), "Inter", sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: -0.01em;
+  color: var(--signal-orange);
+}
 .statLabel {
   font-size: 13px;
   color: #7c7f88;
@@ -343,7 +414,7 @@
   width: 28px;
   height: 28px;
   border-radius: 7px;
-  background: rgba(17, 26, 74, 0.08);
+  background: rgba(0, 31, 63, 0.08);
   color: var(--navy);
   font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
   font-size: 12px;
@@ -381,7 +452,7 @@
   font-size: 10px;
   font-weight: 600;
   color: var(--navy);
-  background: rgba(17, 26, 74, 0.08);
+  background: rgba(0, 31, 63, 0.08);
   padding: 4px 8px;
   border-radius: 5px;
   white-space: nowrap;
@@ -429,7 +500,7 @@
 .placeholder {
   border: 1.5px dashed #cfd2d8;
   border-radius: 8px;
-  background: repeating-linear-gradient(135deg, rgba(17, 26, 74, 0.035) 0 12px, transparent 12px 24px);
+  background: repeating-linear-gradient(135deg, rgba(0, 31, 63, 0.035) 0 12px, transparent 12px 24px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -539,6 +610,14 @@
     max-width: none;
     height: auto;
     transform: translateX(-50%);
+    /* Bottom-pinned + intrinsic height means the video's top edge lands at
+       a different point on every device height — sometimes well below the
+       nav, sometimes right behind it. A hard edge there reads as a seam
+       (or a line cutting through the nav) against .heroSection's white.
+       Feathering the top 120px into transparent lets the section's white
+       show through gradually instead, so the handoff works at any height. */
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 120px);
+    mask-image: linear-gradient(to bottom, transparent, #000 120px);
   }
 }
 
@@ -572,21 +651,38 @@
   }
 }
 
+/* This band's video is still the bottom-pinned, mask-faded one from the
+   max-width:1279.98px rule above (not the top-anchored wide-desktop video),
+   a different visual context the base halo above wasn't tuned for — its
+   own edge stays faintly visible through it at the strength used from
+   1280px up. Stronger + wider here specifically closes that gap. */
+@media (min-width: 1024px) and (max-width: 1279.98px) {
+  .heroGrid::before {
+    inset: -80px -170px -140px;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(255, 255, 255, 0.85) 0%,
+      rgba(255, 255, 255, 0.58) 42%,
+      rgba(255, 255, 255, 0.24) 62%,
+      rgba(255, 255, 255, 0) 82%
+    );
+    filter: blur(20px);
+  }
+}
+
 @media (min-width: 1920px) {
   .heroGrid {
     top: 45.5%;
   }
 
   .heroGrid::before {
-    inset: -72px -180px -180px;
     background: radial-gradient(
       ellipse at center,
-      rgba(255, 255, 255, 0.94) 0%,
-      rgba(255, 255, 255, 0.72) 42%,
-      rgba(255, 255, 255, 0.28) 62%,
-      rgba(255, 255, 255, 0) 82%
+      rgba(255, 255, 255, 0.88) 0%,
+      rgba(255, 255, 255, 0.62) 42%,
+      rgba(255, 255, 255, 0.22) 62%,
+      rgba(255, 255, 255, 0) 80%
     );
-    filter: blur(24px);
   }
 }
 
@@ -615,13 +711,55 @@
     margin-top: 0;
     transform: translate(-50%, -50%);
   }
+
+  /* Same idea as the desktop halo (min-width:1024px, below), tuned strong
+     enough to fully hide the video's top edge rather than just soften it —
+     a partial fade still let the seam read through. */
+  .heroGrid::before {
+    position: absolute;
+    z-index: -1;
+    inset: -48px -72px -84px;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(255, 255, 255, 0.68) 0%,
+      rgba(255, 255, 255, 0.42) 45%,
+      rgba(255, 255, 255, 0.16) 65%,
+      rgba(255, 255, 255, 0) 84%
+    );
+    filter: blur(16px);
+    content: "";
+    pointer-events: none;
+  }
 }
 
-/* Short phones need every available pixel, while taller phones look more
-   balanced with the copy eased slightly into the open sky. */
+/* Was flow-positioned with just a top margin, which left it sitting near
+   the nav instead of centred in the frame. Match the tablet approach —
+   absolute + viewport-relative top — plus the same light halo, so phones
+   get the same seamless lift off the skyline instead of a flat cutoff. */
 @media (max-width: 639.98px) {
   .heroGrid {
-    margin-top: clamp(12px, calc(18svh - 108px), 52px);
+    position: absolute;
+    top: 44svh;
+    left: 50%;
+    width: calc(100vw - 48px);
+    margin-top: 0;
+    transform: translate(-50%, -50%);
+  }
+
+  .heroGrid::before {
+    position: absolute;
+    z-index: -1;
+    inset: -36px -52px -64px;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(255, 255, 255, 0.62) 0%,
+      rgba(255, 255, 255, 0.36) 45%,
+      rgba(255, 255, 255, 0.14) 65%,
+      rgba(255, 255, 255, 0) 84%
+    );
+    filter: blur(14px);
+    content: "";
+    pointer-events: none;
   }
 }
 

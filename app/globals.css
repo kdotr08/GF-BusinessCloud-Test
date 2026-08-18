@@ -6,15 +6,29 @@
   /* Legacy variable names kept as-is (pricing.module.css reads these
      directly via var(...) in ~20 places) — only the hex values changed.
      Single cool navy accent throughout — no warm orange/seafoam accents. */
-  --navy: #111a4a;
-  --blue: #111a4a;
+  --navy: #001f3f;
+  --blue: #001f3f;
   --blue-deep: #011821;
-  --green: #111a4a;
-  --amber-bg: rgba(17, 26, 74, 0.08);
+  --green: #001f3f;
+  --amber-bg: rgba(0, 31, 63, 0.08);
   /* Dark-surface treatment (hero, estate banner, final CTA only) — a dotted
      texture on Deep Sea, replacing the old navy-to-black gradient. */
   --color-cyan-900: #023247;
   --hero-accent: #88deeb;
+  /* Column's "Signal Orange" — reserved for a single deliberate call-out
+     per page (one stat, one badge), never chrome/buttons. See the
+     palette-review conversation. */
+  --signal-orange: #ec652b;
+  /* Distinct from --navy on purpose — the two solid "primary" CTAs (nav
+     "Talk to us", "Start building free") use this slightly lighter navy;
+     the hero's outline "Talk to us" uses --navy itself. Both fixed by
+     explicit user decision, not derived from one another. */
+  --cta-blue: #003366;
+  /* Hover fill for the two solid primary CTAs (nav "Talk to us",
+     "Start building free") — navy-to-turquoise sweep, by explicit
+     decision. Not used anywhere else yet, but named/global so any future
+     spot that wants the same hover treatment can reuse it. */
+  --gradient: linear-gradient(85deg, #036 7.97%, #00b4d8 69.74%, #40e0d0 97.14%);
 }
 
 html {
@@ -53,8 +67,14 @@ p {
      — navy (default, for light sections) and the hero-accent cyan (dark
      hero/CTA sections, via an additional border/bg override at each call
      site) — see the note by --hero-accent in :root for why. */
+  /* Navy fill/border match .btn-pill-secondary's (the "Talk to us" pill) —
+     same navy/14 fill, same navy/30 border — so the two read as one tint
+     instead of the eyebrow having its own slightly-different grey-blue.
+     14%, not the original ask of 5% (the hover-state value on that button):
+     5% reads as invisible white once it's sitting on the hero's white
+     halo glow, not just a subtle tint. */
   .eyebrow {
-    @apply relative mb-3.5 inline-flex items-center gap-1.5 rounded-full border border-brand-blue/15 bg-brand-blue/5 px-3 py-1 font-mono text-[11px] font-bold uppercase tracking-[0.1em] text-brand-blue-deep;
+    @apply relative mb-3.5 inline-flex items-center gap-1.5 rounded-full border border-navy/30 bg-navy/[0.14] px-3 py-1 font-mono text-[11px] font-bold uppercase tracking-[0.1em] text-navy;
   }
   .eyebrow::after {
     content: "";
@@ -136,12 +156,31 @@ p {
      variant ends in a circular icon badge. Same navy/white palette and font
      as the rest of the design system — this is a new addition alongside
      .btn, not a replacement for it, so existing .btn usage is unaffected. */
+  /* Resting fill is the navy-to-turquoise gradient, matching
+     .heroPrimaryCta's treatment — hover swaps to solid --cta-blue (the
+     reverse of that button's hover), not a Tailwind utility since the
+     --gradient value's var(...,fallback) syntax doesn't survive
+     Tailwind's arbitrary-value class-name escaping. */
+  /* Raised/embedded look (Column's "Sign up" button) — three layers, not
+     just a drop shadow: an inset top highlight (light catching the bevel),
+     a tight contact shadow, and a soft ambient shadow that lifts it off
+     the page. */
   .btn-pill-primary {
-    @apply inline-flex h-12 cursor-pointer items-center gap-3 rounded-full bg-navy pl-6 pr-1.5 font-sans text-[15px] font-semibold text-white no-underline transition-colors hover:bg-brand-blue-deep;
+    @apply inline-flex h-12 cursor-pointer items-center gap-3 rounded-full pl-6 pr-1.5 font-sans text-[15px] font-semibold text-white no-underline transition-colors;
+    background: var(--gradient, linear-gradient(85deg, #036 7.97%, #00b4d8 69.74%, #40e0d0 97.14%));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.25),
+      0 1px 2px rgba(0, 0, 0, 0.18),
+      0 4px 10px rgba(0, 0, 0, 0.12);
+  }
+
+  .btn-pill-primary:hover,
+  .btn-pill-primary:focus-visible {
+    background: var(--cta-blue);
   }
 
   .btn-pill-secondary {
-    @apply inline-flex h-12 cursor-pointer items-center rounded-full border border-navy/30 bg-transparent px-6 font-sans text-[15px] font-semibold text-navy no-underline transition-colors hover:border-navy hover:bg-navy/5;
+    @apply inline-flex h-12 cursor-pointer items-center rounded-full border border-navy/30 bg-navy/[0.14] px-6 font-sans text-[15px] font-semibold text-navy no-underline transition-colors hover:border-navy hover:bg-navy/[0.14];
   }
 
   .btn-pill-icon {
