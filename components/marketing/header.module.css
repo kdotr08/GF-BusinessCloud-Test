@@ -40,7 +40,7 @@
 
 /* Layout (including display/flex) lives in Tailwind classes on the button
    itself, not here — a CSS-module display:flex on the same element fought
-   the md:hidden Tailwind utility for the display property (same 0,1,0,0
+   the lg:hidden Tailwind utility for the display property (same 0,1,0,0
    specificity), and the module rule was winning regardless of viewport,
    so the button never actually hid on desktop. Tailwind's own responsive
    variants are generated in the same stylesheet in the correct order, so

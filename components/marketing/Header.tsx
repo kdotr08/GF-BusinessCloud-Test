@@ -88,7 +88,7 @@ export function Header({
           govform<span className="text-[var(--hero-accent)]">.com</span>
         </Link>
 
-        <nav className="hidden items-center md:flex">
+        <nav className="hidden items-center whitespace-nowrap lg:flex">
           {links.map((link) =>
             link.mega ? (
               <div
@@ -125,26 +125,15 @@ export function Header({
             )
           )}
           {cta && (
-            <Link href={cta.href} className="btn-pill-primary ml-6 h-9 text-sm">
+            <Link href={cta.href} className="btn-pill-primary ml-6 h-9 !px-5 text-sm">
               {cta.label}
-              <span className="btn-pill-icon h-6 w-6">
-                <svg width="11" height="11" viewBox="0 0 14 14" fill="none">
-                  <path
-                    d="M4 10L10 4M10 4H5M10 4V9"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </span>
             </Link>
           )}
         </nav>
 
         <button
           type="button"
-          className="flex md:hidden flex-col gap-1.5 border-0 bg-transparent p-1.5 -mr-1.5 cursor-pointer"
+          className="flex flex-col gap-1.5 border-0 bg-transparent p-1.5 -mr-1.5 cursor-pointer lg:hidden"
           aria-label="Toggle menu"
           aria-expanded={mobileOpen}
           onClick={() => setMobileOpen((v) => !v)}
@@ -156,7 +145,7 @@ export function Header({
       </div>
 
       {mobileOpen && (
-        <nav className="flex flex-col gap-1 pt-5 md:hidden">
+        <nav className="flex flex-col gap-1 pt-5 lg:hidden">
           {links.map((link) =>
             link.mega ? (
               <div key={link.href}>
@@ -206,21 +195,10 @@ export function Header({
           {cta && (
             <Link
               href={cta.href}
-              className="btn-pill-primary mt-3 justify-center"
+              className="btn-pill-primary mt-3 justify-center !px-6"
               onClick={closeAll}
             >
               {cta.label}
-              <span className="btn-pill-icon">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <path
-                    d="M4 10L10 4M10 4H5M10 4V9"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </span>
             </Link>
           )}
         </nav>
