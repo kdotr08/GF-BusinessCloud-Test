@@ -426,6 +426,19 @@
   }
 }
 
+/* On tablet and mobile, keep the video at least 1000px wide, crop the side
+   overflow, and pin its bottom edge to the bottom of the visible screen. */
+@media (max-width: 1023.98px) {
+  .heroSection {
+    height: 100vh;
+    height: 100svh;
+  }
+  .heroVideo {
+    width: 100%;
+    min-width: 1000px;
+  }
+}
+
 @media (max-width: 920px) {
   .platformGrid {
     grid-template-columns: 1fr;

@@ -55,10 +55,10 @@ export function HomeHero() {
 
         <div className={styles.heroGrid}>
           <div className="eyebrow">Digital service forms platform</div>
-          <h1 className="max-w-[26ch] text-[44px] leading-[1.08] text-navy">
+          <h1 className="max-w-[26ch] text-[34px] leading-[1.08] text-navy sm:text-[38px] lg:text-[44px]">
             Digital services built for serious organisations.
           </h1>
-          <p className="max-w-[738px] text-base text-navy/75">
+          <p className="max-w-[738px] text-sm text-navy/75 sm:text-[15px] lg:text-base">
             Build accessible forms and services, automate workflows and manage sensitive
             information on a secure platform proven and trusted in UK public services.
             <br />
