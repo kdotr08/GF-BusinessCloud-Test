@@ -10,7 +10,7 @@
   max-width: 840px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 40px;
+  margin-top: 32px;
   padding-bottom: 56px;
 }
 
@@ -23,12 +23,12 @@
    because .heroVideo is vertically offset at different widths. Keeping that
    same offset in the section height aligns the video's bottom edge with the
    section instead of letting it spill into the stats bar. On wide screens the
-   -108px offset intentionally clips some sky so more of the video's bottom is
+   -156px offset intentionally clips some sky so more of the video's bottom is
    visible. */
 .heroSection {
   background: #fff;
   position: relative;
-  height: calc(56.25vw - 108px);
+  height: calc(56.25vw - 156px);
   overflow: hidden;
 }
 
@@ -38,10 +38,11 @@
 .heroVideo {
   display: block;
   position: absolute;
-  top: -108px;
+  top: -156px;
   left: 0;
-  width: 100%;
-  height: auto;
+  width: calc(100% + 16px);
+  max-width: none;
+  height: 56.25vw;
   z-index: 0;
 }
 
@@ -375,12 +376,12 @@
    Cutoff is 1950px, not the ~1673px zero-crossing itself — the formula
    stays internally consistent past that point (it's still exactly
    "video's natural height + offset", however small or negative offset
-   gets), and the buffer absorbs the mismatch between this range's 64px
-   .heroGrid margin-top and the wide-screen base case's 40px, which would otherwise
+   gets), and the buffer absorbs the mismatch between this range's 56px
+   .heroGrid margin-top and the wide-screen base case's 32px, which would otherwise
    create its own small jump right at the crossing. */
 @media (max-width: 1950px) {
   .heroGrid {
-    margin-top: 64px;
+    margin-top: 56px;
   }
   .heroSection {
     height: calc(17.45vw + 649px);
@@ -390,18 +391,28 @@
   }
 }
 
+/* Continue the wide-screen offset smoothly through the upper desktop range. */
+@media (min-width: 1536px) and (max-width: 1950px) {
+  .heroSection {
+    height: calc(17.45vw + 601px);
+  }
+  .heroVideo {
+    top: calc(601px - 38.8vw);
+  }
+}
+
 /* Between Tailwind's xl and 2xl breakpoints, tighten the copy spacing and
-   lift the video by another 108px. The matching height adjustment keeps the
+   lift the video by another 156px. The matching height adjustment keeps the
    bottom edge aligned with the end of the hero section. */
 @media (min-width: 1280px) and (max-width: 1535.98px) {
   .heroGrid {
-    margin-top: 20px;
+    margin-top: 12px;
   }
   .heroSection {
-    height: calc(17.45vw + 541px);
+    height: calc(17.45vw + 493px);
   }
   .heroVideo {
-    top: calc(541px - 38.8vw);
+    top: calc(493px - 38.8vw);
   }
 }
 
@@ -410,10 +421,10 @@
    actions without pushing as far into the paragraph. */
 @media (max-width: 1279.98px) {
   .heroGrid {
-    margin-top: 20px;
+    margin-top: 12px;
   }
   .heroSection {
-    height: calc(17.45vw + 541px);
+    height: calc(17.45vw + 493px);
   }
   .heroVideo {
     top: auto;
@@ -422,6 +433,7 @@
     width: 100%;
     min-width: 1100px;
     max-width: none;
+    height: auto;
     transform: translateX(-50%);
   }
 }

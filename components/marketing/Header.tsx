@@ -80,15 +80,15 @@ export function Header({
 
   return (
     <div className="pb-10">
-      <div className="flex items-center justify-between">
+      <div className="relative grid grid-cols-[1fr_auto] items-center lg:grid-cols-[1fr_auto_1fr]">
         <Link
           href="/"
-          className={`font-serif text-xl font-bold tracking-tight ${light ? "text-navy" : "text-white"}`}
+          className={`justify-self-start font-serif text-xl font-bold tracking-tight ${light ? "text-navy" : "text-white"}`}
         >
           govform<span className="text-[var(--hero-accent)]">.com</span>
         </Link>
 
-        <nav className="hidden items-center whitespace-nowrap lg:flex">
+        <nav className="hidden items-center justify-self-center whitespace-nowrap lg:flex">
           {links.map((link) =>
             link.mega ? (
               <div
@@ -124,16 +124,20 @@ export function Header({
               </Link>
             )
           )}
-          {cta && (
-            <Link href={cta.href} className="btn-pill-primary ml-6 h-9 !px-5 text-sm">
-              {cta.label}
-            </Link>
-          )}
         </nav>
+
+        {cta && (
+          <Link
+            href={cta.href}
+            className="btn-pill-primary hidden h-9 justify-self-end !px-5 text-sm lg:inline-flex"
+          >
+            {cta.label}
+          </Link>
+        )}
 
         <button
           type="button"
-          className="flex flex-col gap-1.5 border-0 bg-transparent p-1.5 -mr-1.5 cursor-pointer lg:hidden"
+          className="-mr-1.5 flex cursor-pointer flex-col gap-1.5 justify-self-end border-0 bg-transparent p-1.5 lg:hidden"
           aria-label="Toggle menu"
           aria-expanded={mobileOpen}
           onClick={() => setMobileOpen((v) => !v)}

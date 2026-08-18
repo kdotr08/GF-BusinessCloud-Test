@@ -1,4 +1,5 @@
 import { Header } from "@/components/marketing/Header";
+import { OrganisationLogoMarquee } from "@/components/marketing/OrganisationLogoMarquee";
 import styles from "./home.module.css";
 
 const NAV_LINKS = [
@@ -40,7 +41,6 @@ const NAV_LINKS = [
   { href: "/pricing", label: "Pricing" },
   { href: "/successes", label: "Successes" },
   { href: "/resources", label: "Resources" },
-  { href: "/#contact", label: "Contact" },
 ];
 
 export function HomeHero() {
@@ -54,15 +54,14 @@ export function HomeHero() {
         />
 
         <div className={styles.heroGrid}>
-          <div className="eyebrow">Digital service forms platform</div>
-          <h1 className="max-w-[26ch] text-[34px] leading-[1.08] text-navy sm:text-[38px] lg:text-[44px]">
+          <div className="eyebrow">SECURE DIGITAL SERVICE PLATFORM</div>
+          <h1 className="max-w-[26ch] text-[34px] leading-[1.08] text-navy sm:text-[38px] lg:text-[44px] xl:max-w-none xl:whitespace-nowrap">
             Digital services built for serious organisations.
           </h1>
           <p className="max-w-[738px] text-sm text-navy/75 sm:text-[15px] lg:text-base">
-            Build accessible forms and services, automate workflows and manage sensitive
-            information on a secure platform proven and trusted in UK public services.
-            <br />
-            Now available to organisations everywhere.
+            Build accessible forms and services, automate workflows, and manage sensitive
+            information on a secure platform trusted in UK public services. Now available to
+            organisations everywhere.
           </p>
 
           <div className="mt-3.5 flex flex-wrap justify-center gap-3">
@@ -93,6 +92,8 @@ export function HomeHero() {
       <video className={styles.heroVideo} autoPlay muted loop playsInline poster="/videos/hero-poster.jpg">
         <source src="/videos/hero_bg.mp4" type="video/mp4" />
       </video>
+
+      <OrganisationLogoMarquee />
     </header>
   );
 }

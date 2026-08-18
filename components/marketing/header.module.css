@@ -61,7 +61,7 @@
    space that belongs to the nav bar, not the dropdown — the mouse crosses
    it, fires mouseleave on .menuWrap, and the panel closes mid-hover. */
 .menuWrap {
-  position: relative;
+  position: static;
   padding-bottom: 20px;
   margin-bottom: -20px;
 }
