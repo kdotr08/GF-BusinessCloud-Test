@@ -9,6 +9,9 @@
   align-items: center;
   overflow: hidden;
   background: transparent;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: marquee-reveal 900ms cubic-bezier(0.16, 1, 0.3, 1) 900ms forwards;
 }
 
 .viewport {
@@ -102,7 +105,34 @@
   }
 }
 
+@keyframes marquee-reveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* The track becomes substantially shorter as its cards scale down, so a
+   fixed duration produces much less movement per second on smaller screens. */
+@media (max-width: 1023.98px) {
+  .track {
+    animation-duration: 38s;
+  }
+}
+
+@media (max-width: 639.98px) {
+  .track {
+    animation-duration: 32s;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .band {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
   .viewport {
     overflow-x: auto;
   }

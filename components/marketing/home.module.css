@@ -16,29 +16,29 @@
 
 .heroReveal {
   opacity: 0;
-  transform: translateY(18px);
-  animation: hero-reveal 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform: translateY(14px);
+  animation: hero-reveal 900ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
   animation-delay: var(--hero-reveal-delay, 0ms);
 }
 
 .heroRevealEyebrow {
-  --hero-reveal-delay: 100ms;
+  --hero-reveal-delay: 140ms;
 }
 
 .heroRevealHeading {
-  --hero-reveal-delay: 220ms;
+  --hero-reveal-delay: 300ms;
 }
 
 .heroRevealBody {
-  --hero-reveal-delay: 340ms;
-}
-
-.heroRevealButtons {
   --hero-reveal-delay: 460ms;
 }
 
+.heroRevealButtons {
+  --hero-reveal-delay: 620ms;
+}
+
 .heroRevealNote {
-  --hero-reveal-delay: 580ms;
+  --hero-reveal-delay: 780ms;
 }
 
 @keyframes hero-reveal {
@@ -86,6 +86,21 @@
   max-width: none;
   height: 56.25vw;
   z-index: 0;
+  opacity: 0;
+  animation: hero-video-reveal 1200ms ease-out 80ms forwards;
+}
+
+@keyframes hero-video-reveal {
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroVideo {
+    opacity: 1;
+    animation: none;
+  }
 }
 
 /* Workflow visual — a light card floating on the dark hero, standing in for
@@ -490,6 +505,28 @@
   .heroVideo {
     width: 100%;
     min-width: 1000px;
+  }
+}
+
+/* Centre the copy in the usable tablet canvas instead of anchoring it just
+   beneath the navigation. The viewport-relative position remains stable in
+   both portrait and landscape while leaving phones in their tighter flow. */
+@media (min-width: 640px) and (max-width: 1023.98px) {
+  .heroGrid {
+    position: absolute;
+    top: 43svh;
+    left: 50%;
+    width: min(calc(100vw - 48px), 840px);
+    margin-top: 0;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* Short phones need every available pixel, while taller phones look more
+   balanced with the copy eased slightly into the open sky. */
+@media (max-width: 639.98px) {
+  .heroGrid {
+    margin-top: clamp(12px, calc(18svh - 108px), 52px);
   }
 }
 
