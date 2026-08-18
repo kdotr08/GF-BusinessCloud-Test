@@ -1,4 +1,5 @@
 import styles from "./home.module.css";
+import { TypingEyebrow } from "./TypingEyebrow";
 
 const FEATURES: [string, string, string][] = [
   [
@@ -38,7 +39,7 @@ export function FeatureGrid() {
     <section id="product" className="py-16">
       <div className="wrap">
         <div className="mb-8 max-w-[62ch]">
-          <div className="eyebrow border-plum/25 bg-plum/10 text-plum">How it&apos;s different</div>
+          <TypingEyebrow className="border-plum/25 bg-plum/10 text-plum">How it&apos;s different</TypingEyebrow>
           <h2 className="text-[30px]">Most form tools weren&apos;t built for organisations like yours.</h2>
           <p className="muted">
             General-purpose form builders are built for marketing teams collecting leads.

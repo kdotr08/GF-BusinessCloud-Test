@@ -3,44 +3,63 @@ import path from "node:path";
 
 import styles from "./logo-marquee.module.css";
 
-const LOGO_DIRECTORY = path.join(process.cwd(), "public", "logos", "organisations");
-const LOGO_URL = "/logos/organisations";
+const LOGO_DIRECTORY = path.join(process.cwd(), "public", "logos", "organisations", "white");
+const LOGO_URL = "/logos/organisations/white";
 const SUPPORTED_LOGO = /\.(?:svg|png|jpe?g|webp|avif)$/i;
 const LOGO_ORDER = [
-  "building-digital-uk-logo.jpg",
-  "mhra.webp",
-  "defra-01.png",
-  "ofsted.png",
-  "department_for_transport.svg",
-  "ordnance_survey_logo.png",
-  "dluhc-01.png",
-  "ncsc-logo-black.webp",
-  "dvla-logo.png",
-  "ref-2029.svg",
-  "dvsa.svg",
-  "research-england.svg",
-  "hmrc-logo.png",
-  "scottish-government.svg",
-  "terrence-higgins-trust-01.png",
+  "w-bduk.png",
+  "w-mhra-01.png",
+  "w-defra-01.png",
+  "w-ofsted.png",
+  "w-department_for_transport-01.svg",
+  "white-ordnance_survey_logo.png",
+  "w-dluhc-01.png",
+  "white-ncsc-logo.png",
+  "w-dvla-logo.png",
+  "w-ref-2029-01.svg",
+  "w-dvsa-01.svg",
+  "w-research-england-01.svg",
+  "w-hmrc-logo.png",
+  "w-scottish-government-01.svg",
+  "w-terrencehigginstrust.png",
 ];
+
+const LOGO_LABELS: Record<string, string> = {
+  "w-bduk.png": "Building Digital UK",
+  "w-mhra-01.png": "MHRA",
+  "w-defra-01.png": "Department for Environment, Food and Rural Affairs",
+  "w-ofsted.png": "Ofsted",
+  "w-department_for_transport-01.svg": "Department for Transport",
+  "white-ordnance_survey_logo.png": "Ordnance Survey",
+  "w-dluhc-01.png": "Department for Levelling Up, Housing and Communities",
+  "white-ncsc-logo.png": "National Cyber Security Centre",
+  "w-dvla-logo.png": "Driver and Vehicle Licensing Agency",
+  "w-ref-2029-01.svg": "REF 2029",
+  "w-dvsa-01.svg": "Driver and Vehicle Standards Agency",
+  "w-research-england-01.svg": "Research England",
+  "w-hmrc-logo.png": "HM Revenue and Customs",
+  "w-scottish-government-01.svg": "Scottish Government",
+  "w-terrencehigginstrust.png": "Terrence Higgins Trust",
+};
 
 type Logo = {
   alt: string;
   src: string;
-  size: "default" | "smallText" | "badgeText" | "compact" | "extraCompact";
+  size: "default" | "smallText" | "badgeText" | "compact" | "ref" | "extraCompact";
 };
 
 function logoSize(filename: string): Logo["size"] {
   const name = filename.toLowerCase();
 
-  if (/terrence-higgins/.test(name)) return "badgeText";
+  if (/terrence-?higgins/.test(name)) return "badgeText";
 
-  if (/building-digital|defra|department_for_transport|dluhc|dvla|dvsa|hmrc/.test(name)) {
+  if (/bduk|building-digital|defra|department_for_transport|dluhc|dvla|dvsa|hmrc/.test(name)) {
     return "smallText";
   }
 
   if (/mhra/.test(name)) return "extraCompact";
-  if (/ncsc|ofsted|ordnance|ref-2029|scottish-government/.test(name)) return "compact";
+  if (/ref-2029/.test(name)) return "ref";
+  if (/ncsc|ofsted|ordnance|scottish-government/.test(name)) return "compact";
 
   return "default";
 }
@@ -64,6 +83,7 @@ function getLogos(): Logo[] {
   return fs
     .readdirSync(LOGO_DIRECTORY)
     .filter((filename) => SUPPORTED_LOGO.test(filename))
+    .filter((filename) => LOGO_ORDER.includes(filename.toLowerCase()))
     .sort((a, b) => {
       const aIndex = LOGO_ORDER.indexOf(a.toLowerCase());
       const bIndex = LOGO_ORDER.indexOf(b.toLowerCase());
@@ -73,11 +93,15 @@ function getLogos(): Logo[] {
       if (bIndex === -1) return -1;
       return aIndex - bIndex;
     })
-    .map((filename) => ({
-      alt: readableName(filename),
-      src: `${LOGO_URL}/${encodeURIComponent(filename)}`,
-      size: logoSize(filename),
-    }));
+    .map((filename) => {
+      const version = Math.trunc(fs.statSync(path.join(LOGO_DIRECTORY, filename)).mtimeMs);
+
+      return {
+        alt: LOGO_LABELS[filename.toLowerCase()] ?? readableName(filename),
+        src: `${LOGO_URL}/${encodeURIComponent(filename)}?v=${version}`,
+        size: logoSize(filename),
+      };
+    });
 }
 
 export function OrganisationLogoMarquee() {
@@ -111,7 +135,12 @@ export function OrganisationLogoMarquee() {
                   className={styles.logoItem}
                   key={`${setIndex}-${logo.src}-${logoIndex}`}
                 >
-                  <img className={styles[logo.size]} src={logo.src} alt="" decoding="async" />
+                  <img
+                    className={`${styles.logoImage} ${styles[logo.size]}`}
+                    src={logo.src}
+                    alt=""
+                    decoding="async"
+                  />
                 </div>
               ))}
             </div>

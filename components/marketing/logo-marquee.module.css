@@ -1,9 +1,11 @@
 .band {
+  --edge-clear: clamp(16px, 2.5vw, 36px);
+  --edge-fade: clamp(48px, 7vw, 104px);
   position: absolute;
   right: 0;
   bottom: clamp(16px, 2vw, 28px);
   left: 0;
-  z-index: 2;
+  z-index: 20;
   display: flex;
   min-height: clamp(64px, 6vw, 88px);
   align-items: center;
@@ -15,8 +17,6 @@
 }
 
 .viewport {
-  --edge-clear: clamp(16px, 2.5vw, 36px);
-  --edge-fade: clamp(48px, 7vw, 104px);
   width: 100%;
   overflow: hidden;
   -webkit-mask-image: linear-gradient(
@@ -63,13 +63,11 @@
   align-items: center;
   justify-content: center;
   padding: 0 clamp(8px, 1vw, 12px);
-  border: 1px solid rgba(17, 26, 74, 0.1);
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 2px 10px rgba(17, 26, 74, 0.06);
+  border: 0;
+  background: transparent;
 }
 
-.logoItem img {
+.logoImage {
   display: block;
   width: auto;
   height: clamp(28px, 3vw, 40px);
@@ -78,19 +76,23 @@
 
 /* Source artwork has very different amounts of internal whitespace. These
    tiers normalize perceived wordmark size rather than raw image-box height. */
-.logoItem img.smallText {
+.logoImage.smallText {
   height: clamp(38px, 4vw, 52px);
 }
 
-.logoItem img.badgeText {
+.logoImage.badgeText {
   height: clamp(48px, 5vw, 66px);
 }
 
-.logoItem img.compact {
+.logoImage.compact {
   height: clamp(22px, 2.2vw, 30px);
 }
 
-.logoItem img.extraCompact {
+.logoImage.ref {
+  height: clamp(25px, 2.6vw, 34px);
+}
+
+.logoImage.extraCompact {
   height: clamp(20px, 1.8vw, 25px);
 }
 

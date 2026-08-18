@@ -1,12 +1,13 @@
 import { MediaPlaceholder } from "@/components/marketing/MediaPlaceholder";
 import styles from "./home.module.css";
+import { TypingEyebrow } from "./TypingEyebrow";
 
 export function PlatformShowcase() {
   return (
     <section className="bg-panel-alt py-16">
       <div className={`wrap ${styles.platformGrid}`}>
         <div>
-          <div className="eyebrow border-plum/25 bg-plum/10 text-plum">The builder</div>
+          <TypingEyebrow className="border-plum/25 bg-plum/10 text-plum">The builder</TypingEyebrow>
           <h2 className="text-[30px]">Build, preview and publish from one dashboard</h2>
           <p className="muted">
             Configure pages, validation and automation without touching infrastructure.

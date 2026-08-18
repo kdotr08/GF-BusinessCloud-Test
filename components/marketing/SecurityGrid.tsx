@@ -1,4 +1,5 @@
 import styles from "./home.module.css";
+import { TypingEyebrow } from "./TypingEyebrow";
 
 const SECURITY: [string, string, string][] = [
   ["ISO 27001", "Information security", "Independently certified information security management, audited annually."],
@@ -14,9 +15,9 @@ export function SecurityGrid() {
     <section id="security" className="bg-panel py-16">
       <div className="wrap">
         <div className="mb-8 max-w-[60ch]">
-          <div className="eyebrow border-seafoam/25 bg-seafoam/10 text-seafoam">
+          <TypingEyebrow className="border-seafoam/25 bg-seafoam/10 text-seafoam">
             Security &amp; compliance
-          </div>
+          </TypingEyebrow>
           <h2 className="text-[30px]">Held to the same standard as the services you run.</h2>
         </div>
         <div className={styles.secGrid}>

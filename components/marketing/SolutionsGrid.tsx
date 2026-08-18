@@ -1,5 +1,6 @@
 import { MediaPlaceholder } from "@/components/marketing/MediaPlaceholder";
 import styles from "./home.module.css";
+import { TypingEyebrow } from "./TypingEyebrow";
 
 const SOLUTIONS: [string, string][] = [
   ["Applications and registrations", "Guide people through eligibility, evidence collection and submission using clear, accessible journeys."],
@@ -15,7 +16,7 @@ export function SolutionsGrid() {
     <section className="py-16">
       <div className="wrap">
         <div className="mb-8 max-w-[62ch]">
-          <div className="eyebrow border-plum/25 bg-plum/10 text-plum">Use Cases</div>
+          <TypingEyebrow className="border-plum/25 bg-plum/10 text-plum">Use Cases</TypingEyebrow>
           <h2 className="text-[30px]">Build complex processes into simple digital services.</h2>
           <p className="muted">
             Every service has its own requirements. From a straightforward application to a

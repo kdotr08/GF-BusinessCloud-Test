@@ -22,6 +22,8 @@ const PRICING_NAV_LINKS: NavLink[] = [
   { href: "/pricing#faq", label: "FAQ" },
 ];
 
+const SIGN_IN_HREF = "https://govforms.uk/builder/libraries";
+
 function MegaMenu({ config }: { config: MegaConfig }) {
   return (
     <div className={styles.panel}>
@@ -126,14 +128,19 @@ export function Header({
           )}
         </nav>
 
-        {cta && (
+        <div className="hidden items-center justify-self-end gap-6 lg:flex">
           <Link
-            href={cta.href}
-            className="btn-pill-primary hidden h-9 justify-self-end !px-5 text-sm lg:inline-flex"
+            href={SIGN_IN_HREF}
+            className={`text-sm no-underline ${light ? "text-navy/85 hover:text-navy" : "text-white/85 hover:text-white"}`}
           >
-            {cta.label}
+            Sign in
           </Link>
-        )}
+          {cta && (
+            <Link href={cta.href} className="btn-pill-primary btn-hover-shrink h-9 !px-5 text-sm">
+              {cta.label}
+            </Link>
+          )}
+        </div>
 
         <button
           type="button"
@@ -196,10 +203,17 @@ export function Header({
               </Link>
             )
           )}
+          <Link
+            href={SIGN_IN_HREF}
+            className={`py-2.5 text-sm no-underline ${light ? "text-navy/85 hover:text-navy" : "text-white/85 hover:text-white"}`}
+            onClick={closeAll}
+          >
+            Sign in
+          </Link>
           {cta && (
             <Link
               href={cta.href}
-              className="btn-pill-primary mt-3 justify-center !px-6"
+              className="btn-pill-primary btn-hover-shrink mt-3 justify-center !px-6"
               onClick={closeAll}
             >
               {cta.label}

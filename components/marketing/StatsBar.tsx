@@ -1,4 +1,5 @@
 import styles from "./home.module.css";
+import { TypingEyebrow } from "./TypingEyebrow";
 
 const STATS: [string, string, string?][] = [
   ["12M+", "Secure submissions processed"],
@@ -16,9 +17,9 @@ export function StatsBar() {
     <section className="border-y border-line bg-white py-16">
       <div className="wrap">
         <div className="mb-8 max-w-[62ch]">
-          <div className="eyebrow border-seafoam/25 bg-seafoam/10 text-seafoam">
+          <TypingEyebrow className="border-seafoam/25 bg-seafoam/10 text-seafoam">
             Proven in high-stakes services
-          </div>
+          </TypingEyebrow>
           <h2 className="text-[30px]">
             Trusted where security, accessibility and reliability matter.
           </h2>

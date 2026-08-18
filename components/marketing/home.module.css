@@ -3,6 +3,8 @@
    pricing page live in pricing.module.css and are imported where reused. */
 
 .heroGrid {
+  position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,6 +14,49 @@
   margin-right: auto;
   margin-top: 32px;
   padding-bottom: 56px;
+}
+
+.heroContent {
+  height: 100%;
+}
+
+.heroPrimaryCta {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-color: var(--navy) !important;
+}
+
+.heroPrimaryCta::before {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background: var(--blue-deep);
+  content: "";
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 480ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.heroCtaLabel,
+.heroCtaIcon {
+  position: relative;
+  z-index: 1;
+}
+
+.heroCtaIcon svg {
+  transform-origin: center;
+  transition: transform 480ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.heroPrimaryCta:hover::before,
+.heroPrimaryCta:focus-visible::before {
+  transform: scaleX(1);
+}
+
+.heroPrimaryCta:hover .heroCtaIcon svg,
+.heroPrimaryCta:focus-visible .heroCtaIcon svg {
+  transform: rotate(45deg);
 }
 
 .heroReveal {
@@ -37,10 +82,6 @@
   --hero-reveal-delay: 620ms;
 }
 
-.heroRevealNote {
-  --hero-reveal-delay: 780ms;
-}
-
 @keyframes hero-reveal {
   to {
     opacity: 1;
@@ -54,6 +95,12 @@
     transform: none;
     animation: none;
   }
+
+  .heroPrimaryCta::before,
+  .heroCtaIcon svg {
+    transition-duration: 0.01ms;
+  }
+
 }
 
 /* Flat white — matches the video's own near-white sky so the handoff from
@@ -492,6 +539,54 @@
     max-width: none;
     height: auto;
     transform: translateX(-50%);
+  }
+}
+
+/* With the updated footage, ease the desktop copy toward the visual centre
+   while keeping it above the busiest part of the skyline. */
+@media (min-width: 1024px) {
+  .heroGrid {
+    position: absolute;
+    top: 47.5%;
+    left: 50%;
+    width: min(calc(100vw - 48px), 1200px);
+    max-width: 1200px;
+    margin-top: 0;
+    transform: translate(-50%, -50%);
+  }
+
+  .heroGrid::before {
+    position: absolute;
+    z-index: -1;
+    inset: -64px -150px -120px;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(255, 255, 255, 0.72) 0%,
+      rgba(255, 255, 255, 0.44) 42%,
+      rgba(255, 255, 255, 0.12) 62%,
+      rgba(255, 255, 255, 0) 80%
+    );
+    filter: blur(18px);
+    content: "";
+    pointer-events: none;
+  }
+}
+
+@media (min-width: 1920px) {
+  .heroGrid {
+    top: 45.5%;
+  }
+
+  .heroGrid::before {
+    inset: -72px -180px -180px;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(255, 255, 255, 0.94) 0%,
+      rgba(255, 255, 255, 0.72) 42%,
+      rgba(255, 255, 255, 0.28) 62%,
+      rgba(255, 255, 255, 0) 82%
+    );
+    filter: blur(24px);
   }
 }
 

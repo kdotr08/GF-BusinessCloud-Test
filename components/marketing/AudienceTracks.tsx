@@ -1,4 +1,5 @@
 import shared from "./pricing.module.css";
+import { TypingEyebrow } from "./TypingEyebrow";
 
 type Track = {
   name: string;
@@ -45,7 +46,7 @@ export function AudienceTracks() {
     <section className="py-16">
       <div className="wrap">
         <div className="mb-8 max-w-[62ch]">
-          <div className="eyebrow">Choose your route</div>
+          <TypingEyebrow>Choose your route</TypingEyebrow>
           <h2 className="text-[30px]">One platform, three ways to work with it.</h2>
           <p className="muted">
             Most organisations start on Business Cloud and self-serve. Larger estates and central
