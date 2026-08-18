@@ -54,17 +54,25 @@ export function HomeHero() {
         />
 
         <div className={styles.heroGrid}>
-          <div className="eyebrow">SECURE DIGITAL SERVICE PLATFORM</div>
-          <h1 className="max-w-[26ch] text-[34px] leading-[1.08] text-navy sm:text-[38px] lg:text-[44px] xl:max-w-none xl:whitespace-nowrap">
+          <div className={`eyebrow ${styles.heroReveal} ${styles.heroRevealEyebrow}`}>
+            SECURE DIGITAL SERVICE PLATFORM
+          </div>
+          <h1
+            className={`${styles.heroReveal} ${styles.heroRevealHeading} max-w-[26ch] text-[34px] leading-[1.08] text-navy sm:text-[38px] lg:text-[44px] xl:max-w-none xl:whitespace-nowrap`}
+          >
             Digital services built for serious organisations.
           </h1>
-          <p className="max-w-[738px] text-sm text-navy/75 sm:text-[15px] lg:text-base">
+          <p
+            className={`${styles.heroReveal} ${styles.heroRevealBody} max-w-[738px] text-sm text-navy/75 sm:text-[15px] lg:text-base`}
+          >
             Build accessible forms and services, automate workflows, and manage sensitive
             information on a secure platform trusted in UK public services. Now available to
             organisations everywhere.
           </p>
 
-          <div className="mt-3.5 flex flex-wrap justify-center gap-3">
+          <div
+            className={`${styles.heroReveal} ${styles.heroRevealButtons} mt-3.5 flex flex-wrap justify-center gap-3`}
+          >
             <a className="btn-pill-secondary" href="/pricing#institutional">
               Talk to us
             </a>
@@ -83,7 +91,9 @@ export function HomeHero() {
               </span>
             </a>
           </div>
-          <div className="mt-3.5 text-[12.5px] text-navy/50">
+          <div
+            className={`${styles.heroReveal} ${styles.heroRevealNote} mt-3.5 text-[12.5px] text-navy/50`}
+          >
             Free to build and test. Plans start at £75/month when you go live.
           </div>
         </div>
