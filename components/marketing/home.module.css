@@ -358,39 +358,288 @@
   color: #0a7a4a;
 }
 
-/* Real-numbers stats bar */
-.stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
+/* Trust-section backdrop, per the Figma reference + follow-up notes:
+   - Base swapped from --color-cyan-900 (too teal, read greenish once the
+     cyan/turquoise glows sat on top of it) to an angular gradient between
+     --navy and --cta-blue, per the user's own conic-gradient values.
+   - The conic gradient renders on an oversized, heavily blurred ::before
+     (inset -25%, blur(90px)) rather than directly on the section — a raw
+     conic-gradient has a hard-edged vertex at its center point, which is
+     exactly the "visible centre dot" the user flagged as a risk; blurring
+     an oversized copy diffuses that seam completely, incidentally also
+     matching the soft/blurred look of the reference photo itself. Offset
+     from the section's true center (via the oversized inset box) pushes
+     any residual seam off toward a corner instead of dead center.
+   - Glow blobs (::after) recolored to #00b4d8 / #40e0d0 (the user's
+     request, and the same two stops as --gradient) instead of
+     --hero-accent, and switched from %-based to fixed-px background-size
+     — percentages were sized against the section's full (unbounded) width
+     on wide viewports, growing the circles past the section's fixed
+     height and clipping them at the top/bottom edge.
+   - Dot-grid texture unchanged from the hero/estate-banner/final-cta
+     family, layered on top of the glows. */
+.trustSection {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--navy);
 }
-.statNum {
+.trustSection::before {
+  content: "";
+  position: absolute;
+  inset: -25%;
+  z-index: 0;
+  background: conic-gradient(from 180deg at 50% 50%, var(--cta-blue) 126.34615302085876deg, var(--navy) 337.5deg);
+  filter: blur(90px);
+}
+.trustSection::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-image:
+    radial-gradient(circle at 78% 15%, rgba(0, 180, 216, 0.22) 0%, rgba(0, 180, 216, 0) 55%),
+    radial-gradient(circle at 8% 85%, rgba(0, 180, 216, 0.14) 0%, rgba(0, 180, 216, 0) 50%),
+    radial-gradient(circle, rgba(255, 255, 255, 0.075) 0px, rgba(255, 255, 255, 0.075) 1px, transparent 1px);
+  background-repeat: no-repeat, no-repeat, repeat;
+  background-size: 900px 900px, 700px 700px, 16px 16px;
+  background-position: top right, bottom left, 0 0;
+}
+.trustSection :global(.wrap) {
+  position: relative;
+  z-index: 2;
+}
+
+/* Scroll-triggered reveal (aeline.webflow.io's About Us section) — a
+   scale-up fade-in, staggered, the first time the section crosses into
+   view: starts slightly shrunk + transparent, settles to full size/
+   opacity, no translateY. Gated by data-visible from an
+   IntersectionObserver (StatsBar.tsx) instead of firing on mount, since
+   this section isn't in the initial viewport. TypingEyebrow already has
+   its own scroll-triggered reveal built in (no eager prop passed), so
+   only heading/body/cards need it here. */
+.trustReveal {
+  opacity: 0;
+  transform: scale(0.92);
+  transition:
+    opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--trust-reveal-delay, 0ms);
+}
+.trustSection[data-visible] .trustReveal {
+  opacity: 1;
+  transform: scale(1);
+}
+.trustRevealHeading {
+  --trust-reveal-delay: 80ms;
+}
+.trustRevealBody {
+  --trust-reveal-delay: 200ms;
+}
+.trustRevealCard1 {
+  --trust-reveal-delay: 340ms;
+}
+.trustRevealCard2 {
+  --trust-reveal-delay: 420ms;
+}
+.trustRevealCard3 {
+  --trust-reveal-delay: 500ms;
+}
+.trustRevealCard4 {
+  --trust-reveal-delay: 580ms;
+}
+@media (prefers-reduced-motion: reduce) {
+  .trustReveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Real-numbers stats bar — asymmetric bento grid (see the reference-image
+   conversation). Left card tall + gradient (reuses --gradient, tying it
+   back to the CTA buttons); middle card tall + content-heavy (the one
+   stat with a sub-description); right column splits into two stacked
+   cards. Numbers count up on scroll-into-view via CountUpStat.tsx —
+   modeled on the reference site's Finsweet number-counter, reimplemented
+   by hand (no extra dependency) since it's the one clearly load-bearing
+   part of that site's reveal. */
+.bentoGrid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr 1fr;
+  grid-auto-rows: 1fr;
+  gap: 16px;
+}
+.bentoCard {
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  /* All four card fills are white for now, by explicit decision — was
+     --cta-blue (hero) / #f5f6f8 (light) / dotted --color-cyan-900 (dark).
+     Every card needs its own border now for definition against the page's
+     white background, and hero/dark's text flips from white to navy/grey
+     to stay legible on white. */
+  background: #fff;
+  border: 1px solid #e3e4e8;
+}
+.bentoCardHero {
+  grid-row: 1 / span 2;
+  min-height: 220px;
+}
+.bentoCardContent {
+  grid-row: 1 / span 2;
+  justify-content: space-between;
+}
+.sectorIcons {
+  display: flex;
+}
+.sectorIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px #fff;
+}
+.sectorIcon:not(:first-child) {
+  margin-left: -12px;
+}
+.bentoCardLight {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.bentoCardLightContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-width: 0;
+}
+/* Live-status pulse for the uptime card — recreates a sourced Lottie
+   ("Status Green.json": 8 identical rings, each scaling 1%->100% while
+   fading opacity 100%->0% over 3s, launched 1s apart, so 3 are always
+   overlapping mid-flight — small+opaque, medium, large+faint) in pure
+   CSS rather than shipping a Lottie runtime for it. 3 rings replicate
+   the same overlap (duration 3s, launched every 1s via negative
+   animation-delay), colored with #40e0d0 (the hero gradient's turquoise
+   stop, .heroPrimaryCta above) rather than the source file's neon lime,
+   so it reads as part of this site's palette. Fixed size and centered
+   with margin on every side — deliberately not filling the card's full
+   height, so it reads as contained, not bleeding to the edges.
+
+   Rings are outlines (transparent fill), not filled discs like the
+   source file — with 3 filled discs stacked in a fixed DOM order but
+   cycling through phases independently, whichever ring is topmost at a
+   given instant fully covers the other two regardless of its own
+   size/opacity, so only one is ever visible. A transparent center means
+   overlapping rings never hide each other, so paint order stops
+   mattering and all 3 read at once. */
+.statusPulseZone {
+  position: relative;
+  flex: 0 0 auto;
+  width: 84px;
+  height: 84px;
+}
+.statusPulseDot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: #40e0d0;
+}
+.statusPulseRing {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid #40e0d0;
+  background: transparent;
+  animation: statusPulseRing 3s ease-out infinite;
+}
+.statusPulseRing:nth-child(2) {
+  animation-delay: -1s;
+}
+.statusPulseRing:nth-child(3) {
+  animation-delay: -2s;
+}
+@keyframes statusPulseRing {
+  0% {
+    transform: translate(-50%, -50%) scale(0.1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(5);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .statusPulseRing {
+    animation: none;
+    display: none;
+  }
+}
+.bentoCardDark {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.bentoNumHero {
   font-family: var(--font-display), "Inter", sans-serif;
   font-weight: 700;
-  font-size: 26px;
+  font-size: 40px;
   color: var(--navy);
   letter-spacing: -0.01em;
 }
-/* One stat call-out per Column's pattern (see StatsBar.tsx) — a single
-   colored element among neutral peers, not a systemic accent. */
-.statNumFeatured {
+.bentoLabelHero {
+  font-size: 14px;
+  color: #565a64;
+  margin-top: 4px;
+}
+.bentoNum {
   font-family: var(--font-display), "Inter", sans-serif;
   font-weight: 700;
-  font-size: 26px;
+  font-size: 28px;
+  color: var(--navy);
   letter-spacing: -0.01em;
-  color: var(--signal-orange);
 }
-.statLabel {
+.bentoLabel {
   font-size: 13px;
-  color: #7c7f88;
+  color: #565a64;
   margin-top: 3px;
 }
-.statDesc {
+.bentoDesc {
   font-size: 12px;
-  color: #7c7f88;
-  opacity: 0.8;
+  color: #565a64;
   line-height: 1.4;
-  margin-top: 4px;
+  margin-top: 8px;
+}
+.bentoLabelDark {
+  font-size: 13px;
+  color: #565a64;
+}
+.bentoNumDark {
+  font-family: var(--font-display), "Inter", sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--navy);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+@media (max-width: 767.98px) {
+  .bentoGrid {
+    grid-template-columns: 1fr;
+  }
+  .bentoCardHero,
+  .bentoCardContent {
+    grid-row: auto;
+  }
 }
 
 /* Feature grid — hairline seam grid, numbered instead of icon-led */
@@ -471,28 +720,200 @@
   line-height: 1.5;
 }
 
-/* Solutions / use-case grid */
-.solutions {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+/* Solutions / use-case grid — card visuals per the Figma reference.
+   The top image is now a flattened export (border, rounded top
+   corners and background wash already baked into the PNG) rather
+   than something recreated in CSS — it's placed full-bleed against
+   the card's own rounded top corners, which clip it via overflow.
+   The glow blobs still live in CSS (they extend into the plain text
+   area below the image, which isn't part of the exported asset), and
+   a small fade bridges the image's flat bottom edge into that area. */
+/* Clips the marquee's pre-animation translateX(100%) position (see
+   .solutionsMarqueeReveal below) so it doesn't create a page-wide
+   horizontal scrollbar before the reveal settles it back to 0. */
+.solutionsSection {
+  overflow-x: hidden;
+}
+
+/* Scroll-triggered reveal for the (now centered) header text — fade +
+   scale up, gated by [data-visible] from the IntersectionObserver in
+   SolutionsGrid.tsx. Same convention as .trustReveal, just scoped to
+   this section instead of shared globally. Eyebrow/heading/body each
+   get their own delay so they appear one after another rather than
+   as a single block. */
+.solutionsReveal {
+  opacity: 0;
+  transform: scale(0.92);
+  transition:
+    opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--solutions-reveal-delay, 0ms);
+}
+.solutionsSection[data-visible] .solutionsReveal {
+  opacity: 1;
+  transform: scale(1);
+}
+.solutionsRevealEyebrow {
+  --solutions-reveal-delay: 0ms;
+}
+.solutionsRevealHeading {
+  --solutions-reveal-delay: 150ms;
+}
+.solutionsRevealBody {
+  --solutions-reveal-delay: 300ms;
+}
+
+/* Marquee gets a plain opacity fade (no scale/translate) so it doesn't
+   interact with .solutionsTrack's own translateX keyframe loop — this
+   sits on the parent viewport, the track's transform is untouched. */
+/* translateX in vw, not % — the viewport is nearly full page width, so
+   100% was a huge (~1900px on a wide screen) distance to cover in
+   900ms, which read as a fast snap rather than a smooth slide. 40vw is
+   still comfortably off-screen at the start (the section's own
+   overflow-x: hidden plus the browser's own viewport edge both keep it
+   invisible pre-animation) but a slower, gentler distance to travel. */
+.solutionsMarqueeReveal {
+  opacity: 0;
+  transform: translateX(40vw);
+  transition:
+    opacity 1400ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1400ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: 450ms;
+}
+.solutionsSection[data-visible] .solutionsMarqueeReveal {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solutionsReveal,
+  .solutionsMarqueeReveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Continuous marquee — same technique as .viewport/.track in
+   logo-marquee.module.css: a duplicated set of cards scrolled sideways
+   by one CSS keyframe animation (cheap, GPU-friendly), paused on
+   hover/focus so the copy can actually be read. */
+.solutionsViewport {
+  width: 100%;
+  overflow: hidden;
+  margin-top: 8px;
+}
+.solutionsTrack {
+  display: flex;
+  width: max-content;
+  animation: solutions-marquee 70s linear infinite;
+  will-change: transform;
+}
+.solutionsViewport:hover .solutionsTrack,
+.solutionsViewport:focus-within .solutionsTrack {
+  animation-play-state: paused;
+}
+/* padding-right only (no padding-left) so the trailing gap after a
+   set's last card matches the gaps between cards exactly — that's
+   what makes the set0-to-set1 seam invisible as the loop repeats. A
+   left-padding here would only ever show once, at the very start, but
+   would throw off the translateX(-50%) split since it'd make the two
+   duplicated sets unequal widths (see the bug this replaced: a 40px
+   gap at the seam vs. 16px everywhere else). */
+.solutionSet {
+  display: flex;
+  flex: none;
   gap: 16px;
+  padding-right: 16px;
+}
+@keyframes solutions-marquee {
+  to {
+    transform: translateX(-50%);
+  }
 }
 .solutionCard {
-  border: 1px solid #e3e4e8;
+  position: relative;
+  width: clamp(280px, 26vw, 373px);
+  flex: none;
+  border: 1px solid #e5e8eb;
   background: #fff;
-  border-radius: 8px;
-  padding: 20px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.solutionGlowA,
+.solutionGlowB {
+  position: absolute;
+  width: 250px;
+  height: 217px;
+  opacity: 0.5;
+  background: rgba(0, 180, 216, 0.34);
+  border-radius: 9999px;
+  filter: blur(100px);
+  pointer-events: none;
+}
+.solutionGlowA {
+  right: 5%;
+  top: -18%;
+}
+.solutionGlowB {
+  left: -12%;
+  bottom: -12%;
+}
+.solutionMedia {
+  position: relative;
+  display: block;
+}
+.solutionMedia img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+/* Ramps up over its first 130px (still inside the image, ending 56px
+   below it) then holds flat at the tinted color the rest of the way —
+   deliberately oversized (674px) past any realistic card height so it
+   always reaches the card's true bottom edge rather than hard-stopping
+   partway down; .solutionCard's overflow: hidden crops the excess. */
+.solutionFade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -600px;
+  height: 674px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0,
+    rgba(28, 164, 218, 0.08) 130px,
+    rgba(28, 164, 218, 0.08) 100%
+  );
+  pointer-events: none;
+}
+.solutionBody {
+  position: relative;
+  padding: 16px 18px 22px;
 }
 .solutionTitle {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--navy);
   margin-bottom: 6px;
 }
 .solutionDesc {
   font-size: 13px;
-  color: #7c7f88;
+  font-weight: 500;
+  color: #0d1f3d;
   line-height: 1.5;
+}
+@media (prefers-reduced-motion: reduce) {
+  .solutionsViewport {
+    overflow-x: auto;
+  }
+  .solutionsTrack {
+    animation: none;
+    will-change: auto;
+  }
+  .solutionSet:last-child {
+    display: none;
+  }
 }
 
 /* Media placeholders — dashed hand-off boxes for screenshots/video that
@@ -767,16 +1188,21 @@
   .platformGrid {
     grid-template-columns: 1fr;
   }
-  .stats {
+  .bentoGrid {
     grid-template-columns: 1fr 1fr;
+  }
+  .bentoCardHero,
+  .bentoCardDark {
+    grid-column: 1 / span 2;
+    grid-row: auto;
+  }
+  .bentoCardContent {
+    grid-row: auto;
   }
   .features {
     grid-template-columns: 1fr;
   }
   .secGrid {
     grid-template-columns: 1fr;
-  }
-  .solutions {
-    grid-template-columns: 1fr 1fr;
   }
 }

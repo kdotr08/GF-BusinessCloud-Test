@@ -136,7 +136,10 @@ export function Header({
             Sign in
           </Link>
           {cta && (
-            <Link href={cta.href} className="btn-pill-primary btn-hover-shrink h-9 !px-5 text-sm">
+            <Link
+              href={cta.href}
+              className={`btn-pill-secondary btn-hover-shrink ${styles.navCta} h-9 !px-5 text-sm`}
+            >
               {cta.label}
             </Link>
           )}
@@ -213,7 +216,7 @@ export function Header({
           {cta && (
             <Link
               href={cta.href}
-              className="btn-pill-primary btn-hover-shrink mt-3 justify-center !px-6"
+              className={`btn-pill-secondary btn-hover-shrink ${styles.navCta} mt-3 justify-center !px-6`}
               onClick={closeAll}
             >
               {cta.label}

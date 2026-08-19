@@ -68,11 +68,11 @@ export function HomeHero() {
             <br className="hidden lg:block" /> serious organisations.
           </h1>
           <p
-            className={`${styles.heroReveal} ${styles.heroRevealBody} max-w-[738px] text-sm text-navy/90 sm:text-[15px] lg:mt-4 lg:max-w-[620px] lg:text-base xl:mb-0 xl:max-w-[700px] xl:text-lg 2xl:mt-5 2xl:max-w-[980px] 2xl:text-xl 2xl:leading-[1.45]`}
+            className={`${styles.heroReveal} ${styles.heroRevealBody} max-w-[738px] text-sm text-navy/90 sm:text-[15px] lg:mt-4 lg:max-w-[620px] lg:text-base xl:mb-0 xl:max-w-[700px] xl:text-lg 2xl:mt-5 2xl:max-w-[1120px] 2xl:text-xl 2xl:leading-[1.45]`}
           >
-            Build accessible forms and services, automate workflows, and manage sensitive
-            information on a secure platform trusted in UK public services. Now available to
-            organisations everywhere.
+            Build accessible forms and services, automate complex workflows, and handle sensitive
+            information securely on our platform, proven and trusted in UK public services. Now
+            available to organisations everywhere.
           </p>
 
           <div

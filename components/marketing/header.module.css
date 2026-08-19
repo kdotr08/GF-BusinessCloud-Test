@@ -193,3 +193,29 @@
   text-decoration: none;
   white-space: nowrap;
 }
+
+/* Nav "Talk to us" CTA — matches .heroSecondaryCta (home.module.css) so
+   both "Talk to us" buttons behave identically: solid navy -> solid
+   --cta-blue on hover, both plain background-colors. The base
+   .btn-pill-primary this used to carry instead transitions between a
+   gradient (background-image) at rest and a solid background-color on
+   hover; background-image isn't in the transition list so it snaps to
+   "none" the instant hover starts, briefly exposing the page behind the
+   button while background-color ramps up from transparent — the
+   "flickers white" bug. Solid-to-solid never hits that case. Opaque
+   (not .btn-pill-secondary's translucent navy/[0.14] default) so it
+   stays legible on both dark and light header variants. */
+.navCta {
+  background-color: var(--navy) !important;
+  border-color: var(--navy) !important;
+  color: #fff !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    0 1px 2px rgba(0, 0, 0, 0.18),
+    0 4px 10px rgba(0, 0, 0, 0.12) !important;
+}
+.navCta:hover,
+.navCta:focus-visible {
+  background-color: var(--cta-blue) !important;
+  border-color: var(--cta-blue) !important;
+}
