@@ -156,74 +156,72 @@ export function Header({
           <span className={`${styles.hamburgerBar} ${light ? styles.hamburgerBarLight : ""}`} />
           <span className={`${styles.hamburgerBar} ${light ? styles.hamburgerBarLight : ""}`} />
         </button>
-      </div>
 
-      {mobileOpen && (
-        <nav className="flex flex-col gap-1 pt-5 lg:hidden">
-          {links.map((link) =>
-            link.mega ? (
-              <div key={link.href}>
-                <button
-                  type="button"
-                  className={`flex w-full items-center justify-between py-2.5 text-sm font-semibold ${light ? "text-navy" : "text-white"}`}
-                  aria-expanded={open === link.href}
-                  onClick={() => setOpen(open === link.href ? null : link.href)}
+        {mobileOpen && (
+          <nav className={`${styles.mobilePanel} flex flex-col gap-1 lg:hidden`}>
+            {links.map((link) =>
+              link.mega ? (
+                <div key={link.href}>
+                  <button
+                    type="button"
+                    className="flex w-full items-center justify-between py-2.5 text-sm font-semibold text-navy"
+                    aria-expanded={open === link.href}
+                    onClick={() => setOpen(open === link.href ? null : link.href)}
+                  >
+                    {link.label}
+                    <svg
+                      className={`${styles.chevron} ${open === link.href ? styles.chevronOpen : ""}`}
+                      viewBox="0 0 12 8"
+                      fill="none"
+                    >
+                      <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                    </svg>
+                  </button>
+                  {open === link.href && (
+                    <div className="flex flex-col gap-0.5 border-l border-navy/15 pb-2 pl-3.5">
+                      {link.mega.listItems.map((item) => (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          className="py-2 text-sm text-navy/70 no-underline hover:text-navy"
+                          onClick={closeAll}
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="py-2.5 text-sm text-navy/85 no-underline hover:text-navy"
+                  onClick={closeAll}
                 >
                   {link.label}
-                  <svg
-                    className={`${styles.chevron} ${open === link.href ? styles.chevronOpen : ""}`}
-                    viewBox="0 0 12 8"
-                    fill="none"
-                  >
-                    <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                  </svg>
-                </button>
-                {open === link.href && (
-                  <div
-                    className={`flex flex-col gap-0.5 border-l pb-2 pl-3.5 ${light ? "border-navy/15" : "border-white/15"}`}
-                  >
-                    {link.mega.listItems.map((item) => (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        className={`py-2 text-sm no-underline ${light ? "text-navy/70 hover:text-navy" : "text-white/70 hover:text-white"}`}
-                        onClick={closeAll}
-                      >
-                        {item.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ) : (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`py-2.5 text-sm no-underline ${light ? "text-navy/85 hover:text-navy" : "text-white/85 hover:text-white"}`}
-                onClick={closeAll}
-              >
-                {link.label}
-              </Link>
-            )
-          )}
-          <Link
-            href={SIGN_IN_HREF}
-            className={`py-2.5 text-sm no-underline ${light ? "text-navy/85 hover:text-navy" : "text-white/85 hover:text-white"}`}
-            onClick={closeAll}
-          >
-            Sign in
-          </Link>
-          {cta && (
+                </Link>
+              )
+            )}
             <Link
-              href={cta.href}
-              className={`btn-pill-secondary btn-hover-shrink ${styles.navCta} mt-3 justify-center !px-6`}
+              href={SIGN_IN_HREF}
+              className="py-2.5 text-sm text-navy/85 no-underline hover:text-navy"
               onClick={closeAll}
             >
-              {cta.label}
+              Sign in
             </Link>
-          )}
-        </nav>
-      )}
+            {cta && (
+              <Link
+                href={cta.href}
+                className={`btn-pill-secondary btn-hover-shrink ${styles.navCta} mt-3 justify-center !px-6`}
+                onClick={closeAll}
+              >
+                {cta.label}
+              </Link>
+            )}
+          </nav>
+        )}
+      </div>
     </div>
   );
 }

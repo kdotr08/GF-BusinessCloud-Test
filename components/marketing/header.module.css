@@ -66,6 +66,30 @@
   margin-bottom: -20px;
 }
 
+/* Mobile hamburger dropdown. Floats as an opaque card (same treatment as
+   .panel, the desktop mega-menu) instead of pushing page content down in
+   normal flow — the hero on the homepage positions its copy with
+   position:absolute, independent of the header's document-flow height, so
+   a flow-positioned transparent menu there just got the hero text painted
+   on top of/through it. An absolutely-positioned solid panel sits above
+   everything behind it regardless of how that content is positioned. */
+.mobilePanel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 10px;
+  z-index: 30;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow:
+    0 30px 80px -20px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(0, 31, 63, 0.06);
+  padding: 10px 18px 18px;
+  max-height: calc(100svh - 100px);
+  overflow-y: auto;
+}
+
 .panel {
   position: absolute;
   top: 100%;
