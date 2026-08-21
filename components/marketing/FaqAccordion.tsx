@@ -36,7 +36,7 @@ export function FaqAccordion() {
     <section id="faq" className="py-16">
       <div className="wrap">
         <div className="mb-8 max-w-[60ch]">
-          <div className="eyebrow border-seafoam/25 bg-seafoam/10 text-seafoam">Questions</div>
+          <div className="eyebrow border-[#0087b0]/25 bg-[#0087b0]/10 text-[#0087b0]">Questions</div>
           <h2 className="text-[30px]">FAQ &amp; definitions</h2>
         </div>
         {FAQS.map(([question, answer]) => (

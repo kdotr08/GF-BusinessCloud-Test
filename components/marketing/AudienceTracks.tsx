@@ -46,7 +46,9 @@ export function AudienceTracks() {
     <section className="py-16">
       <div className="wrap">
         <div className="mb-8 max-w-[62ch]">
-          <TypingEyebrow>Choose your route</TypingEyebrow>
+          <TypingEyebrow className="border-[#00b4d8]/25 bg-[#00b4d8]/10 text-[#00b4d8]">
+            Choose your route
+          </TypingEyebrow>
           <h2 className="text-[30px]">One platform, three ways to work with it.</h2>
           <p className="muted">
             Most organisations start on Business Cloud and self-serve. Larger estates and central

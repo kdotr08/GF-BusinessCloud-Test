@@ -7,7 +7,7 @@ export function PlatformShowcase() {
     <section className="bg-panel-alt py-16">
       <div className={`wrap ${styles.platformGrid}`}>
         <div>
-          <TypingEyebrow className="border-plum/25 bg-plum/10 text-plum">The builder</TypingEyebrow>
+          <TypingEyebrow className="border-[#00608e]/25 bg-[#00608e]/10 text-[#00608e]">The builder</TypingEyebrow>
           <h2 className="text-[30px]">Build, preview and publish from one dashboard</h2>
           <p className="muted">
             Configure pages, validation and automation without touching infrastructure.

@@ -5,6 +5,16 @@ import styles from "./home.module.css";
 import { TypingEyebrow } from "./TypingEyebrow";
 import { CountUpStat } from "./CountUpStat";
 
+const SECTORS = ["government", "healthcare", "education", "research"];
+
+// Icons start staggering shortly after .bentoCardContent (--trust-reveal-
+// delay: 420ms) begins its own fade-in — overlapping its tail rather than
+// waiting for it to fully settle (1120ms) — then cascade in SECTORS order
+// (government first, research last). See the note by .sectorIcon in
+// home.module.css for the per-icon transition duration.
+const ICON_STAGGER_START_MS = 550;
+const ICON_STAGGER_STEP_MS = 130;
+
 export function StatsBar() {
   const sectionRef = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
@@ -68,10 +78,17 @@ export function StatsBar() {
             </div>
             <div>
               <div className={styles.sectorIcons}>
-                <img src="/icons/sectors/government.svg" alt="" className={styles.sectorIcon} />
-                <img src="/icons/sectors/healthcare.svg" alt="" className={styles.sectorIcon} />
-                <img src="/icons/sectors/education.svg" alt="" className={styles.sectorIcon} />
-                <img src="/icons/sectors/research.svg" alt="" className={styles.sectorIcon} />
+                {SECTORS.map((sector, i) => (
+                  <img
+                    key={sector}
+                    src={`/icons/sectors/${sector}.svg`}
+                    alt=""
+                    className={styles.sectorIcon}
+                    style={{
+                      ["--icon-delay" as string]: `${ICON_STAGGER_START_MS + i * ICON_STAGGER_STEP_MS}ms`,
+                    }}
+                  />
+                ))}
               </div>
               <div className={styles.bentoDesc}>
                 Government, healthcare, education, research and regulated services
@@ -102,7 +119,41 @@ export function StatsBar() {
               <br />
               security management
             </div>
-            <div className={styles.bentoNumDark}>ISO 27001</div>
+            <div className={styles.isoShield}>
+              <svg viewBox="0 0 80 76" aria-hidden="true">
+                <defs>
+                  <clipPath id="iso-shield-clip">
+                    <path d="M40 2 C50 2 64 6 74 10 C74 40 64 60 40 74 C16 60 6 40 6 10 C16 6 30 2 40 2 Z" />
+                  </clipPath>
+                  <linearGradient id="iso-shield-shine" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stopColor="#fff" stopOpacity="0" />
+                    <stop offset="50%" stopColor="#fff" stopOpacity="0.55" />
+                    <stop offset="100%" stopColor="#fff" stopOpacity="0" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M40 2 C50 2 64 6 74 10 C74 40 64 60 40 74 C16 60 6 40 6 10 C16 6 30 2 40 2 Z"
+                  fill="var(--navy)"
+                />
+                <g clipPath="url(#iso-shield-clip)">
+                  <g transform="rotate(24 40 38)">
+                    <rect
+                      className={styles.isoShieldShine}
+                      x="-80"
+                      y="-30"
+                      width="38"
+                      height="140"
+                      fill="url(#iso-shield-shine)"
+                    />
+                  </g>
+                </g>
+              </svg>
+              <span className={styles.isoShieldText}>
+                ISO
+                <br />
+                27001
+              </span>
+            </div>
           </div>
         </div>
       </div>

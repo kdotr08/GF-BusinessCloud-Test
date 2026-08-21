@@ -6,7 +6,7 @@ export function GoLiveTable({ rows }: { rows: GoLiveRow[] }) {
     <section id="go-live" className="py-16">
       <div className="wrap">
         <div className="mb-8 max-w-[60ch]">
-          <div className="eyebrow border-seafoam/25 bg-seafoam/10 text-seafoam">
+          <div className="eyebrow border-[#00608e]/25 bg-[#00608e]/10 text-[#00608e]">
             Optional assurance
           </div>
           <h2 className="text-[30px]">Go-live checks and hands-on help</h2>

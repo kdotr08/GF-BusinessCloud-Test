@@ -15,7 +15,7 @@ export function SecurityGrid() {
     <section id="security" className="bg-panel py-16">
       <div className="wrap">
         <div className="mb-8 max-w-[60ch]">
-          <TypingEyebrow className="border-seafoam/25 bg-seafoam/10 text-seafoam">
+          <TypingEyebrow className="border-[#0087b0]/25 bg-[#0087b0]/10 text-[#0087b0]">
             Security &amp; compliance
           </TypingEyebrow>
           <h2 className="text-[30px]">Held to the same standard as the services you run.</h2>

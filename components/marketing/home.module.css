@@ -487,21 +487,52 @@
   grid-row: 1 / span 2;
   min-height: 220px;
 }
+/* gap is a minimum, not a fixed size — space-between still spreads any
+   extra room between the two blocks on the tall desktop card (spanning
+   2 rows), but once the card collapses to its own auto-sized row (2x2 /
+   1-col breakpoints, home.module.css .bentoGrid) and there's little to
+   no extra room, gap is what stops the stat block and the icons/
+   description block from landing flush against each other. */
 .bentoCardContent {
   grid-row: 1 / span 2;
   justify-content: space-between;
+  gap: 16px;
 }
 .sectorIcons {
   display: flex;
 }
+/* Fades + slides each icon in from the right, staggered in DOM/SECTORS
+   order — government first, research last — via --icon-delay, set per
+   icon in StatsBar.tsx. Gated on .trustSection[data-visible], the same
+   scroll-trigger flag .trustReveal siblings use, but not itself a
+   .trustReveal instance — it needs its own per-icon delay, not the
+   card-level one, and starts once the card holding it has already
+   finished fading in (see the delay values StatsBar.tsx computes). */
 .sectorIcon {
   width: 44px;
   height: 44px;
   border-radius: 50%;
   box-shadow: 0 0 0 3px #fff;
+  opacity: 0;
+  transform: translateX(30px);
+  transition:
+    opacity 850ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 850ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--icon-delay, 0ms);
 }
 .sectorIcon:not(:first-child) {
   margin-left: -12px;
+}
+.trustSection[data-visible] .sectorIcon {
+  opacity: 1;
+  transform: translateX(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .sectorIcon {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 .bentoCardLight {
   flex-direction: row;
@@ -623,62 +654,723 @@
   font-size: 13px;
   color: #565a64;
 }
-.bentoNumDark {
-  font-family: var(--font-display), "Inter", sans-serif;
+/* ISO 27001 badge — an SVG shield (path drawn by hand: rounded top,
+   curved sides tapering to a point) rather than a shield icon font/asset,
+   so the two-line label can sit on top as real, wrappable text instead of
+   being baked into an image. No drop-shadow — .sectorIcon next door in
+   the same bento grid doesn't have one either, and the two read as
+   inconsistent side by side. A diagonal light streak sweeps through the
+   shield instead (StatsBar.tsx: an SVG rect on a soft white gradient,
+   clipped to the shield's own path so it never spills past the outline,
+   animated via CSS transform on the rect — see .isoShieldShine). */
+.isoShield {
+  position: relative;
+  flex: none;
+  width: 76px;
+  height: 72px;
+}
+.isoShield svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.isoShieldShine {
+  animation: iso-shield-shine 6.5s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+}
+@keyframes iso-shield-shine {
+  0% {
+    transform: translateX(0);
+  }
+  42% {
+    transform: translateX(180px);
+  }
+  100% {
+    transform: translateX(180px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .isoShieldShine {
+    animation: none;
+    opacity: 0;
+  }
+}
+.isoShieldText {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 9px;
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 11px;
   font-weight: 700;
-  font-size: 22px;
-  color: var(--navy);
-  letter-spacing: -0.01em;
-  white-space: nowrap;
+  line-height: 1.35;
+  letter-spacing: 0.03em;
+  color: #fff;
+  text-align: center;
 }
 
-@media (max-width: 767.98px) {
+/* Two breakpoints, not one: below 920px the 3-col desktop layout (hero
+   and content each spanning 2 rows in col 1/2, light+dark stacked in
+   col 3) has no room to keep those spans — cards start overlapping/
+   squeezing instead of just narrowing, which is what was actually
+   breaking on phones. Reset every card to a plain auto-placed single
+   cell in a 2-col grid instead: with 4 cards in DOM order (hero,
+   content, light, dark) that auto-places into a clean 2x2, one card per
+   cell, matching the reference the redesign was checked against. Below
+   639.98px, drop to 1 column so the 2x2 doesn't get cramped further.
+
+   grid-auto-rows switches from the base 1fr to auto at both breakpoints:
+   1fr on an intrinsically-sized grid makes every row match the tallest
+   row's content, so light/dark (a stat + one short line, or a label +
+   shield) were being stretched to hero/content's height (a big number +
+   longer description, or +sector icons) and sitting with a lot of dead
+   space above their bottom-anchored content. auto lets each row size to
+   its own row's content instead — since a 2x2 pairs hero with content
+   (both "tall") and light with dark (both "short") on separate rows,
+   this alone produces the size hierarchy without hardcoding a height on
+   any one card. */
+@media (max-width: 920px) {
   .bentoGrid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: auto;
   }
   .bentoCardHero,
   .bentoCardContent {
     grid-row: auto;
   }
+  /* Trim further past what auto-sizing alone gives them — still just a
+     stat + one short line (light) or a label + shield (dark), so the
+     base 24px card padding reads as more breathing room than either
+     needs once they're no longer stretched to hero/content's height. */
+  .bentoCardLight,
+  .bentoCardDark {
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+}
+@media (max-width: 639.98px) {
+  .bentoGrid {
+    grid-template-columns: 1fr;
+  }
 }
 
-/* Feature grid — hairline seam grid, numbered instead of icon-led */
-.features {
+/* Feature grid — square cards, 3 up, deliberately matching .solutionCard's
+   (Use Cases, below) visual family instead of the old numbered hairline
+   grid or the wide 2-col bento that preceded this: same white card /
+   #e5e8eb border / 16px radius, same rgba(0, 180, 216, ...) accent color.
+   Unlike solutionCard, the color here is a single soft radial-gradient
+   blob in the top-right corner (not a blurred flat disc, and not a
+   linear-gradient wash down the card — a flat gradient band behind real
+   UI-mockup content read as muddy rather than atmospheric) sitting behind
+   the mockup in DOM order. Each visual is still a small coded product-
+   mockup (JetBrains Mono badges, navy/turquoise accents, same vocabulary
+   as WorkflowCard.tsx) — only the surrounding card chrome changed, not
+   what's inside it. */
+.featuresBento {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: #e3e4e8;
-  border: 1px solid #e3e4e8;
-  border-radius: 8px;
-  overflow: hidden;
+  gap: 16px;
 }
-.featureItem {
+.featureCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: 1 / 1;
   background: #fff;
-  padding: 28px 24px;
+  border: 1px solid #e5e8eb;
+  border-radius: 16px;
+  overflow: hidden;
+  opacity: 0;
+  transform: scale(0.94);
+  transition:
+    opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--feature-reveal-delay, 0ms);
 }
-.featureNum {
-  display: inline-flex;
+.featuresBento[data-visible] .featureCard {
+  opacity: 1;
+  transform: scale(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .featureCard {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Top-right blob — positioned against the whole card (not .featureVisual)
+   so it can sit in the card's true corner regardless of how tall the
+   visual zone ends up being. Same accent color as .solutionGlowA/B (Use
+   Cases) — rgba(0, 180, 216, ...) — not .solutionFade's rgba(28, 164,
+   218, ...), which is a visibly different blue reserved for the linear
+   fade below. Radial-gradient, not a blurred flat disc — the color
+   itself fades to transparent, giving a softer, more diffuse edge than
+   filter: blur on a solid shape.
+
+   circle farthest-side, not the default farthest-corner: on a perfect
+   square (aspect-ratio: 1 / 1) with the gradient centered, the corners
+   sit farther from center than the flat edges do. farthest-corner sizes
+   the fade radius to that longer corner distance, so by the time the
+   gradient reaches the box's own straight edges it's only partway
+   through its falloff — and since a background can't paint past its own
+   box, that partial opacity just stops dead at the edge, reading as a
+   hard cutoff (this bit anyone once a blob was pulled far enough toward
+   center to expose a flat edge within the card, rather than only the
+   corner region). farthest-side sizes the radius to the edge distance
+   instead, so every straight edge is reached only once the gradient has
+   already faded to fully transparent — corners fade out even earlier.
+   Applies to .featureCardGlowB below for the same reason.
+
+   z-index: 0, and every mockup/text layer below is explicitly z-index: 1
+   — DOM order (this renders first) already put it behind, but with the
+   card now built from several overlapping absolutely-positioned layers,
+   an explicit stacking order removes any doubt rather than leaning on
+   paint order alone. */
+.featureCardGlow {
+  position: absolute;
+  z-index: 0;
+  aspect-ratio: 1 / 1;
+  pointer-events: none;
+}
+.featureCardGlowA {
+  top: -45%;
+  right: -43%;
+  width: 120%;
+  background: radial-gradient(
+    circle farthest-side at 50% 50%,
+    rgba(0, 180, 216, 0.2) 0%,
+    rgba(0, 180, 216, 0.08) 45%,
+    rgba(0, 180, 216, 0) 100%
+  );
+}
+/* A second blob, pinned against the whole card (like glowA, not scoped
+   to .featureVisual as an earlier pass had it) so it can reach down into
+   .featureBody's territory near the title — a box scoped to the visual
+   zone alone couldn't reach that far without the offsets getting
+   unreasonably extreme, since the visual zone is only part of the
+   card's height. Same color as .featureCardBottomFade below (the
+   different rgba(28, 164, 218, ...) blue, not glowA's rgba(0, 180, 216,
+   ...)) — the two overlap in this lower-left region, so matching hues
+   is what makes them read as one continuous wash. */
+.featureCardGlowB {
+  bottom: -12.5%;
+  left: -21.5%;
+  width: 65%;
+  background: radial-gradient(
+    circle farthest-side at 50% 50%,
+    rgba(28, 164, 218, 0.14) 0%,
+    rgba(28, 164, 218, 0.05) 45%,
+    rgba(28, 164, 218, 0) 100%
+  );
+}
+/* A card-wide radial blob and body text don't mix cleanly on its own —
+   a plain upward linear fade reads calmer there, underneath glowB. Same
+   color as .solutionFade (Use Cases). */
+.featureCardBottomFade {
+  position: absolute;
+  z-index: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 58%;
+  background: linear-gradient(to top, rgba(28, 164, 218, 0.16) 0%, rgba(28, 164, 218, 0) 100%);
+  pointer-events: none;
+}
+
+.featureVisual {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  padding: 20px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 7px;
-  background: rgba(0, 31, 63, 0.08);
-  color: var(--navy);
-  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
-  font-size: 12px;
-  margin-bottom: 16px;
+}
+/* Wraps just the actual product-mockup (FeatureVisual in
+   FeatureGrid.tsx), not the glow above — overflow: hidden here, not on
+   .featureVisual itself, so a mockup that's slightly taller than the
+   available space (the visual zone shrinks as the description wraps to
+   more lines) gets clipped at the visual zone's own edge instead of
+   spilling down over the title/description. (.featureCardGlow{A,B} bleed
+   freely since they're positioned against .featureCard, not nested
+   inside this wrapper at all.)
+   width/height: 100% is load-bearing, not decorative: .featureVisual is
+   a row flex container, so a flex item with no flex-grow sizes to
+   fit-content by default rather than filling the row — and several
+   mockups (.fvForm in particular) size their own children with
+   percentage widths, which contribute ~0 to fit-content's intrinsic-
+   size calculation. Without an explicit size here the whole wrapper (and
+   everything inside it) collapsed to a few px wide. That fixed the
+   sizing but broke centering for the mockups that DON'T set their own
+   width: 100% (.fvFile, a fixed 76px box) — once this wrapper fills the
+   row itself, .featureVisual's own align/justify-content: center just
+   centers the (now full-size) wrapper, not what's inside it. Making
+   this its own centering flex container fixes both at once: mockups
+   that set width: 100% still fill it edge to edge as before, and
+   .fvFile gets genuinely centered within it rather than sitting at the
+   flow-start (top-left) of a full-width block. */
+/* margin: -10px + padding: 10px is a bleed trick, not a mistake that
+   cancels out: it keeps the available content area exactly the same
+   size as plain width/height: 100% would, but pushes the overflow:
+   hidden clip boundary 10px further out on every side. Small
+   intentional overflow — .fvChipActive::after's checkmark badge sits
+   6px outside its own chip — was getting clipped flush against this
+   wrapper's exact edge with no room to spare; genuinely oversized
+   content (the risk overflow: hidden exists for) still gets clipped,
+   just 10px later. */
+.featureVisualContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  margin: -10px;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.featureBody {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  padding: 16px 20px 20px;
 }
 .featureTitle {
-  font-size: 15px;
+  font-size: 15.5px;
   font-weight: 700;
   color: var(--navy);
   margin-bottom: 6px;
 }
+/* Same color/weight as .solutionDesc (Use Cases) — was a plain grey,
+   which read as a different, less deliberate text treatment next to
+   that section's dark-navy body copy. Line-clamped to 3 lines so every
+   card's text block is the same height regardless of copy length —
+   without it, the longest description (secure file handling) forced
+   its card's visual zone shorter than the other five, breaking the
+   square grid's rhythm. */
 .featureDesc {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
   font-size: 13.5px;
+  font-weight: 500;
+  color: #0d1f3d;
+  line-height: 1.5;
+}
+@media (max-width: 820px) {
+  .featuresBento {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 639.98px) {
+  .featuresBento {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- per-feature visuals --- */
+
+/* 01 Server-side by design: a dot travels Browser -> Server on a dashed
+   line; a checkmark badge flashes on the Server chip when it "lands". */
+.fvServer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+.fvChip {
+  position: relative;
+  flex: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  border: 1px solid #e3e4e8;
+  background: #fff;
   color: #7c7f88;
-  line-height: 1.55;
+}
+.fvChipActive {
+  border-color: rgba(0, 31, 63, 0.25);
+  color: var(--navy);
+  background: rgba(0, 31, 63, 0.06);
+}
+.fvChipActive::after {
+  content: "\2713";
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--wf-success, #0f7a3d);
+  color: #fff;
+  font-size: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  animation: fv-check-flash 2.4s ease-in-out infinite;
+}
+.fvLine {
+  position: relative;
+  flex: 1;
+  height: 1px;
+  background-image: linear-gradient(to right, #d5d8de 50%, transparent 50%);
+  background-size: 8px 1px;
+}
+.fvDot {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--cta-blue);
+  transform: translate(-50%, -50%);
+  animation: fv-dot-travel 2.4s ease-in-out infinite;
+}
+@keyframes fv-dot-travel {
+  0% {
+    left: 0%;
+    opacity: 1;
+  }
+  85% {
+    left: 100%;
+    opacity: 1;
+  }
+  92% {
+    opacity: 0;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+@keyframes fv-check-flash {
+  0%,
+  78% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  88%,
+  96% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+
+/* 02 Automation & webhooks: the same travelling-dot technique, spread
+   across three action nodes instead of two chips. */
+.fvFlow {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.fvNode {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: #fff;
+  border: 1px solid #e3e4e8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: var(--navy);
+}
+
+/* 03 Accessible by default: a focus ring steps down three mock fields,
+   the way a keyboard user's tab order would move through a real form.
+   .fvFocusRing renders LAST in FeatureGrid.tsx (not first) on purpose:
+   :nth-child counts every DOM child regardless of position/display, so
+   with the ring first, .fvField:nth-child(1/2/3) below never actually
+   matched the three field spans (they were children 2/3/4) — field 1
+   silently got field 2's width, field 2 got field 3's, and field 3 got
+   no width rule at all. Rendering the ring last also fixes the other
+   half of that bug: it now paints on top of the fields it's meant to be
+   highlighting instead of underneath them. */
+.fvForm {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 4px;
+}
+/* Darker fill + a hairline border, not the original flat #eef0f3 with
+   no border — that read fine on a plain white .featureVisual, but once
+   the visual zone got a soft cyan wash behind it (.featureCardGlowA/B),
+   a borderless near-white grey lost almost all its
+   contrast against the tint. (.fvFileLine, the other #eef0f3 user,
+   doesn't need the same fix — it sits inside .fvFile's own opaque white
+   card, not directly against the tinted visual zone.) */
+.fvField {
+  height: 15px;
+  border-radius: 5px;
+  background: #e3e7eb;
+  border: 1px solid #d7dce2;
+}
+.fvField:nth-child(1) {
+  width: 70%;
+}
+.fvField:nth-child(2) {
+  width: 90%;
+}
+.fvField:nth-child(3) {
+  width: 55%;
+}
+.fvFocusRing {
+  position: absolute;
+  left: 0;
+  width: 70%;
+  height: 23px;
+  border-radius: 7px;
+  border: 2px solid var(--cta-blue);
+  box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.14);
+  animation: fv-focus-step 3.6s steps(1, end) infinite;
+}
+/* top values = each field's own top edge (padding 4px, then +25px per
+   field: 15px height + 10px gap) minus 4px, so the ring's extra 8px of
+   height (23px vs. the field's 15px) sits as an even margin around it. */
+@keyframes fv-focus-step {
+  0%,
+  33% {
+    top: 0px;
+    width: 70%;
+  }
+  34%,
+  66% {
+    top: 25px;
+    width: 90%;
+  }
+  67%,
+  100% {
+    top: 50px;
+    width: 55%;
+  }
+}
+
+/* 04 Secure file handling: a scan-line sweeps a file card, ending each
+   loop with a sealed badge sliding into view. */
+.fvFile {
+  position: relative;
+  width: 68px;
+  height: 80px;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid #e3e4e8;
+  overflow: hidden;
+}
+.fvFileLines {
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.fvFileLine {
+  height: 5px;
+  border-radius: 3px;
+  background: #eef0f3;
+}
+.fvFileLine:nth-child(2) {
+  width: 70%;
+}
+.fvScan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -30px;
+  height: 26px;
+  background: linear-gradient(180deg, transparent, rgba(0, 180, 216, 0.28), transparent);
+  animation: fv-scan 2.6s linear infinite;
+}
+@keyframes fv-scan {
+  0% {
+    top: -30px;
+  }
+  100% {
+    top: 80px;
+  }
+}
+.fvSealed {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px 0;
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 9px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--wf-success, #0f7a3d);
+  transform: translateY(100%);
+  animation: fv-seal-reveal 2.6s ease-in-out infinite;
+}
+@keyframes fv-seal-reveal {
+  0%,
+  70% {
+    transform: translateY(100%);
+  }
+  85%,
+  95% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+/* 05 Darcy, built in: a chat line "types" on loop — same clip-path
+   technique as the eyebrow typing effect (globals.css), reimplemented
+   locally since the phrase here is fixed, not arbitrary text needing the
+   character-count custom property that version relies on. */
+.fvChat {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.fvChatAvatar {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--gradient);
+}
+.fvChatBubble {
+  flex: 1;
+  /* A flex item's default min-width is its content's own intrinsic
+     width, not 0 — for nowrap text that's the full untruncated phrase,
+     which silently overrides flex: 1's shrinking and forces the row
+     (and the card around it) wider than its box. Same fix applies to
+     .fvBar's .fvTypeText below. */
+  min-width: 0;
+  padding: 9px 12px;
+  border-radius: 10px;
+  /* Darker fill + a hairline border, same reasoning as .fvField — this
+     bubble sits directly against the visual zone's cyan wash (no opaque
+     wrapper around it), and the original #f4f6f8 with no border nearly
+     vanished into that tint. */
+  background: #e9edf1;
+  border: 1px solid #dde2e8;
+  font-size: 12px;
+  color: var(--navy);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.fvTypeText {
+  display: inline-block;
+  clip-path: inset(0 100% 0 0);
+}
+.fvChatBubble .fvTypeText {
+  animation: fv-type 4.4s steps(29, end) infinite;
+}
+@keyframes fv-type {
+  0% {
+    clip-path: inset(0 100% 0 0);
+  }
+  55%,
+  100% {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* 06 Custom domains: an address bar "types" a live domain (same fv-type
+   technique) with a small pulsing "Live" dot — same idea as the stats
+   bar's uptime indicator, but its own (smaller-scale) keyframe: reusing
+   statusPulseRing's scale(5) directly blew this compact dot's ring up
+   past the address bar's own height. */
+.fvBar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid #e3e4e8;
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 11px;
+  color: var(--navy);
+}
+.fvBar .fvTypeText {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: fv-type 4.4s steps(26, end) infinite;
+}
+.fvBarLive {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--wf-success, #0f7a3d);
+}
+.fvBarLiveDot {
+  position: relative;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #40e0d0;
+}
+.fvBarLiveDot::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1.5px solid #40e0d0;
+  animation: fv-live-pulse 2.2s ease-out infinite;
+}
+@keyframes fv-live-pulse {
+  0% {
+    transform: scale(0.4);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fvDot,
+  .fvChipActive::after,
+  .fvFocusRing,
+  .fvScan,
+  .fvSealed,
+  .fvTypeText,
+  .fvBarLiveDot::before {
+    animation: none;
+  }
+  .fvChipActive::after {
+    opacity: 1;
+  }
+  .fvTypeText {
+    clip-path: inset(0 0 0 0);
+  }
+  .fvSealed {
+    transform: translateY(0);
+  }
 }
 
 /* Security badge grid */
@@ -794,30 +1486,41 @@
   }
 }
 
-/* Continuous marquee — same technique as .viewport/.track in
-   logo-marquee.module.css: a duplicated set of cards scrolled sideways
-   by one CSS keyframe animation (cheap, GPU-friendly), paused on
-   hover/focus so the copy can actually be read. */
+/* Continuous marquee — a duplicated set of cards, auto-scrolled via JS
+   (SolutionsGrid.tsx nudges scrollLeft every frame) rather than a CSS
+   transform keyframe, because the container is also a real native
+   overflow-x scroller: that's what lets a mouse drag (pointer events,
+   same component) and a touch swipe (the browser's own native scrolling,
+   free) both take over mid-scroll. autoplay pauses on hover/drag/touch;
+   a scroll listener wraps scrollLeft past the halfway point (= one set's
+   width) back to 0 so the loop reads as infinite regardless of which of
+   the three input methods is driving it. Scrollbar hidden since the
+   loop illusion depends on the seam not being visibly "the end". */
 .solutionsViewport {
   width: 100%;
-  overflow: hidden;
   margin-top: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  cursor: grab;
+}
+.solutionsViewport::-webkit-scrollbar {
+  display: none;
+}
+.solutionsViewport.dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
 }
 .solutionsTrack {
   display: flex;
   width: max-content;
-  animation: solutions-marquee 70s linear infinite;
-  will-change: transform;
-}
-.solutionsViewport:hover .solutionsTrack,
-.solutionsViewport:focus-within .solutionsTrack {
-  animation-play-state: paused;
 }
 /* padding-right only (no padding-left) so the trailing gap after a
    set's last card matches the gaps between cards exactly — that's
    what makes the set0-to-set1 seam invisible as the loop repeats. A
    left-padding here would only ever show once, at the very start, but
-   would throw off the translateX(-50%) split since it'd make the two
+   would throw off the halfway-point wrap since it'd make the two
    duplicated sets unequal widths (see the bug this replaced: a 40px
    gap at the seam vs. 16px everywhere else). */
 .solutionSet {
@@ -825,11 +1528,6 @@
   flex: none;
   gap: 16px;
   padding-right: 16px;
-}
-@keyframes solutions-marquee {
-  to {
-    transform: translateX(-50%);
-  }
 }
 .solutionCard {
   position: relative;
@@ -903,14 +1601,10 @@
   color: #0d1f3d;
   line-height: 1.5;
 }
+/* No autoplay/wrap-around for reduced-motion (see SolutionsGrid.tsx) —
+   the duplicated set exists only to make that wrap seamless, so drop it
+   here rather than leave dead scrollable width past the real content. */
 @media (prefers-reduced-motion: reduce) {
-  .solutionsViewport {
-    overflow-x: auto;
-  }
-  .solutionsTrack {
-    animation: none;
-    will-change: auto;
-  }
   .solutionSet:last-child {
     display: none;
   }
@@ -1186,20 +1880,6 @@
 
 @media (max-width: 920px) {
   .platformGrid {
-    grid-template-columns: 1fr;
-  }
-  .bentoGrid {
-    grid-template-columns: 1fr 1fr;
-  }
-  .bentoCardHero,
-  .bentoCardDark {
-    grid-column: 1 / span 2;
-    grid-row: auto;
-  }
-  .bentoCardContent {
-    grid-row: auto;
-  }
-  .features {
     grid-template-columns: 1fr;
   }
   .secGrid {

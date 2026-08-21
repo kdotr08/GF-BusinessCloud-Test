@@ -6,7 +6,7 @@ export function ProductTour() {
     <section className="py-16">
       <div className="wrap">
         <div className="mx-auto mb-8 max-w-[62ch] text-center">
-          <TypingEyebrow className="mx-auto border-plum/25 bg-plum/10 text-plum">Product tour</TypingEyebrow>
+          <TypingEyebrow className="mx-auto border-[#0087b0]/25 bg-[#0087b0]/10 text-[#0087b0]">Product tour</TypingEyebrow>
           <h2 className="text-[30px]">See it in action</h2>
           <p className="muted mx-auto">
             A walkthrough of a submission moving from build to production &mdash; from a blank
