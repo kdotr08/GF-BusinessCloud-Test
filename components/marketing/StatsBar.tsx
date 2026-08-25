@@ -8,12 +8,12 @@ import { CountUpStat } from "./CountUpStat";
 const SECTORS = ["government", "healthcare", "education", "research"];
 
 // Icons start staggering shortly after .bentoCardContent (--trust-reveal-
-// delay: 420ms) begins its own fade-in — overlapping its tail rather than
-// waiting for it to fully settle (1120ms) — then cascade in SECTORS order
+// delay: 590ms) begins its own fade-in — overlapping its tail rather than
+// waiting for it to fully settle (1540ms) — then cascade in SECTORS order
 // (government first, research last). See the note by .sectorIcon in
 // home.module.css for the per-icon transition duration.
-const ICON_STAGGER_START_MS = 550;
-const ICON_STAGGER_STEP_MS = 130;
+const ICON_STAGGER_START_MS = 720;
+const ICON_STAGGER_STEP_MS = 160;
 
 export function StatsBar() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -47,11 +47,13 @@ export function StatsBar() {
       data-visible={visible || undefined}
     >
       <div className="wrap">
-        <div className="mb-8 max-w-[62ch]">
-          <TypingEyebrow className="border-white/25 bg-white/10 text-[var(--hero-accent)]">
+        <div className="section-intro">
+          <TypingEyebrow
+            className={`border-white/25 bg-white/10 text-[var(--hero-accent)] ${styles.trustReveal} ${styles.trustRevealEyebrow}`}
+          >
             Proven in high-stakes services
           </TypingEyebrow>
-          <h2 className={`text-[30px] text-white ${styles.trustReveal} ${styles.trustRevealHeading}`}>
+          <h2 className={`section-heading text-white ${styles.trustReveal} ${styles.trustRevealHeading}`}>
             Trusted where security, accessibility and reliability matter.
           </h2>
           <p className={`text-white/75 ${styles.trustReveal} ${styles.trustRevealBody}`}>

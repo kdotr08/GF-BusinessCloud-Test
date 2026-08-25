@@ -4,8 +4,11 @@ import { SolutionsGrid } from "@/components/marketing/SolutionsGrid";
 import { ProductTour } from "@/components/marketing/ProductTour";
 import { FeatureGrid } from "@/components/marketing/FeatureGrid";
 import { PlatformShowcase } from "@/components/marketing/PlatformShowcase";
+import { IntegrationsSection } from "@/components/marketing/IntegrationsSection";
+import { CustomerSuccess } from "@/components/marketing/CustomerSuccess";
 import { SecurityGrid } from "@/components/marketing/SecurityGrid";
 import { AudienceTracks } from "@/components/marketing/AudienceTracks";
+import { HomeFaq } from "@/components/marketing/HomeFaq";
 import { HomeFinalCta } from "@/components/marketing/HomeFinalCta";
 
 export default function HomePage() {
@@ -15,10 +18,13 @@ export default function HomePage() {
       <StatsBar />
       <SolutionsGrid />
       <ProductTour />
-      <FeatureGrid />
       <PlatformShowcase />
+      <FeatureGrid />
+      <IntegrationsSection />
+      <CustomerSuccess />
       <SecurityGrid />
       <AudienceTracks />
+      <HomeFaq />
       <HomeFinalCta />
     </>
   );

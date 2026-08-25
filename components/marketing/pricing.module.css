@@ -124,6 +124,135 @@
   border-top: none;
 }
 
+.trackCard {
+  border-radius: 12px;
+  padding: 28px 24px 24px;
+  gap: 0;
+}
+.trackIconRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.trackIcon {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: rgba(0, 31, 63, 0.1);
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.trackIcon svg {
+  width: 18px;
+  height: 18px;
+}
+.trackName {
+  font-family: var(--font-display), "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+}
+.trackDesc {
+  font-size: 14px;
+  color: #7c7f88;
+  min-height: 40px;
+  margin-bottom: 18px;
+}
+.trackPrice {
+  font-family: var(--font-display), "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-size: 32px;
+  color: var(--navy);
+  margin-bottom: 18px;
+}
+.trackList {
+  list-style: none;
+  margin: 0 0 22px;
+  padding: 0;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+.trackList li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  color: #3b3e47;
+}
+.trackCheck {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trackCardEmphasized,
+.finalCta {
+  background-color: var(--color-cyan-900);
+  background-image:
+    radial-gradient(circle at 88% 8%, rgba(64, 224, 208, 0.2), transparent 38%),
+    radial-gradient(circle at 8% 92%, rgba(0, 180, 216, 0.14), transparent 36%),
+    radial-gradient(circle, rgba(255, 255, 255, 0.075) 0px, rgba(255, 255, 255, 0.075) 1px, transparent 1px);
+  background-size: auto, auto, 16px 16px;
+}
+
+/* Grid-line texture (same technique as .successCardContent's, home.module.css)
+   instead of the dotted texture the shared .trackCardEmphasized rule above
+   uses — smaller tiles, lower opacity than that reference: a dot grid read
+   too busy at this card's larger size. */
+.finalCta {
+  background-color: #2b6c99;
+  background-image:
+    radial-gradient(circle at 86% 10%, rgba(126, 221, 237, 0.3), transparent 38%),
+    radial-gradient(circle at 9% 92%, rgba(24, 77, 129, 0.28), transparent 40%),
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(135deg, #2b6c99 0%, #4b97b6 100%);
+  background-size: auto, auto, 14px 14px, 14px 14px, auto;
+}
+
+.trackCardEmphasized {
+  border-color: var(--color-cyan-900);
+}
+.trackCardEmphasized .trackIcon {
+  background: rgba(136, 222, 235, 0.18);
+  color: var(--hero-accent);
+}
+.trackCardEmphasized .trackName,
+.trackCardEmphasized .trackPrice {
+  color: #fff;
+}
+.trackCardEmphasized .trackDesc,
+.trackCardEmphasized .trackList li {
+  color: rgba(255, 255, 255, 0.72);
+}
+.trackCardEmphasized .trackCheck {
+  background: var(--hero-accent);
+  color: var(--blue-deep);
+}
+.trackCardEmphasized :global(.btn-primary) {
+  background: #fff;
+  color: var(--navy);
+}
+.trackCardEmphasized :global(.btn-primary):hover {
+  background: var(--hero-accent);
+  color: var(--blue-deep);
+}
+
 .vsTable {
   width: 100%;
   border-collapse: collapse;
@@ -373,9 +502,6 @@
 }
 
 .finalCta {
-  background-color: var(--color-cyan-900);
-  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.075) 0px, rgba(255, 255, 255, 0.075) 1px, transparent 1px);
-  background-size: 16px 16px;
   color: #fff;
   border-radius: 8px;
   padding: 44px;
@@ -386,6 +512,43 @@
   gap: 12px;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+/* Homepage CTA follows the near-full-width card treatment: a small outer
+   page gutter, generous interior space and a rounded edge, with white
+   separation below so it never visually merges into the footer. */
+.homeFinalCtaSection {
+  padding: 64px 12px 12px;
+  background: #fff;
+}
+
+.homeFinalCtaOuter {
+  width: 100%;
+}
+
+.homeFinalCtaCard {
+  display: flex;
+  min-height: clamp(360px, 34vw, 500px);
+  padding: clamp(56px, 8vw, 120px) clamp(24px, 8vw, 140px);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24px;
+}
+
+.homeFinalCtaCard h2 {
+  max-width: 760px;
+}
+
+@media (max-width: 639.98px) {
+  .homeFinalCtaSection {
+    padding: 48px 8px 8px;
+  }
+
+  .homeFinalCtaCard {
+    min-height: 400px;
+    border-radius: 18px;
+  }
 }
 
 @media (max-width: 920px) {

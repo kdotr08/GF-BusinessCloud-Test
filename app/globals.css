@@ -38,6 +38,7 @@ html {
 body {
   background: #fafafa;
   color: #3b3e47;
+  font-family: var(--font-display), "Inter", ui-sans-serif, system-ui, sans-serif;
   font-weight: 500;
 }
 
@@ -225,6 +226,74 @@ p {
       #1d70b8 80%,
       transparent 98%
     );
+  }
+
+  /* Shared homepage section-heading scale: clearly above body/card copy,
+     while remaining subordinate to the hero headline. */
+  .section-heading {
+    font-size: clamp(34px, 3vw, 40px);
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+
+  /* Homepage section introductions use separate measures for display type
+     and body copy. This prevents a body-sized `ch` wrapper from squeezing
+     headings, while keeping both blocks visually related. */
+  .section-intro {
+    width: 100%;
+    max-width: 780px;
+    margin-bottom: 2rem;
+  }
+
+  .section-intro--center {
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+  }
+
+  .section-intro .section-heading {
+    max-width: 24ch;
+  }
+
+  .section-intro--center .section-heading,
+  .section-intro--center > p {
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .section-intro > p {
+    max-width: 72ch;
+    text-wrap: pretty;
+  }
+}
+
+@media (max-width: 920px) {
+  .section-intro {
+    max-width: 700px;
+  }
+}
+
+/* Wide layouts have enough room for section headings to read as a single
+   confident line. Supporting copy expands with them instead of remaining in
+   a narrow editorial column that looks undersized beneath the heading. */
+@media (min-width: 1280px) {
+  .section-intro {
+    max-width: 1120px;
+  }
+
+  .section-intro .section-heading {
+    max-width: none;
+  }
+
+  .section-intro > p {
+    max-width: 96ch;
+  }
+}
+
+@media (max-width: 639.98px) {
+  .section-intro .section-heading,
+  .section-intro > p {
+    max-width: none;
   }
 }
 

@@ -19,7 +19,7 @@ function parseValue(value: string) {
   return { target: parseFloat(numStr), decimals, suffix };
 }
 
-export function CountUpStat({ value, className = "", duration = 1400 }: CountUpStatProps) {
+export function CountUpStat({ value, className = "", duration = 1800 }: CountUpStatProps) {
   const ref = useRef<HTMLDivElement>(null);
   const parsed = parseValue(value);
   const [display, setDisplay] = useState(parsed ? `0${parsed.suffix}` : value);

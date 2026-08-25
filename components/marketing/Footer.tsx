@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ScrollRevealGroup } from "./ScrollRevealGroup";
 
 type FooterLink = { label: string; href: string };
 type FooterColumn = { title: string; links: FooterLink[] };
@@ -51,21 +52,21 @@ const COLUMNS: FooterColumn[] = [
 export function Footer() {
   return (
     <footer className="bg-[color:var(--color-cyan-900)] pt-16 pb-8 text-white">
-      <div className="wrap">
+      <ScrollRevealGroup className="wrap">
         <div className="mb-12 flex flex-col gap-6 border-b border-white/10 pb-12 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <Link href="/" className="font-serif text-xl font-bold tracking-tight text-white">
+            <Link data-reveal-item style={{ transitionDelay: "0ms" }} href="/" className="inline-block font-serif text-xl font-bold tracking-tight text-white">
               govform<span className="text-[var(--hero-accent)]">.com</span>
             </Link>
-            <p className="mt-3 max-w-[36ch] text-[13.5px] text-white/60">
+            <p data-reveal-item style={{ transitionDelay: "160ms" }} className="mt-3 max-w-[36ch] text-[13.5px] text-white/60">
               Server-side infrastructure for accessible, secure, production-grade digital
               service forms.
             </p>
           </div>
 
           <div className="grid flex-1 grid-cols-2 gap-8 sm:max-w-[640px] md:grid-cols-4">
-            {COLUMNS.map((column) => (
-              <div key={column.title}>
+            {COLUMNS.map((column, index) => (
+              <div key={column.title} data-reveal-item style={{ transitionDelay: `${320 + index * 150}ms` }}>
                 <div className="mb-3.5 font-mono text-[11px] font-bold uppercase tracking-[0.08em] text-white/45">
                   {column.title}
                 </div>
@@ -87,10 +88,10 @@ export function Footer() {
         </div>
 
         <div className="flex flex-wrap justify-between gap-3 text-[13px] text-white/50">
-          <div>&copy; 2026 Govform.com</div>
-          <div>Business Cloud &middot; Business Estate &middot; Institutional &amp; Central Government</div>
+          <div data-reveal-item style={{ transitionDelay: "950ms" }}>&copy; 2026 Govform.com</div>
+          <div data-reveal-item style={{ transitionDelay: "1100ms" }}>Business Cloud &middot; Business Estate &middot; Institutional &amp; Central Government</div>
         </div>
-      </div>
+      </ScrollRevealGroup>
     </footer>
   );
 }

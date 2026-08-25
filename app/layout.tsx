@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import { Footer } from "@/components/marketing/Footer";
 import "./globals.css";
 
@@ -14,9 +14,13 @@ import "./globals.css";
 // referenced directly in .heroHeadingFont (home.module.css), falling back
 // to --font-display (Inter) — the hero heading's original font, before
 // any of this — if Switzer fails to load.
-const displayFont = Inter({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+const displayFont = localFont({
+  src: [
+    { path: "../public/fonts/inter-400.ttf", weight: "400", style: "normal" },
+    { path: "../public/fonts/inter-500.ttf", weight: "500", style: "normal" },
+    { path: "../public/fonts/inter-600.ttf", weight: "600", style: "normal" },
+    { path: "../public/fonts/inter-700.ttf", weight: "700", style: "normal" },
+  ],
   variable: "--font-display",
   display: "swap",
 });

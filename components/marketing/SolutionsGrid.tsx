@@ -15,7 +15,7 @@ const SOLUTIONS: [string, string, string][] = [
   ["Customer and employee onboarding", "Collect information, verify requirements and trigger the right next steps automatically.", "/images/use-cases/onboarding.png"],
   ["Compliance and assessments", "Run structured assessments with validation, supporting evidence and traceable outcomes.", "/images/use-cases/compliance.png"],
   ["Case intake and referrals", "Capture sensitive information securely and assign each response to the appropriate reviewer.", "/images/use-cases/caseintake.png"],
-  ["Feedback and consultations", "Collect, organise and analyse responses from customers, employees, stakeholders or the public.", "/images/use-cases/feedback.png"],
+  ["Feedback and consultations", "Collect and organise responses from customers, employees, stakeholders or the public, then route them to the right teams for review.", "/images/use-cases/feedback.png"],
 ];
 
 function SolutionCard({ title, body, image }: { title: string; body: string; image: string }) {
@@ -60,7 +60,7 @@ export function SolutionsGrid() {
         setVisible(true);
         observer.disconnect();
       },
-      { rootMargin: "0px 0px -10%", threshold: 0.15 },
+      { rootMargin: "0px 0px -40%", threshold: 0.08 },
     );
     observer.observe(section);
     return () => observer.disconnect();
@@ -161,20 +161,20 @@ export function SolutionsGrid() {
   }, []);
 
   return (
-    <section ref={sectionRef} className={`py-16 ${styles.solutionsSection}`} data-visible={visible || undefined}>
+    <section ref={sectionRef} className={`bg-panel-alt py-16 ${styles.solutionsSection}`} data-visible={visible || undefined}>
       <div className="wrap">
-        <div className="mx-auto mb-8 text-center">
+        <div className="section-intro section-intro--center">
           <TypingEyebrow
             className={`mx-auto border-[#00608e]/25 bg-[#00608e]/10 text-[#00608e] ${styles.solutionsReveal} ${styles.solutionsRevealEyebrow}`}
           >
             Use Cases
           </TypingEyebrow>
           <h2
-            className={`text-[30px] whitespace-normal xl:whitespace-nowrap ${styles.solutionsReveal} ${styles.solutionsRevealHeading}`}
+            className={`section-heading ${styles.solutionsReveal} ${styles.solutionsRevealHeading}`}
           >
             Build complex processes into simple digital services.
           </h2>
-          <p className={`muted mx-auto max-w-[62ch] ${styles.solutionsReveal} ${styles.solutionsRevealBody}`}>
+          <p className={`muted ${styles.solutionsReveal} ${styles.solutionsRevealBody}`}>
             Every service has its own requirements. From a straightforward application to a
             connected operational workflow, Govform.com gives you the tools to collect
             information, make decisions and move work forward.

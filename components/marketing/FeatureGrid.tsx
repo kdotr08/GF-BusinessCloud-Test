@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./home.module.css";
 import { TypingEyebrow } from "./TypingEyebrow";
+import { ScrollRevealGroup } from "./ScrollRevealGroup";
 
 type VisualKind = "server" | "automation" | "accessible" | "secure" | "ai" | "domain";
 
@@ -163,15 +164,16 @@ export function FeatureGrid() {
   }, []);
 
   return (
-    <section id="product" className="py-16">
-      <div className="wrap">
-        <div className="mb-8 max-w-[62ch]">
-          <TypingEyebrow className="border-[#00b4d8]/25 bg-[#00b4d8]/10 text-[#00b4d8]">How it&apos;s different</TypingEyebrow>
-          <h2 className="text-[30px]">Most form tools weren&apos;t built for organisations like yours.</h2>
-          <p className="muted">
-            General-purpose form builders are built for marketing teams collecting leads.
-            Govform.com is server-side infrastructure for services that have to hold up to
-            scrutiny.
+    <section id="product" className="bg-panel-alt py-16">
+      <ScrollRevealGroup className="wrap">
+        <div className="section-intro">
+          <div data-reveal-item style={{ transitionDelay: "0ms" }}>
+            <TypingEyebrow className="border-[#00b4d8]/25 bg-[#00b4d8]/10 text-[#00b4d8]">How it&apos;s different</TypingEyebrow>
+          </div>
+          <h2 data-reveal-item style={{ transitionDelay: "160ms" }} className="section-heading">Government standards without enterprise complexity.</h2>
+          <p data-reveal-item style={{ transitionDelay: "320ms" }} className="muted">
+            Get the security, accessibility and governance expected of critical digital services
+            without the cost and complexity of traditional enterprise transformation projects.
           </p>
         </div>
 
@@ -181,7 +183,7 @@ export function FeatureGrid() {
               key={slug}
               id={slug}
               className={styles.featureCard}
-              style={{ ["--feature-reveal-delay" as string]: `${i * 80}ms` }}
+              style={{ ["--feature-reveal-delay" as string]: `${500 + i * 150}ms` }}
             >
               <div className={`${styles.featureCardGlow} ${styles.featureCardGlowA}`} />
               <div className={`${styles.featureCardGlow} ${styles.featureCardGlowB}`} />
@@ -198,7 +200,7 @@ export function FeatureGrid() {
             </div>
           ))}
         </div>
-      </div>
+      </ScrollRevealGroup>
     </section>
   );
 }

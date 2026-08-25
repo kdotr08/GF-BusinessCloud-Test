@@ -74,6 +74,8 @@ export function Header({
   const [open, setOpen] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const light = variant === "light";
+  const navRevealDelay = (index: number) =>
+    `${120 + Math.abs(index - (links.length - 1) / 2) * 150}ms`;
 
   const closeAll = () => {
     setOpen(null);
@@ -85,13 +87,14 @@ export function Header({
       <div className="relative grid grid-cols-[1fr_auto] items-center lg:grid-cols-[1fr_auto_1fr]">
         <Link
           href="/"
-          className={`justify-self-start font-serif text-xl font-bold tracking-tight ${light ? "text-navy" : "text-white"}`}
+          className={`${styles.navReveal} justify-self-start font-serif text-xl font-bold tracking-tight ${light ? "text-navy" : "text-white"}`}
+          style={{ animationDelay: "570ms" }}
         >
           govform<span className="text-[var(--hero-accent)]">.com</span>
         </Link>
 
         <nav className="hidden items-center justify-self-center whitespace-nowrap lg:flex">
-          {links.map((link) =>
+          {links.map((link, index) =>
             link.mega ? (
               <div
                 key={link.href}
@@ -101,7 +104,8 @@ export function Header({
               >
                 <button
                   type="button"
-                  className={`${styles.trigger} ${light ? styles.triggerLight : ""} text-sm`}
+                  className={`${styles.navReveal} ${styles.trigger} ${light ? styles.triggerLight : ""} text-sm`}
+                  style={{ animationDelay: navRevealDelay(index) }}
                   aria-expanded={open === link.href}
                   onClick={() => setOpen(open === link.href ? null : link.href)}
                 >
@@ -120,7 +124,8 @@ export function Header({
               <Link
                 key={link.href}
                 href={link.href}
-                className={`ml-6 text-sm no-underline ${light ? "text-navy/85 hover:text-navy" : "text-white/85 hover:text-white"}`}
+                className={`${styles.navReveal} ml-6 text-sm no-underline ${light ? "text-navy/85 hover:text-navy" : "text-white/85 hover:text-white"}`}
+                style={{ animationDelay: navRevealDelay(index) }}
               >
                 {link.label}
               </Link>
@@ -131,23 +136,30 @@ export function Header({
         <div className="hidden items-center justify-self-end gap-6 lg:flex">
           <Link
             href={SIGN_IN_HREF}
-            className={`text-sm no-underline ${light ? "text-navy/85 hover:text-navy" : "text-white/85 hover:text-white"}`}
+            className={`${styles.navReveal} text-sm no-underline ${light ? "text-navy/85 hover:text-navy" : "text-white/85 hover:text-white"}`}
+            style={{ animationDelay: "570ms" }}
           >
             Sign in
           </Link>
           {cta && (
-            <Link
-              href={cta.href}
-              className={`btn-pill-secondary btn-hover-shrink ${styles.navCta} h-9 !px-5 text-sm`}
+            <div
+              className={styles.navReveal}
+              style={{ animationDelay: "720ms" }}
             >
-              {cta.label}
-            </Link>
+              <Link
+                href={cta.href}
+                className={`btn-pill-secondary btn-hover-shrink ${styles.navCta} h-9 !px-5 text-sm`}
+              >
+                {cta.label}
+              </Link>
+            </div>
           )}
         </div>
 
         <button
           type="button"
-          className="-mr-1.5 flex cursor-pointer flex-col gap-1.5 justify-self-end border-0 bg-transparent p-1.5 lg:hidden"
+          className={`${styles.navReveal} -mr-1.5 flex cursor-pointer flex-col gap-1.5 justify-self-end border-0 bg-transparent p-1.5 lg:hidden`}
+          style={{ animationDelay: "165ms" }}
           aria-label="Toggle menu"
           aria-expanded={mobileOpen}
           onClick={() => setMobileOpen((v) => !v)}
