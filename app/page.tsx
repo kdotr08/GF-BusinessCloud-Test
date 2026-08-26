@@ -1,7 +1,6 @@
 import { HomeHero } from "@/components/marketing/HomeHero";
 import { StatsBar } from "@/components/marketing/StatsBar";
 import { SolutionsGrid } from "@/components/marketing/SolutionsGrid";
-import { ProductTour } from "@/components/marketing/ProductTour";
 import { FeatureGrid } from "@/components/marketing/FeatureGrid";
 import { PlatformShowcase } from "@/components/marketing/PlatformShowcase";
 import { IntegrationsSection } from "@/components/marketing/IntegrationsSection";
@@ -17,7 +16,6 @@ export default function HomePage() {
       <HomeHero />
       <StatsBar />
       <SolutionsGrid />
-      <ProductTour />
       <PlatformShowcase />
       <FeatureGrid />
       <IntegrationsSection />

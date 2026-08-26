@@ -1,5 +1,8 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { ScrollRevealGroup } from "./ScrollRevealGroup";
-import { MarketingPillButton } from "./MarketingPillButton";
+import { MediaPlaceholder } from "./MediaPlaceholder";
 import styles from "./home.module.css";
 import { TypingEyebrow } from "./TypingEyebrow";
 
@@ -53,46 +56,63 @@ const BUILDER_STEPS = [
   },
 ];
 
+const STEP_INTERVAL_MS = 3200;
+
 export function PlatformShowcase() {
+  const [activeStep, setActiveStep] = useState(0);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = setInterval(() => {
+      setActiveStep((current) => (current + 1) % BUILDER_STEPS.length);
+    }, STEP_INTERVAL_MS);
+    return () => clearInterval(id);
+  }, []);
+
+  const active = BUILDER_STEPS[activeStep];
+
   return (
     <section className="bg-panel-alt py-16">
       <ScrollRevealGroup className="wrap">
         <div className={`section-intro section-intro--center ${styles.builderIntro}`}>
           <div data-reveal-item style={{ transitionDelay: "0ms" }}>
-            <TypingEyebrow className="mx-auto border-[#00608e]/25 bg-[#00608e]/10 text-[#00608e]">The builder</TypingEyebrow>
+            <TypingEyebrow className="mx-auto border-[#0087b0]/25 bg-[#0087b0]/10 text-[#0087b0]">How it works</TypingEyebrow>
           </div>
-          <h2 data-reveal-item style={{ transitionDelay: "160ms" }} className="section-heading">The complete service lifecycle in one platform.</h2>
+          <h2 data-reveal-item style={{ transitionDelay: "160ms" }} className="section-heading">
+            The complete service lifecycle in one platform.
+          </h2>
           <p data-reveal-item style={{ transitionDelay: "320ms" }} className="muted">
-            Move through a clear four-stage workflow while Govform.com handles the secure,
-            accessible infrastructure underneath.
+            Watch how teams build accessible journeys, connect existing systems, automate
+            workflows and manage live services, all without rebuilding their existing systems.
           </p>
         </div>
 
-        <div className={styles.builderSteps}>
-          {BUILDER_STEPS.map((step, index) => (
-            <article
-              key={step.title}
-              data-reveal-item
-              style={{ transitionDelay: `${520 + index * 180}ms` }}
-              className={styles.builderStep}
-            >
-              <div className={styles.builderStepMarker}>{String(index + 1).padStart(2, "0")}</div>
-              <div className={styles.builderStepBody}>
-                <div className={styles.builderStepIcon}>{step.icon}</div>
-                <h3>{step.title}</h3>
-                <p>{step.body}</p>
-              </div>
-            </article>
-          ))}
-        </div>
+        <div data-reveal-item style={{ transitionDelay: "480ms" }} className={styles.tourCard}>
+          <MediaPlaceholder aspectClass="aspect-video" />
 
-        <div data-reveal-item style={{ transitionDelay: "1280ms" }} className={styles.builderCta}>
-          <MarketingPillButton
-            href="/pricing#plans"
-            className={`${styles.pillSolidBlue} ${styles.pillGradientHoverSweep}`}
-          >
-            Start building free
-          </MarketingPillButton>
+          <div className={styles.stepTabs}>
+            {BUILDER_STEPS.map((step, index) => (
+              <button
+                key={step.title}
+                type="button"
+                aria-pressed={index === activeStep}
+                data-active={index === activeStep || undefined}
+                className={styles.stepTab}
+                onClick={() => setActiveStep(index)}
+              >
+                <span className={styles.stepTabMarker}>{String(index + 1).padStart(2, "0")}</span>
+                {step.title}
+              </button>
+            ))}
+          </div>
+
+          <div className={styles.stepDetail} key={active.title}>
+            <div className={styles.builderStepIcon}>{active.icon}</div>
+            <div>
+              <h3>{active.title}</h3>
+              <p>{active.body}</p>
+            </div>
+          </div>
         </div>
       </ScrollRevealGroup>
     </section>
