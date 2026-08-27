@@ -259,6 +259,7 @@
   position: relative;
   height: calc(56.25vw - 156px);
   overflow: hidden;
+  border-radius: 0 0 28px 28px;
 }
 
 /* Absolutely positioned behind the nav/copy (z-index:0, vs .heroGrid's
@@ -472,35 +473,29 @@
      height and clipping them at the top/bottom edge.
    - Dot-grid texture unchanged from the hero/estate-banner/final-cta
      family, layered on top of the glows. */
+/* Near-full-width card, same treatment as .homeFinalCtaCard
+   (pricing.module.css): a small fixed outer gutter on the section itself
+   — not a big fluid margin — so the card reads as "inset but still
+   basically full width" rather than a narrow floating panel, with the
+   actual navy background/decoration/rounding living on .trustCard one
+   level in. Top padding is deliberately small (less gap below
+   .heroSection's own rounded bottom corners than a full section gutter
+   would give) since the two rounded edges are meant to sit close
+   together, not float far apart. background: #fff (not left to inherit
+   the page's #fafafa body color) so the gutter reads as the same white
+   as every other section on the page, not a subtly different grey —
+   same reasoning as .homeFinalCtaSection's explicit #fff. Any future
+   section using this same "small outer gutter + inset rounded card"
+   pattern should set this explicitly too, for the same reason. */
 .trustSection {
-  position: relative;
-  overflow: hidden;
-  background-color: var(--navy);
+  padding: 12px 12px 32px;
+  background: #fff;
 }
-.trustSection::before {
-  content: "";
-  position: absolute;
-  inset: -25%;
-  z-index: 0;
-  background: conic-gradient(from 180deg at 50% 50%, var(--cta-blue) 126.34615302085876deg, var(--navy) 337.5deg);
-  filter: blur(90px);
-}
-.trustSection::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background-image:
-    radial-gradient(circle at 78% 15%, rgba(0, 180, 216, 0.22) 0%, rgba(0, 180, 216, 0) 55%),
-    radial-gradient(circle at 8% 85%, rgba(0, 180, 216, 0.14) 0%, rgba(0, 180, 216, 0) 50%),
-    radial-gradient(circle, rgba(255, 255, 255, 0.075) 0px, rgba(255, 255, 255, 0.075) 1px, transparent 1px);
-  background-repeat: no-repeat, no-repeat, repeat;
-  background-size: 900px 900px, 700px 700px, 16px 16px;
-  background-position: top right, bottom left, 0 0;
-}
-.trustSection :global(.wrap) {
-  position: relative;
-  z-index: 2;
+/* Background comes from the global .bg-dark-glow utility (applied
+   alongside this class in StatsBar.tsx, along with the footer) — this
+   class only owns the corner rounding, not a rule here. */
+.trustCard {
+  border-radius: 24px;
 }
 
 /* Scroll-triggered reveal (aeline.webflow.io's About Us section) — a
@@ -560,11 +555,13 @@
    modeled on the reference site's Finsweet number-counter, reimplemented
    by hand (no extra dependency) since it's the one clearly load-bearing
    part of that site's reveal. */
+/* gap widened from 16px so neighbouring cards' halo rings (.bentoCard,
+   below) have room to breathe instead of nearly touching. */
 .bentoGrid {
   display: grid;
   grid-template-columns: 1.15fr 1fr 1fr;
   grid-auto-rows: 1fr;
-  gap: 16px;
+  gap: 26px;
 }
 .bentoCard {
   border-radius: 12px;
@@ -574,11 +571,22 @@
   justify-content: flex-end;
   /* All four card fills are white for now, by explicit decision — was
      --cta-blue (hero) / #f5f6f8 (light) / dotted --color-cyan-900 (dark).
-     Every card needs its own border now for definition against the page's
-     white background, and hero/dark's text flips from white to navy/grey
-     to stay legible on white. */
+     hero/dark's text flips from white to navy/grey to stay legible on
+     white.
+     These sit on .trustCard's dark background, so instead of a plain
+     border they get a glass-panel halo: a genuinely translucent white
+     fill (not just a thin stroke) framing the card, the same bg-white/10
+     "see-through" treatment as the eyebrow pill above this card
+     (StatsBar.tsx's "Proven in high-stakes services" badge —
+     border-white/25 bg-white/10), capped by a crisp, near-opaque white
+     line right at the outer edge. Layered box-shadows, not an actual
+     border/padding — the first-listed shadow paints on top, so the
+     smaller-spread one (8px) covers the translucent inner band and the
+     larger-spread one (9px) only shows through as the outer 1px line. */
   background: #fff;
-  border: 1px solid #e3e4e8;
+  box-shadow:
+    0 0 0 8px rgba(255, 255, 255, 0.1),
+    0 0 0 9px rgba(255, 255, 255, 0.85);
 }
 .bentoCardHero {
   grid-row: 1 / span 2;
@@ -747,6 +755,14 @@
   line-height: 1.4;
   margin-top: 8px;
 }
+.bentoLabelDarkHeading {
+  font-family: var(--font-display), "Inter", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--navy);
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+}
 .bentoLabelDark {
   font-size: 13px;
   color: #565a64;
@@ -792,21 +808,14 @@
     opacity: 0;
   }
 }
-.isoShieldText {
+.isoShieldLogo {
   position: absolute;
   inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding-bottom: 9px;
-  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
-  font-size: 11px;
-  font-weight: 700;
-  line-height: 1.35;
-  letter-spacing: 0.03em;
-  color: #fff;
-  text-align: center;
+  margin: auto;
+  width: 52px;
+  height: 52px;
+  padding-bottom: 6px;
+  object-fit: contain;
 }
 
 /* Two breakpoints, not one: below 920px the 3-col desktop layout (hero
@@ -871,6 +880,11 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
 }
+/* Fade + slide in from the side, not a scale-up: direction comes from
+   --feature-reveal-x (set per card in FeatureGrid.tsx — negative for the
+   top row, positive for the bottom row), so the two rows visibly
+   converge from opposite sides rather than all six cards growing in
+   place together. */
 .featureCard {
   position: relative;
   display: flex;
@@ -880,7 +894,7 @@
   border-radius: 16px;
   overflow: hidden;
   opacity: 0;
-  transform: scale(0.94);
+  transform: translateX(var(--feature-reveal-x, 0));
   transition:
     opacity 2200ms cubic-bezier(0.16, 1, 0.3, 1),
     transform 2200ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -888,7 +902,7 @@
 }
 .featuresBento[data-visible] .featureCard {
   opacity: 1;
-  transform: scale(1);
+  transform: translateX(0);
 }
 @media (prefers-reduced-motion: reduce) {
   .featureCard {
@@ -898,14 +912,17 @@
   }
 }
 
-/* Top-right blob — positioned against the whole card (not .featureVisual)
-   so it can sit in the card's true corner regardless of how tall the
-   visual zone ends up being. Same accent color as .solutionGlowA/B (Use
-   Cases) — rgba(0, 180, 216, ...) — not .solutionFade's rgba(28, 164,
-   218, ...), which is a visibly different blue reserved for the linear
-   fade below. Radial-gradient, not a blurred flat disc — the color
-   itself fades to transparent, giving a softer, more diffuse edge than
-   filter: blur on a solid shape.
+/* Glow lives inside .featureVisual (below, overflow: hidden) rather than
+   against the whole card — matching Use Cases, where .solutionGlowA is
+   the only glow left after removing the ones that used to bleed into
+   .solutionBody's text. A card-wide blob can't be confined to "just the
+   animation area" without reaching into the title/description below it
+   at some card heights; scoping it to the visual zone's own box makes
+   that containment exact instead of approximate, regardless of how the
+   description wraps. Same accent color as .solutionGlowA. Radial-
+   gradient, not a blurred flat disc — the color itself fades to
+   transparent, giving a softer, more diffuse edge than filter: blur on a
+   solid shape.
 
    circle farthest-side, not the default farthest-corner: on a perfect
    square (aspect-ratio: 1 / 1) with the gradient centered, the corners
@@ -914,67 +931,28 @@
    gradient reaches the box's own straight edges it's only partway
    through its falloff — and since a background can't paint past its own
    box, that partial opacity just stops dead at the edge, reading as a
-   hard cutoff (this bit anyone once a blob was pulled far enough toward
-   center to expose a flat edge within the card, rather than only the
-   corner region). farthest-side sizes the radius to the edge distance
+   hard cutoff. farthest-side sizes the radius to the edge distance
    instead, so every straight edge is reached only once the gradient has
    already faded to fully transparent — corners fade out even earlier.
-   Applies to .featureCardGlowB below for the same reason.
 
-   z-index: 0, and every mockup/text layer below is explicitly z-index: 1
-   — DOM order (this renders first) already put it behind, but with the
-   card now built from several overlapping absolutely-positioned layers,
-   an explicit stacking order removes any doubt rather than leaning on
-   paint order alone. */
+   z-index: 0, and .featureVisualContent above it is explicitly z-index: 1
+   — DOM order (this renders first) already put it behind, but with two
+   overlapping absolutely-positioned layers, an explicit stacking order
+   removes any doubt rather than leaning on paint order alone. */
 .featureCardGlow {
   position: absolute;
   z-index: 0;
-  aspect-ratio: 1 / 1;
-  pointer-events: none;
-}
-.featureCardGlowA {
   top: -45%;
   right: -43%;
   width: 120%;
+  aspect-ratio: 1 / 1;
+  pointer-events: none;
   background: radial-gradient(
     circle farthest-side at 50% 50%,
     rgba(0, 180, 216, 0.2) 0%,
     rgba(0, 180, 216, 0.08) 45%,
     rgba(0, 180, 216, 0) 100%
   );
-}
-/* A second blob, pinned against the whole card (like glowA, not scoped
-   to .featureVisual as an earlier pass had it) so it can reach down into
-   .featureBody's territory near the title — a box scoped to the visual
-   zone alone couldn't reach that far without the offsets getting
-   unreasonably extreme, since the visual zone is only part of the
-   card's height. Same color as .featureCardBottomFade below (the
-   different rgba(28, 164, 218, ...) blue, not glowA's rgba(0, 180, 216,
-   ...)) — the two overlap in this lower-left region, so matching hues
-   is what makes them read as one continuous wash. */
-.featureCardGlowB {
-  bottom: -12.5%;
-  left: -21.5%;
-  width: 65%;
-  background: radial-gradient(
-    circle farthest-side at 50% 50%,
-    rgba(28, 164, 218, 0.14) 0%,
-    rgba(28, 164, 218, 0.05) 45%,
-    rgba(28, 164, 218, 0) 100%
-  );
-}
-/* A card-wide radial blob and body text don't mix cleanly on its own —
-   a plain upward linear fade reads calmer there, underneath glowB. Same
-   color as .solutionFade (Use Cases). */
-.featureCardBottomFade {
-  position: absolute;
-  z-index: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 58%;
-  background: linear-gradient(to top, rgba(28, 164, 218, 0.16) 0%, rgba(28, 164, 218, 0) 100%);
-  pointer-events: none;
 }
 
 .featureVisual {
@@ -985,15 +963,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
-/* Wraps just the actual product-mockup (FeatureVisual in
-   FeatureGrid.tsx), not the glow above — overflow: hidden here, not on
-   .featureVisual itself, so a mockup that's slightly taller than the
-   available space (the visual zone shrinks as the description wraps to
-   more lines) gets clipped at the visual zone's own edge instead of
-   spilling down over the title/description. (.featureCardGlow{A,B} bleed
-   freely since they're positioned against .featureCard, not nested
-   inside this wrapper at all.)
+/* Wraps just the actual product-mockup (FeatureVisual in FeatureGrid.tsx)
+   — a second, tighter overflow: hidden nested inside .featureVisual's own
+   (which clips the glow to the visual zone's box), so a mockup slightly
+   taller than the available space still clips at its own edge rather
+   than spilling into .featureVisual's padding.
    width/height: 100% is load-bearing, not decorative: .featureVisual is
    a row flex container, so a flex item with no flex-grow sizes to
    fit-content by default rather than filling the row — and several
@@ -1552,12 +1528,12 @@
    The glow blobs still live in CSS (they extend into the plain text
    area below the image, which isn't part of the exported asset), and
    a small fade bridges the image's flat bottom edge into that area. */
-/* Clips the marquee's pre-animation translateX(100%) position (see
-   .solutionsMarqueeReveal below) so it doesn't create a page-wide
-   horizontal scrollbar before the reveal settles it back to 0. */
-.solutionsSection {
-  overflow-x: hidden;
-}
+/* No overflow-x: hidden here (moved to .solutionsSticky, which clips the
+   reveal's pre-animation translateX offset just as well): overflow-x on
+   an ancestor implicitly forces overflow-y: auto too (a CSS quirk),
+   which turns this section into its own scroll container — and
+   .solutionsSticky's position: sticky would then stick relative to
+   *that* container instead of the real viewport, breaking the pin. */
 
 /* Scroll-triggered reveal for the (now centered) header text — fade +
    scale up, gated by [data-visible] from the IntersectionObserver in
@@ -1587,15 +1563,11 @@
   --solutions-reveal-delay: 440ms;
 }
 
-/* Marquee gets a plain opacity fade (no scale/translate) so it doesn't
-   interact with .solutionsTrack's own translateX keyframe loop — this
-   sits on the parent viewport, the track's transform is untouched. */
-/* translateX in vw, not % — the viewport is nearly full page width, so
-   100% was a huge (~1900px on a wide screen) distance to cover in
-   900ms, which read as a fast snap rather than a smooth slide. 40vw is
-   still comfortably off-screen at the start (the section's own
-   overflow-x: hidden plus the browser's own viewport edge both keep it
-   invisible pre-animation) but a slower, gentler distance to travel. */
+/* Entrance slide for the card track — plain opacity + translateX (no
+   scale), gated by the same [data-visible] as .solutionsReveal above.
+   This sits on .solutionsViewport; the scroll-jack effect in
+   SolutionsGrid.tsx transforms .solutionsTrack (its child) independently,
+   so the two transforms never fight over the same element. */
 .solutionsMarqueeReveal {
   opacity: 0;
   transform: translateX(40vw);
@@ -1618,60 +1590,64 @@
   }
 }
 
-/* Continuous marquee — a duplicated set of cards, auto-scrolled via JS
-   (SolutionsGrid.tsx nudges scrollLeft every frame) rather than a CSS
-   transform keyframe, because the container is also a real native
-   overflow-x scroller: that's what lets a mouse drag (pointer events,
-   same component) and a touch swipe (the browser's own native scrolling,
-   free) both take over mid-scroll. autoplay pauses on hover/drag/touch;
-   a scroll listener wraps scrollLeft past the halfway point (= one set's
-   width) back to 0 so the loop reads as infinite regardless of which of
-   the three input methods is driving it. Scrollbar hidden since the
-   loop illusion depends on the seam not being visibly "the end". */
+/* Scroll-jacked horizontal reveal (see the effect in SolutionsGrid.tsx):
+   .solutionsPin is a plain block given extra height by JS — its natural
+   content height plus however far the track needs to travel — so that
+   .solutionsSticky, pinned to the top of the viewport for the length of
+   that extra height, releases back into normal flow the instant the
+   track finishes sliding. No JS "unpin" logic needed; it falls out of
+   position: sticky's own behavior once the parent runs out of room. */
+.solutionsPin {
+  position: relative;
+}
+.solutionsSticky {
+  position: sticky;
+  top: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 32px;
+  padding-bottom: 32px;
+  overflow: hidden;
+}
+@media (prefers-reduced-motion: reduce) {
+  .solutionsSticky {
+    position: static;
+  }
+}
 .solutionsViewport {
   width: 100%;
-  margin-top: 8px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  cursor: grab;
+  overflow-x: hidden;
 }
-.solutionsViewport::-webkit-scrollbar {
-  display: none;
+@media (prefers-reduced-motion: reduce) {
+  .solutionsViewport {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
-.solutionsViewport.dragging {
-  cursor: grabbing;
-  scroll-snap-type: none;
-}
+/* padding-left/right both match .wrap's own inset exactly (mx-auto,
+   1200px max-width, 24px gutter), so the track starts and ends flush
+   with the same content edge every other section uses — not the raw
+   screen edge — while scrolling through the middle of the track is
+   still free to run edge to edge and bleed off both sides. */
 .solutionsTrack {
   display: flex;
   width: max-content;
-}
-/* padding-right only (no padding-left) so the trailing gap after a
-   set's last card matches the gaps between cards exactly — that's
-   what makes the set0-to-set1 seam invisible as the loop repeats. A
-   left-padding here would only ever show once, at the very start, but
-   would throw off the halfway-point wrap since it'd make the two
-   duplicated sets unequal widths (see the bug this replaced: a 40px
-   gap at the seam vs. 16px everywhere else). */
-.solutionSet {
-  display: flex;
-  flex: none;
   gap: 16px;
-  padding-right: 16px;
+  padding-left: max(24px, calc((100vw - 1200px) / 2 + 24px));
+  padding-right: max(24px, calc((100vw - 1200px) / 2 + 24px));
 }
 .solutionCard {
   position: relative;
-  width: clamp(280px, 26vw, 373px);
+  width: clamp(300px, 30vw, 420px);
   flex: none;
   border: 1px solid #e5e8eb;
   background: #fff;
   border-radius: 16px;
   overflow: hidden;
 }
-.solutionGlowA,
-.solutionGlowB {
+.solutionGlowA {
   position: absolute;
   width: 250px;
   height: 217px;
@@ -1680,14 +1656,8 @@
   border-radius: 9999px;
   filter: blur(100px);
   pointer-events: none;
-}
-.solutionGlowA {
   right: 5%;
   top: -18%;
-}
-.solutionGlowB {
-  left: -12%;
-  bottom: -12%;
 }
 .solutionMedia {
   position: relative;
@@ -1697,25 +1667,6 @@
   display: block;
   width: 100%;
   height: auto;
-}
-/* Ramps up over its first 130px (still inside the image, ending 56px
-   below it) then holds flat at the tinted color the rest of the way —
-   deliberately oversized (674px) past any realistic card height so it
-   always reaches the card's true bottom edge rather than hard-stopping
-   partway down; .solutionCard's overflow: hidden crops the excess. */
-.solutionFade {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -600px;
-  height: 674px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0) 0,
-    rgba(28, 164, 218, 0.08) 130px,
-    rgba(28, 164, 218, 0.08) 100%
-  );
-  pointer-events: none;
 }
 .solutionBody {
   position: relative;
@@ -1733,21 +1684,19 @@
   color: #0d1f3d;
   line-height: 1.5;
 }
-/* No autoplay/wrap-around for reduced-motion (see SolutionsGrid.tsx) —
-   the duplicated set exists only to make that wrap seamless, so drop it
-   here rather than leave dead scrollable width past the real content. */
-@media (prefers-reduced-motion: reduce) {
-  .solutionSet:last-child {
-    display: none;
-  }
-}
-
 /* Media placeholders — dashed hand-off boxes for screenshots/video that
-   haven't been produced yet. Drop a real asset in and remove the wrapper. */
+   haven't been produced yet. Drop a real asset in and remove the wrapper.
+   Styled with the same soft blue radial glow as .featureCardGlowA/
+   .solutionGlowA (Use Cases, How it's different), not a generic grey
+   diagonal stripe — reads as "this card's real content is on its way",
+   consistent with the rest of the page's card language, rather than a
+   visibly out-of-place placeholder. */
 .placeholder {
-  border: 1.5px dashed #cfd2d8;
+  position: relative;
+  overflow: hidden;
+  border: 1.5px dashed rgba(0, 96, 142, 0.28);
   border-radius: 8px;
-  background: repeating-linear-gradient(135deg, rgba(0, 31, 63, 0.035) 0 12px, transparent 12px 24px);
+  background: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1757,7 +1706,18 @@
   text-align: center;
   width: 100%;
 }
+.placeholder::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 20% 15%, rgba(0, 180, 216, 0.16) 0%, rgba(0, 180, 216, 0) 55%),
+    radial-gradient(circle at 85% 85%, rgba(28, 164, 218, 0.12) 0%, rgba(28, 164, 218, 0) 50%);
+}
 .placeholderLabel {
+  position: relative;
+  z-index: 1;
   font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
   font-size: 12px;
   font-weight: 600;

@@ -214,6 +214,45 @@ p {
     @apply rounded-lg border border-line bg-white p-8 shadow-soft;
   }
 
+  /* Shared "dark glow" surface — the "Trusted..." stats panel's original
+     background (--navy base, a blurred var(--cta-blue) conic sweep, two
+     rgba(0, 180, 216, ...) radial accents and a dot-grid texture), pulled
+     out so the footer can share it too. Deliberately NOT the Enterprise
+     plan card's cyan-900 background (.trackCardEmphasized,
+     pricing.module.css) — that one reads noticeably greenish next to the
+     hero's blues, which is exactly the mismatch this replaces; this is
+     the bluer navy family instead. */
+  .bg-dark-glow {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--navy);
+  }
+  .bg-dark-glow::before {
+    content: "";
+    position: absolute;
+    inset: -25%;
+    z-index: 0;
+    background: conic-gradient(from 180deg at 50% 50%, var(--cta-blue) 126.34615302085876deg, var(--navy) 337.5deg);
+    filter: blur(90px);
+  }
+  .bg-dark-glow::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background-image:
+      radial-gradient(circle at 78% 15%, rgba(0, 180, 216, 0.22) 0%, rgba(0, 180, 216, 0) 55%),
+      radial-gradient(circle at 8% 85%, rgba(0, 180, 216, 0.14) 0%, rgba(0, 180, 216, 0) 50%),
+      radial-gradient(circle, rgba(255, 255, 255, 0.075) 0px, rgba(255, 255, 255, 0.075) 1px, transparent 1px);
+    background-repeat: no-repeat, no-repeat, repeat;
+    background-size: 900px 900px, 700px 700px, 16px 16px;
+    background-position: top right, bottom left, 0 0;
+  }
+  .bg-dark-glow > .wrap {
+    position: relative;
+    z-index: 2;
+  }
+
   /* Decorative accent rule — the gradient glow used behind CTAs
      and section dividers in the source visual system. */
   .glow-line {

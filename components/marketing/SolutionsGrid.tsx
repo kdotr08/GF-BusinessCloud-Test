@@ -6,9 +6,8 @@ import { TypingEyebrow } from "./TypingEyebrow";
 
 // Order is deliberate, not alphabetical/thematic: each image's baked-in
 // border comes in one of three colors (blue: applications/onboarding/
-// caseintake, teal: requests/compliance, navy: feedback), and cards are
-// interleaved so no two adjacent cards — including the marquee's loop
-// seam, last back to first — share a border color.
+// caseintake, teal: requests/compliance, navy: feedback), interleaved so
+// no two adjacent cards share a border color.
 const SOLUTIONS: [string, string, string][] = [
   ["Applications and registrations", "Guide people through eligibility, evidence collection and submission using clear, accessible journeys.", "/images/use-cases/applications.png"],
   ["Requests and approvals", "Route internal and external requests to the right teams, with clear statuses and audit history.", "/images/use-cases/requests.png"],
@@ -22,10 +21,8 @@ function SolutionCard({ title, body, image }: { title: string; body: string; ima
   return (
     <div className={styles.solutionCard}>
       <div className={styles.solutionGlowA} />
-      <div className={styles.solutionGlowB} />
       <div className={styles.solutionMedia}>
         <img src={image} alt="" />
-        <div className={styles.solutionFade} />
       </div>
       <div className={styles.solutionBody}>
         <div className={styles.solutionTitle}>{title}</div>
@@ -35,14 +32,12 @@ function SolutionCard({ title, body, image }: { title: string; body: string; ima
   );
 }
 
-// Autoplay pace, expressed the same way the old CSS keyframe was (a full
-// loop — one set's width — every DURATION_S seconds) so swapping the
-// scroll-driven marquee in didn't change how fast it reads.
-const DURATION_S = 70;
-
 export function SolutionsGrid() {
   const sectionRef = useRef<HTMLElement>(null);
+  const pinRef = useRef<HTMLDivElement>(null);
+  const stickyRef = useRef<HTMLDivElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -66,134 +61,102 @@ export function SolutionsGrid() {
     return () => observer.disconnect();
   }, []);
 
-  // Auto-scroll + drag-to-scroll. The viewport is a real horizontal
-  // scroller (home.module.css .solutionsViewport), so mobile swipe is
-  // free via native touch scrolling — this effect only adds the desktop
-  // mouse-drag handling, the autoplay nudge, and the seamless wrap-around
-  // between the two duplicated card sets.
+  // Scroll-jacked horizontal reveal: .solutionsPin is given exactly enough
+  // extra height (its natural content height + however far the track needs
+  // to travel) that position: sticky on .solutionsSticky keeps it pinned
+  // to the top of the viewport for precisely that many pixels of scroll —
+  // no more, no less. Scrolling through that budget is mapped 1:1 onto the
+  // track's translateX, so scroll speed and horizontal speed always match;
+  // once the track reaches its final card, .solutionsPin runs out of extra
+  // height and the page carries on scrolling into the next section on its
+  // own, with no extra code needed to "release" the pin.
   useEffect(() => {
+    const pin = pinRef.current;
+    const sticky = stickyRef.current;
     const viewport = viewportRef.current;
-    if (!viewport) return;
+    const track = trackRef.current;
+    if (!pin || !sticky || !viewport || !track) return;
 
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let paused = false;
-    let dragging = false;
-    let startX = 0;
-    let startScrollLeft = 0;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+    let extra = 0;
     let rafId = 0;
+    let queued = false;
 
-    const tick = () => {
-      if (!paused && !dragging && !reduceMotion) {
-        const halfWidth = viewport.scrollWidth / 2;
-        viewport.scrollLeft += halfWidth / (DURATION_S * 60);
-      }
-      rafId = requestAnimationFrame(tick);
+    const measure = () => {
+      extra = Math.max(0, track.scrollWidth - viewport.clientWidth);
+      pin.style.height = `${sticky.offsetHeight + extra}px`;
+      apply();
     };
-    rafId = requestAnimationFrame(tick);
+
+    const apply = () => {
+      const rect = pin.getBoundingClientRect();
+      const scrolled = Math.min(Math.max(-rect.top, 0), extra);
+      track.style.transform = `translateX(-${scrolled}px)`;
+    };
 
     const onScroll = () => {
-      if (reduceMotion) return;
-      const halfWidth = viewport.scrollWidth / 2;
-      if (viewport.scrollLeft >= halfWidth) viewport.scrollLeft -= halfWidth;
-      else if (viewport.scrollLeft < 0) viewport.scrollLeft += halfWidth;
+      if (queued) return;
+      queued = true;
+      rafId = requestAnimationFrame(() => {
+        queued = false;
+        apply();
+      });
     };
 
-    const onMouseEnter = () => {
-      paused = true;
-    };
-    const onMouseLeave = () => {
-      paused = false;
-    };
-    const onTouchStart = () => {
-      paused = true;
-    };
-    const onTouchEnd = () => {
-      paused = false;
-    };
+    measure();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", measure);
 
-    // Mouse only — touch already gets native swipe scrolling for free,
-    // and hijacking it here would fight the browser's own momentum.
-    const onPointerDown = (e: PointerEvent) => {
-      if (e.pointerType === "touch") return;
-      dragging = true;
-      startX = e.clientX;
-      startScrollLeft = viewport.scrollLeft;
-      viewport.classList.add(styles.dragging);
-      viewport.setPointerCapture(e.pointerId);
-    };
-    const onPointerMove = (e: PointerEvent) => {
-      if (!dragging) return;
-      viewport.scrollLeft = startScrollLeft - (e.clientX - startX);
-    };
-    const endDrag = (e: PointerEvent) => {
-      if (!dragging) return;
-      dragging = false;
-      viewport.classList.remove(styles.dragging);
-      try {
-        viewport.releasePointerCapture(e.pointerId);
-      } catch {
-        // pointer capture already released (e.g. pointercancel)
-      }
-    };
-
-    viewport.addEventListener("scroll", onScroll, { passive: true });
-    viewport.addEventListener("mouseenter", onMouseEnter);
-    viewport.addEventListener("mouseleave", onMouseLeave);
-    viewport.addEventListener("touchstart", onTouchStart, { passive: true });
-    viewport.addEventListener("touchend", onTouchEnd, { passive: true });
-    viewport.addEventListener("pointerdown", onPointerDown);
-    viewport.addEventListener("pointermove", onPointerMove);
-    viewport.addEventListener("pointerup", endDrag);
-    viewport.addEventListener("pointercancel", endDrag);
+    const resizeObserver = new ResizeObserver(measure);
+    resizeObserver.observe(track);
 
     return () => {
       cancelAnimationFrame(rafId);
-      viewport.removeEventListener("scroll", onScroll);
-      viewport.removeEventListener("mouseenter", onMouseEnter);
-      viewport.removeEventListener("mouseleave", onMouseLeave);
-      viewport.removeEventListener("touchstart", onTouchStart);
-      viewport.removeEventListener("touchend", onTouchEnd);
-      viewport.removeEventListener("pointerdown", onPointerDown);
-      viewport.removeEventListener("pointermove", onPointerMove);
-      viewport.removeEventListener("pointerup", endDrag);
-      viewport.removeEventListener("pointercancel", endDrag);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", measure);
+      resizeObserver.disconnect();
     };
   }, []);
 
   return (
-    <section ref={sectionRef} className={`bg-panel-alt py-16 ${styles.solutionsSection}`} data-visible={visible || undefined}>
-      <div className="wrap">
-        <div className="section-intro section-intro--center">
-          <TypingEyebrow
-            className={`mx-auto border-[#00608e]/25 bg-[#00608e]/10 text-[#00608e] ${styles.solutionsReveal} ${styles.solutionsRevealEyebrow}`}
-          >
-            Use Cases
-          </TypingEyebrow>
-          <h2
-            className={`section-heading ${styles.solutionsReveal} ${styles.solutionsRevealHeading}`}
-          >
-            Build complex processes into simple digital services.
-          </h2>
-          <p className={`muted ${styles.solutionsReveal} ${styles.solutionsRevealBody}`}>
-            Every service has its own requirements. From a straightforward application to a
-            connected operational workflow, Govform.com gives you the tools to collect
-            information, make decisions and move work forward.
-          </p>
-        </div>
-      </div>
+    <section ref={sectionRef} className={`bg-panel-alt ${styles.solutionsSection}`} data-visible={visible || undefined}>
+      <div ref={pinRef} className={styles.solutionsPin}>
+        <div ref={stickyRef} className={styles.solutionsSticky}>
+          <div className="wrap">
+            <div className="section-intro section-intro--center">
+              <TypingEyebrow
+                className={`mx-auto border-[#00608e]/25 bg-[#00608e]/10 text-[#00608e] ${styles.solutionsReveal} ${styles.solutionsRevealEyebrow}`}
+              >
+                Use Cases
+              </TypingEyebrow>
+              <h2
+                className={`section-heading ${styles.solutionsReveal} ${styles.solutionsRevealHeading}`}
+              >
+                Build complex processes into simple digital services.
+              </h2>
+              <p className={`muted ${styles.solutionsReveal} ${styles.solutionsRevealBody}`}>
+                Every service has its own requirements. From a straightforward application to a
+                connected operational workflow, Govform.com gives you the tools to collect
+                information, make decisions and move work forward.
+              </p>
+            </div>
+          </div>
 
-      {/* Full-bleed (outside .wrap) continuous marquee — a native
-          horizontal scroller, auto-scrolled and drag/swipe-able (see the
-          effect above and .solutionsViewport in home.module.css). */}
-      <div ref={viewportRef} className={`${styles.solutionsViewport} ${styles.solutionsMarqueeReveal}`}>
-        <div className={styles.solutionsTrack}>
-          {[0, 1].map((setIndex) => (
-            <div className={styles.solutionSet} key={setIndex} aria-hidden={setIndex === 1 || undefined}>
+          {/* Full-bleed (outside .wrap): .solutionsViewport just clips the
+              track and carries the entrance slide-in
+              (.solutionsMarqueeReveal); .solutionsTrack's own transform is
+              driven entirely by the scroll effect above, so the two never
+              fight over the same element. */}
+          <div ref={viewportRef} className={`${styles.solutionsViewport} ${styles.solutionsMarqueeReveal}`}>
+            <div ref={trackRef} className={styles.solutionsTrack}>
               {SOLUTIONS.map(([title, body, image]) => (
-                <SolutionCard key={`${setIndex}-${title}`} title={title} body={body} image={image} />
+                <SolutionCard key={title} title={title} body={body} image={image} />
               ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </section>

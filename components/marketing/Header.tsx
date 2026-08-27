@@ -12,7 +12,7 @@ type MegaConfig = {
   listItems: SimpleLink[];
   banner: { title: string; cta: string; href: string };
 };
-type NavLink = { href: string; label: string; mega?: MegaConfig };
+export type NavLink = { href: string; label: string; mega?: MegaConfig };
 
 const PRICING_NAV_LINKS: NavLink[] = [
   { href: "/pricing#plans", label: "Pricing" },

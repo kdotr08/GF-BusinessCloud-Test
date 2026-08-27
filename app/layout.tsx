@@ -34,6 +34,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={displayFont.variable}>
       <head>
+        {/* Some browsers (Chrome/Firefox) restore the previous scroll
+            position on a plain page refresh, not just back/forward
+            navigation — so a reload could land mid-page instead of at the
+            hero. Disabling scrollRestoration and forcing scrollTo(0, 0)
+            here (in <head>, so it runs before paint) makes every refresh
+            start at the top regardless of where the user was scrolled to.
+            This only runs on a real page load, not client-side route
+            changes, since the root layout's <head> isn't re-executed on
+            in-app navigation. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "if('scrollRestoration' in history){history.scrollRestoration='manual';}window.scrollTo(0,0);",
+          }}
+        />
         <link rel="preconnect" href="https://api.fontshare.com" />
         <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="" />
         <link

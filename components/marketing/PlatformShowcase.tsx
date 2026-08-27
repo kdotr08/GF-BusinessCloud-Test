@@ -82,13 +82,18 @@ export function PlatformShowcase() {
             The complete service lifecycle in one platform.
           </h2>
           <p data-reveal-item style={{ transitionDelay: "320ms" }} className="muted">
-            Watch how teams build accessible journeys, connect existing systems, automate
-            workflows and manage live services, all without rebuilding their existing systems.
+            From the first question to the final decision, Govform helps your team collect
+            information, validate submissions, automate next steps and manage the resulting work.
           </p>
         </div>
 
         <div data-reveal-item style={{ transitionDelay: "480ms" }} className={styles.tourCard}>
-          <MediaPlaceholder aspectClass="aspect-video" />
+          {/* Capped height instead of aspect-video: at the card's full
+              1156px content width, a 16:9 box alone ran ~650px tall —
+              combined with the intro copy, tabs and step detail below it,
+              the section was taller than most laptop viewports. clamp()
+              still scales down gracefully on narrower screens. */}
+          <MediaPlaceholder aspectClass="h-[clamp(220px,30vw,360px)]" />
 
           <div className={styles.stepTabs}>
             {BUILDER_STEPS.map((step, index) => (

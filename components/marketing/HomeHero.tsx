@@ -1,55 +1,15 @@
 import { Header } from "@/components/marketing/Header";
+import { MAIN_NAV_LINKS } from "@/components/marketing/nav-links";
 import { OrganisationLogoMarquee } from "@/components/marketing/OrganisationLogoMarquee";
 import { TypingEyebrow } from "@/components/marketing/TypingEyebrow";
 import styles from "./home.module.css";
-
-const NAV_LINKS = [
-  { href: "/", label: "Home" },
-  {
-    href: "#product",
-    label: "Platform",
-    mega: {
-      gridTitle: "Platform",
-      gridColumns: [
-        [
-          { label: "Server-side forms", href: "/#server-side-forms" },
-          { label: "Automation & webhooks", href: "/#automation-webhooks" },
-          { label: "Darcy AI", href: "/#darcy-ai" },
-          { label: "Secure file handling & evidence", href: "/#malware-scanning" },
-        ],
-        [
-          { label: "Accessible by default", href: "/#accessible-by-default" },
-          { label: "Custom domains", href: "/#custom-domains" },
-          { label: "Security & compliance", href: "/security" },
-          { label: "Business Estate", href: "/pricing#estate" },
-          { label: "Institutional & Central Government", href: "/pricing#institutional" },
-        ],
-      ],
-      listTitle: "Explore",
-      listItems: [
-        { label: "Demo", href: "/demo" },
-        { label: "Platform", href: "/platform" },
-        { label: "Workflow", href: "/workflow" },
-        { label: "Security", href: "/security" },
-      ],
-      banner: {
-        title: "See Darcy AI build a form live",
-        cta: "Book a demo",
-        href: "/demo",
-      },
-    },
-  },
-  { href: "/pricing", label: "Pricing" },
-  { href: "/successes", label: "Successes" },
-  { href: "/resources", label: "Resources" },
-];
 
 export function HomeHero() {
   return (
     <header className={`${styles.heroSection} pt-4`}>
       <div className={`wrap relative z-10 ${styles.heroContent}`}>
         <Header
-          links={NAV_LINKS}
+          links={MAIN_NAV_LINKS}
           cta={{ href: "/pricing#institutional", label: "Talk to us" }}
           variant="light"
         />

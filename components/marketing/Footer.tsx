@@ -51,7 +51,7 @@ const COLUMNS: FooterColumn[] = [
 
 export function Footer() {
   return (
-    <footer className="bg-[color:var(--color-cyan-900)] pt-16 pb-8 text-white">
+    <footer className="bg-dark-glow rounded-t-[24px] pt-16 pb-8 text-white">
       <ScrollRevealGroup className="wrap">
         <div className="mb-12 flex flex-col gap-6 border-b border-white/10 pb-12 sm:flex-row sm:items-start sm:justify-between">
           <div>

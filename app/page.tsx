@@ -15,8 +15,8 @@ export default function HomePage() {
     <>
       <HomeHero />
       <StatsBar />
-      <SolutionsGrid />
       <PlatformShowcase />
+      <SolutionsGrid />
       <FeatureGrid />
       <IntegrationsSection />
       <CustomerSuccess />

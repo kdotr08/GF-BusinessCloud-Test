@@ -1,0 +1,323 @@
+/* Shared building blocks for the inner marketing pages (Features,
+   Templates, Workflow, Analytics, Integrations, Security, Demo, Support).
+   Kept separate from home.module.css / pricing.module.css since those are
+   scoped to their own page's bespoke sections — these classes are reused
+   across all eight inner pages. */
+
+.pageHero {
+  background-color: var(--color-cyan-900);
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.075) 0px, rgba(255, 255, 255, 0.075) 1px, transparent 1px);
+  background-size: 16px 16px;
+  padding-bottom: 56px;
+}
+
+.pageHeroBody {
+  max-width: 62ch;
+}
+
+.pageHeroBody h1 {
+  color: #fff;
+  font-size: clamp(32px, 4vw, 46px);
+  line-height: 1.12;
+}
+
+.pageHeroBody p {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 17px;
+  max-width: 56ch;
+}
+
+.pageHeroButtons {
+  margin-top: 26px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Secondary pill CTA for dark (navy) surfaces — .btn-pill-secondary
+   (globals.css) is a translucent navy fill meant for light backgrounds and
+   reads as near-invisible navy-on-navy here. Same pill shape/sizing, just
+   a white outline instead. */
+.pillGhost {
+  display: inline-flex;
+  height: 48px;
+  cursor: pointer;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: transparent;
+  padding: 0 24px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+  transition: border-color 200ms ease, background-color 200ms ease;
+}
+.pillGhost:hover,
+.pillGhost:focus-visible {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.section {
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+
+.sectionAlt {
+  background: #f4f6f8;
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+@media (max-width: 860px) {
+  .featureGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 620px) {
+  .featureGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.featureCard {
+  background: #fff;
+  border: 1px solid #e3e4e8;
+  border-radius: 12px;
+  padding: 22px;
+}
+
+.featureCardTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+
+.featureCardList {
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13.5px;
+  color: #565a64;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.featureCardList li {
+  padding-left: 16px;
+  position: relative;
+}
+
+.featureCardList li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--navy);
+  opacity: 0.35;
+}
+
+.pillRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid #dde0e4;
+  background: #fff;
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy);
+}
+
+.statRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+@media (max-width: 760px) {
+  .statRow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.statCard {
+  background: #fff;
+  border: 1px solid #e3e4e8;
+  border-radius: 12px;
+  padding: 18px 20px;
+}
+
+.statNum {
+  font-family: var(--font-display), "Inter", sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  color: var(--navy);
+  letter-spacing: -0.01em;
+}
+
+.statLabel {
+  font-size: 13px;
+  color: #565a64;
+  margin-top: 3px;
+}
+
+.stageList {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.stage {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 24px;
+  padding: 26px;
+  background: #fff;
+  border: 1px solid #e3e4e8;
+  border-radius: 12px;
+}
+@media (max-width: 760px) {
+  .stage {
+    grid-template-columns: 1fr;
+  }
+}
+
+.stageLabel {
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #0087b0;
+}
+
+.stageTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-top: 4px;
+}
+
+.stageSteps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stageSteps li {
+  font-size: 14px;
+  color: #3b3e47;
+}
+
+.stageSteps b {
+  color: var(--navy);
+}
+
+.faqItem {
+  border-top: 1px solid #e3e4e8;
+  padding: 16px 0;
+}
+.faqItem summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--navy);
+  font-size: 15px;
+  list-style: none;
+}
+.faqItem summary::-webkit-details-marker {
+  display: none;
+}
+.faqItem summary::before {
+  content: "+";
+  display: inline-block;
+  width: 18px;
+  color: #0087b0;
+  font-weight: 700;
+}
+.faqItem[open] summary::before {
+  content: "\2212";
+}
+
+.tableWrap {
+  overflow-x: auto;
+  border: 1px solid #e3e4e8;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e3e4e8;
+  white-space: nowrap;
+}
+
+.table th {
+  color: #7c7f88;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.table td {
+  color: #3b3e47;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.closingCta {
+  background-color: var(--color-cyan-900);
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.075) 0px, rgba(255, 255, 255, 0.075) 1px, transparent 1px);
+  background-size: 16px 16px;
+  border-radius: 16px;
+  padding: 48px 32px;
+  text-align: center;
+}
+
+.closingCta h2 {
+  color: #fff;
+}
+
+.closingCta p {
+  color: rgba(255, 255, 255, 0.75);
+  max-width: 56ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.closingCtaButtons {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}

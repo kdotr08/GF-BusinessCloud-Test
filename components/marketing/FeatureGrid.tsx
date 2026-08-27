@@ -138,7 +138,15 @@ function FeatureVisual({ kind }: { kind: VisualKind }) {
   }
 }
 
+// Matches .featureCard's transition in home.module.css — 500ms delay +
+// 2200ms duration — plus a small buffer. This is how long the scroll
+// lock below holds the page still once the cards start their entrance
+// slide, so a fast scroll can't carry the user past the section before
+// they've actually seen it animate in.
+const REVEAL_LOCK_MS = 2800;
+
 export function FeatureGrid() {
+  const sectionRef = useRef<HTMLElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
@@ -151,20 +159,55 @@ export function FeatureGrid() {
       return;
     }
 
+    // Block scroll input (wheel, touch drag, and the keys that page the
+    // viewport) for the reveal's duration once it starts, so the cards
+    // finish sliding into place before the user can scroll past them —
+    // without this, a fast/heavy scroll carries straight through the
+    // section while the animation is still mid-flight. Declared up here
+    // (not inside the observer callback) so the effect's own cleanup can
+    // always reach them, even if the component unmounts mid-lock.
+    const preventScroll = (e: Event) => e.preventDefault();
+    const scrollKeys = new Set(["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " "]);
+    const preventScrollKeys = (e: KeyboardEvent) => {
+      if (scrollKeys.has(e.key)) e.preventDefault();
+    };
+    const unlock = () => {
+      window.removeEventListener("wheel", preventScroll);
+      window.removeEventListener("touchmove", preventScroll);
+      window.removeEventListener("keydown", preventScrollKeys);
+    };
+    let timeoutId = 0;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting) return;
         setVisible(true);
         observer.disconnect();
+
+        // Land the section centered in the viewport before/while the
+        // lock holds it there — otherwise it settles wherever the
+        // user's scroll happened to be at the exact instant the
+        // threshold crossed, which reads as an arbitrary, off-center
+        // stopping point rather than a deliberate one.
+        sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+
+        window.addEventListener("wheel", preventScroll, { passive: false });
+        window.addEventListener("touchmove", preventScroll, { passive: false });
+        window.addEventListener("keydown", preventScrollKeys);
+        timeoutId = window.setTimeout(unlock, REVEAL_LOCK_MS);
       },
       { rootMargin: "0px 0px -10%", threshold: 0.15 },
     );
     observer.observe(grid);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      clearTimeout(timeoutId);
+      unlock();
+    };
   }, []);
 
   return (
-    <section id="product" className="bg-panel-alt py-16">
+    <section ref={sectionRef} id="product" className="overflow-x-hidden bg-panel-alt py-16">
       <ScrollRevealGroup className="wrap">
         <div className="section-intro">
           <div data-reveal-item style={{ transitionDelay: "0ms" }}>
@@ -183,12 +226,21 @@ export function FeatureGrid() {
               key={slug}
               id={slug}
               className={styles.featureCard}
-              style={{ ["--feature-reveal-delay" as string]: `${500 + i * 150}ms` }}
+              style={{
+                // Same delay for every card, top row and bottom row alike
+                // — both rows start and finish their slide together, so
+                // they converge on the grid from opposite sides at once
+                // rather than one row following the other.
+                ["--feature-reveal-delay" as string]: "500ms",
+                // Top row (i < 3) slides in from off-screen left, bottom
+                // row from off-screen right (100vw guarantees a fully
+                // off-screen start regardless of viewport width), so the
+                // two rows visibly converge from opposite sides.
+                ["--feature-reveal-x" as string]: i < 3 ? "-100vw" : "100vw",
+              }}
             >
-              <div className={`${styles.featureCardGlow} ${styles.featureCardGlowA}`} />
-              <div className={`${styles.featureCardGlow} ${styles.featureCardGlowB}`} />
-              <div className={styles.featureCardBottomFade} />
               <div className={styles.featureVisual}>
+                <div className={styles.featureCardGlow} />
                 <div className={styles.featureVisualContent}>
                   <FeatureVisual kind={visual} />
                 </div>
