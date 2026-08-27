@@ -29,9 +29,14 @@ const FAQS = [
       "Yes. Services can include conditional journeys, document collection, internal review, approvals, notifications and case-management processes.",
   },
   {
-    question: "How does Govform support accessibility and security?",
+    question: "How does Govform support accessibility?",
     answer:
-      "Govform provides accessible components, configurable controls and security features designed for organisations managing important or sensitive information.",
+      "Govform provides accessible components and patterns from the start. Your team remains responsible for the accessibility of its questions, guidance and uploaded content, while Govform supports the underlying service experience.",
+  },
+  {
+    question: "How is our information protected?",
+    answer:
+      "Govform uses server-side validation, encryption, access controls and independently certified information-security processes. More detailed assurance documentation is available for procurement and security teams.",
   },
 ];
 

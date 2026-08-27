@@ -63,7 +63,7 @@ type OrbitStyle = CSSProperties & {
 export function IntegrationsSection() {
   return (
     <section id="integrations" className={styles.integrationsSection}>
-      <ScrollRevealGroup className="wrap">
+      <ScrollRevealGroup className={`wrap ${styles.integrationsLayout}`}>
         <div className={styles.integrationOrbit}>
           <div className={`section-intro section-intro--center ${styles.integrationsIntro}`}>
             <div data-reveal-item style={{ transitionDelay: "0ms" }}>

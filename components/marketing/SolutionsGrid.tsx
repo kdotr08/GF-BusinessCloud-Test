@@ -130,7 +130,7 @@ export function SolutionsGrid() {
               <TypingEyebrow
                 className={`mx-auto border-[#00608e]/25 bg-[#00608e]/10 text-[#00608e] ${styles.solutionsReveal} ${styles.solutionsRevealEyebrow}`}
               >
-                Use Cases
+                What you can build
               </TypingEyebrow>
               <h2
                 className={`section-heading ${styles.solutionsReveal} ${styles.solutionsRevealHeading}`}

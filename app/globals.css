@@ -217,11 +217,9 @@ p {
   /* Shared "dark glow" surface — the "Trusted..." stats panel's original
      background (--navy base, a blurred var(--cta-blue) conic sweep, two
      rgba(0, 180, 216, ...) radial accents and a dot-grid texture), pulled
-     out so the footer can share it too. Deliberately NOT the Enterprise
-     plan card's cyan-900 background (.trackCardEmphasized,
-     pricing.module.css) — that one reads noticeably greenish next to the
-     hero's blues, which is exactly the mismatch this replaces; this is
-     the bluer navy family instead. */
+     out so the footer can share it too. The Enterprise route card uses
+     the same navy family with smaller, lower-saturation glows suited to
+     its more compact surface. */
   .bg-dark-glow {
     position: relative;
     overflow: hidden;

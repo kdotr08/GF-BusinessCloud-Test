@@ -13,7 +13,7 @@ const SECURITY: [string, string, string, string?][] = [
 
 export function SecurityGrid() {
   return (
-    <section id="security" className="bg-panel-alt py-16">
+    <section id="security" className={`bg-panel-alt ${styles.supportingSecuritySection}`}>
       <ScrollRevealGroup className="wrap">
         <div className="section-intro">
           <div data-reveal-item style={{ transitionDelay: "0ms" }}>

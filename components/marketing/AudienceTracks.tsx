@@ -76,8 +76,8 @@ const TRACKS: Track[] = [
 
 export function AudienceTracks() {
   return (
-    <section className="bg-panel-alt py-16">
-      <ScrollRevealGroup className="wrap">
+    <section className={`bg-panel-alt ${styles.audienceTracksSection}`}>
+      <ScrollRevealGroup className={`wrap ${styles.audienceTracksLayout}`}>
         <div className="section-intro">
           <div data-reveal-item style={{ transitionDelay: "0ms" }}>
             <TypingEyebrow className="border-[#00b4d8]/25 bg-[#00b4d8]/10 text-[#00b4d8]">

@@ -17,7 +17,8 @@ export function CustomerSuccess() {
             Open the stories behind services delivered at pace.
           </h2>
           <p data-reveal-item style={{ transitionDelay: "320ms" }}>
-            Scroll through each organisation to see what its team delivered and the result.
+            See how public-service teams have used Govform to launch accessible, secure services
+            while reducing cost and operational effort.
           </p>
         </div>
 

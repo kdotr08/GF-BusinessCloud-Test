@@ -72,8 +72,8 @@ export function PlatformShowcase() {
   const active = BUILDER_STEPS[activeStep];
 
   return (
-    <section className="bg-panel-alt py-16">
-      <ScrollRevealGroup className="wrap">
+    <section id="how-it-works" className={`bg-panel-alt ${styles.platformShowcaseSection}`}>
+      <ScrollRevealGroup className={`wrap ${styles.platformShowcaseLayout}`}>
         <div className={`section-intro section-intro--center ${styles.builderIntro}`}>
           <div data-reveal-item style={{ transitionDelay: "0ms" }}>
             <TypingEyebrow className="mx-auto border-[#0087b0]/25 bg-[#0087b0]/10 text-[#0087b0]">How it works</TypingEyebrow>
@@ -81,10 +81,6 @@ export function PlatformShowcase() {
           <h2 data-reveal-item style={{ transitionDelay: "160ms" }} className="section-heading">
             The complete service lifecycle in one platform.
           </h2>
-          <p data-reveal-item style={{ transitionDelay: "320ms" }} className="muted">
-            From the first question to the final decision, Govform helps your team collect
-            information, validate submissions, automate next steps and manage the resulting work.
-          </p>
         </div>
 
         <div data-reveal-item style={{ transitionDelay: "480ms" }} className={styles.tourCard}>
@@ -93,7 +89,7 @@ export function PlatformShowcase() {
               combined with the intro copy, tabs and step detail below it,
               the section was taller than most laptop viewports. clamp()
               still scales down gracefully on narrower screens. */}
-          <MediaPlaceholder aspectClass="h-[clamp(220px,30vw,360px)]" />
+          <MediaPlaceholder aspectClass="h-[clamp(210px,24vw,260px)]" />
 
           <div className={styles.stepTabs}>
             {BUILDER_STEPS.map((step, index) => (
@@ -105,8 +101,8 @@ export function PlatformShowcase() {
                 className={styles.stepTab}
                 onClick={() => setActiveStep(index)}
               >
+                <span className={styles.stepTabLabel}>{step.title}</span>
                 <span className={styles.stepTabMarker}>{String(index + 1).padStart(2, "0")}</span>
-                {step.title}
               </button>
             ))}
           </div>
