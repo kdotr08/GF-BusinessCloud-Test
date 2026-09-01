@@ -3,7 +3,7 @@ import styles from "./pricing.module.css";
 
 export function AddonsGrid({ addons }: { addons: Addon[] }) {
   return (
-    <section id="addons" className="bg-panel py-16">
+    <section id="addons" className="bg-white py-16">
       <div className="wrap">
         <div className="mb-8 max-w-[60ch]">
           <div className="eyebrow">Pay only for what scales</div>

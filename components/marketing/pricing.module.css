@@ -301,7 +301,7 @@
   border-bottom: 1px solid #e3e4e8;
 }
 .vsTable thead th {
-  background: #fafafa;
+  background: #fff;
   font-size: 12.5px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -341,7 +341,7 @@
   text-align: left;
 }
 .estateTable thead th {
-  background: #fafafa;
+  background: #fff;
   font-weight: 700;
 }
 .estateDetail summary {
@@ -434,7 +434,7 @@
   font-size: 14px;
 }
 .calcOut {
-  background: #fafafa;
+  background: #fff;
   border-radius: 8px;
   padding: 24px;
   align-self: start;
@@ -481,7 +481,7 @@
   text-align: left;
 }
 .simpleTable thead th {
-  background: #fafafa;
+  background: #fff;
   font-size: 12.5px;
   text-transform: uppercase;
   letter-spacing: 0.05em;

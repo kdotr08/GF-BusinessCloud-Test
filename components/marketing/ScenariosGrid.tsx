@@ -3,7 +3,7 @@ import styles from "./pricing.module.css";
 
 export function ScenariosGrid({ scenarios }: { scenarios: Scenario[] }) {
   return (
-    <section className="bg-panel py-16">
+    <section className="bg-white py-16">
       <div className="wrap">
         <div className="mb-8 max-w-[60ch]">
           <div className="eyebrow">Example prices</div>

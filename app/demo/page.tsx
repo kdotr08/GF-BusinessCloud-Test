@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import { Header } from "@/components/marketing/Header";
-import { MAIN_NAV_LINKS } from "@/components/marketing/nav-links";
 import { WorkflowCard } from "@/components/marketing/WorkflowCard";
 import { ClosingCta } from "@/components/marketing/ClosingCta";
 import { MarketingPillButton } from "@/components/marketing/MarketingPillButton";
@@ -32,11 +30,9 @@ const SERVICES: { title: string; body: string }[] = [
 export default function DemoPage() {
   return (
     <>
-      <header className={`bg-dark-glow ${styles.pageHero} pt-4`}>
+      <header className={`bg-dark-glow ${styles.pageHero}`}>
         <div className="wrap">
-          <Header links={MAIN_NAV_LINKS} cta={{ href: "/pricing#institutional", label: "Talk to us" }} />
-
-          <div className="grid min-h-[60vh] items-center gap-12 pt-10 md:grid-cols-2">
+          <div className="subpage-hero-clearance grid min-h-[60vh] items-center gap-12 md:grid-cols-2">
             <div className={styles.pageHeroBody}>
               <div className="eyebrow border-white/25 bg-white/10 text-[var(--hero-accent)]">Book a demo</div>
               <h1 className="max-w-[16ch]">See Govform.com on a real service.</h1>

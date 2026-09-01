@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { ScrollRevealGroup } from "./ScrollRevealGroup";
 import styles from "./home.module.css";
 import { TypingEyebrow } from "./TypingEyebrow";
@@ -40,6 +43,31 @@ const FAQS = [
   },
 ];
 
+function HomeFaqItem({ question, answer }: { question: string; answer: string }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const answerId = `faq-answer-${question.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+
+  return (
+    <div className={`${styles.homeFaqItem} ${isOpen ? styles.homeFaqItemOpen : ""}`}>
+      <button
+        type="button"
+        className={styles.homeFaqQuestion}
+        aria-expanded={isOpen}
+        aria-controls={answerId}
+        onClick={() => setIsOpen((open) => !open)}
+      >
+        <span>{question}</span>
+        <span className={styles.homeFaqToggle} aria-hidden="true" />
+      </button>
+      <div id={answerId} className={styles.homeFaqAnswer} aria-hidden={!isOpen}>
+        <div className={styles.homeFaqAnswerInner}>
+          <p>{answer}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function HomeFaq() {
   return (
     <section id="faq" className={styles.homeFaqSection}>
@@ -61,15 +89,13 @@ export function HomeFaq() {
 
         <div className={styles.homeFaqList}>
           {FAQS.map((faq, index) => (
-            <details
+            <div
               key={faq.question}
               data-reveal-item
               style={{ transitionDelay: `${240 + index * 130}ms` }}
-              className={styles.homeFaqItem}
             >
-              <summary>{faq.question}</summary>
-              <p>{faq.answer}</p>
-            </details>
+              <HomeFaqItem question={faq.question} answer={faq.answer} />
+            </div>
           ))}
         </div>
       </ScrollRevealGroup>

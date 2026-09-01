@@ -36,7 +36,7 @@ html {
 }
 
 body {
-  background: #fafafa;
+  background: #fff;
   color: #3b3e47;
   font-family: var(--font-display), "Inter", ui-sans-serif, system-ui, sans-serif;
   font-weight: 500;
@@ -249,6 +249,22 @@ p {
   .bg-dark-glow > .wrap {
     position: relative;
     z-index: 2;
+  }
+
+  /* Subpage navigation is absolutely overlaid on the first dark hero.
+     Keep the hero content at its previous visual position by reserving the
+     navbar's height inside the hero instead of rendering a second surface. */
+  .subpage-hero-clearance {
+    padding-top: 136px;
+  }
+
+  .subpage-nav-overlay {
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: 50;
+    width: 100%;
+    padding-top: 16px;
+    background: transparent;
   }
 
   /* Decorative accent rule — the gradient glow used behind CTAs

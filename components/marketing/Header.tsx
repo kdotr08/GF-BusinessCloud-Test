@@ -66,10 +66,12 @@ export function Header({
   links = PRICING_NAV_LINKS,
   cta,
   variant = "dark",
+  invertedCta = false,
 }: {
   links?: NavLink[];
   cta?: NavLink;
   variant?: "dark" | "light";
+  invertedCta?: boolean;
 }) {
   const [open, setOpen] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -148,7 +150,7 @@ export function Header({
             >
               <Link
                 href={cta.href}
-                className={`btn-pill-secondary btn-hover-shrink ${styles.navCta} h-9 !px-5 text-sm`}
+                className={`btn-pill-secondary btn-hover-shrink ${styles.navCta} ${invertedCta ? styles.navCtaInverted : ""} h-9 !px-5 text-sm`}
               >
                 {cta.label}
               </Link>
@@ -225,7 +227,7 @@ export function Header({
             {cta && (
               <Link
                 href={cta.href}
-                className={`btn-pill-secondary btn-hover-shrink ${styles.navCta} mt-3 justify-center !px-6`}
+                className={`btn-pill-secondary btn-hover-shrink ${styles.navCta} ${invertedCta ? styles.navCtaInverted : ""} mt-3 justify-center !px-6`}
                 onClick={closeAll}
               >
                 {cta.label}

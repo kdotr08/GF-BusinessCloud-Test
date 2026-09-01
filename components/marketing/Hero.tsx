@@ -1,18 +1,11 @@
-import { Header } from "@/components/marketing/Header";
 import { MarketingPillButton } from "@/components/marketing/MarketingPillButton";
-import { MAIN_NAV_LINKS } from "@/components/marketing/nav-links";
 import type { HeroRung } from "@/lib/content";
 import styles from "./pricing.module.css";
 
 export function Hero({ rungs }: { rungs: HeroRung[] }) {
   return (
-    <header className="bg-dark-glow pt-14">
+    <header className="bg-dark-glow subpage-hero-clearance">
       <div className="wrap">
-        <Header
-          links={MAIN_NAV_LINKS}
-          cta={{ href: "/pricing#institutional", label: "Talk to us" }}
-        />
-
         <div className={styles.heroGrid}>
           <div>
             <div className="eyebrow border-white/25 bg-white/10 text-[var(--hero-accent)]">

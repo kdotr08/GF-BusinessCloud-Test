@@ -187,7 +187,7 @@
   text-decoration: none;
 }
 .gridItem:hover {
-  background: #fafafa;
+  background: #fff;
 }
 
 .itemIcon {
@@ -267,4 +267,27 @@
 .navCta:focus-visible {
   background-color: var(--cta-blue) !important;
   border-color: var(--cta-blue) !important;
+}
+
+/* Subpage navigation sits directly on the shared dark glow hero surface.
+   Invert its CTA so it remains visually distinct from the navy backdrop;
+   the scale interaction still comes from .btn-hover-shrink. */
+.navCtaInverted,
+.navCtaInverted:hover,
+.navCtaInverted:focus-visible {
+  background-color: #fff !important;
+  border-color: #fff !important;
+  color: var(--navy) !important;
+}
+
+/* The mobile menu itself is a white card, so return the CTA to its dark
+   treatment there instead of leaving a white button on a white panel. */
+@media (max-width: 1023.98px) {
+  .mobilePanel .navCtaInverted,
+  .mobilePanel .navCtaInverted:hover,
+  .mobilePanel .navCtaInverted:focus-visible {
+    background-color: var(--navy) !important;
+    border-color: var(--navy) !important;
+    color: #fff !important;
+  }
 }

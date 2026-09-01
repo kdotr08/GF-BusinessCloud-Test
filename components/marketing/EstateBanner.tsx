@@ -4,7 +4,7 @@ import styles from "./pricing.module.css";
 
 export function EstateBanner({ bands }: { bands: EstateBand[] }) {
   return (
-    <section id="estate" className="bg-panel py-16">
+    <section id="estate" className="bg-white py-16">
       <div className="wrap">
         <div className={styles.estateBanner}>
           <div>

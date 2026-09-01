@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Footer } from "@/components/marketing/Footer";
+import { SubpageFinalCta, SubpageHeader } from "@/components/marketing/SubpageChrome";
 import "./globals.css";
 
 // Column's type system runs on Inter end to end (headings, body, prices) —
@@ -57,7 +58,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
+        <SubpageHeader />
         {children}
+        <SubpageFinalCta />
         <Footer />
       </body>
     </html>
