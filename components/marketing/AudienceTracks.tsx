@@ -115,7 +115,7 @@ export function AudienceTracks() {
               <MarketingPillButton
                 href={track.href}
                 variant={track.ctaVariant}
-                className={`mt-auto w-full ${track.ctaVariant === "secondary" ? "justify-center" : "justify-between"} ${track.ctaClassName ?? ""}`}
+                className={`${shared.trackCta} w-full ${track.ctaVariant === "secondary" ? "justify-center" : "justify-between"} ${track.ctaClassName ?? ""}`}
               >
                 {track.cta}
               </MarketingPillButton>

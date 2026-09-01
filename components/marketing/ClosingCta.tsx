@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { MarketingPillButton } from "./MarketingPillButton";
 import styles from "./content-page.module.css";
 
 export function ClosingCta({
@@ -22,12 +22,12 @@ export function ClosingCta({
           <h2>{title}</h2>
           <p>{body}</p>
           <div className={styles.closingCtaButtons}>
-            <Link href={primaryCta.href} className="btn-pill-primary btn-hover-shrink !px-6">
+            <MarketingPillButton href={primaryCta.href}>
               {primaryCta.label}
-            </Link>
-            <Link href={secondaryCta.href} className={`${styles.pillGhost} btn-hover-shrink`}>
+            </MarketingPillButton>
+            <MarketingPillButton href={secondaryCta.href} variant="dark-secondary">
               {secondaryCta.label}
-            </Link>
+            </MarketingPillButton>
           </div>
         </div>
       </div>

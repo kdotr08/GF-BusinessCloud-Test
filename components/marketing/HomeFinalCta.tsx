@@ -23,13 +23,17 @@ export function HomeFinalCta() {
               <MarketingPillButton
                 href="/pricing#plans"
                 variant="white-icon"
-                className={styles.pillIconGradientInvert}
+                className={styles.pillNavyGradientHover}
               >
                 Start building free
               </MarketingPillButton>
             </div>
             <div data-reveal-item style={{ transitionDelay: "690ms" }}>
-              <MarketingPillButton href="/pricing#institutional" variant="dark-secondary">
+              <MarketingPillButton
+                href="/pricing#institutional"
+                variant="dark-secondary"
+                className={styles.pillWhiteSecondary}
+              >
                 Talk to us
               </MarketingPillButton>
             </div>

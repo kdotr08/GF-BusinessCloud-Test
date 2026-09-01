@@ -139,15 +139,11 @@ function FeatureVisual({ kind }: { kind: VisualKind }) {
 }
 
 export function FeatureGrid() {
-  const pinRef = useRef<HTMLDivElement>(null);
-  const stickyRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const pin = pinRef.current;
-    const sticky = stickyRef.current;
     const grid = gridRef.current;
-    if (!pin || !sticky || !grid) return;
+    if (!grid) return;
 
     if (
       window.matchMedia("(prefers-reduced-motion: reduce), (max-width: 820px)").matches
@@ -156,13 +152,27 @@ export function FeatureGrid() {
     }
 
     const cards = Array.from(grid.children) as HTMLElement[];
-    let travel = 0;
+    // Ratchets forward only, so once the cards have slid fully into place
+    // on the way down, scrolling back up keeps them put instead of
+    // reversing the slide-out.
+    let maxProgress = 0;
     let rafId = 0;
     let queued = false;
 
     const apply = () => {
-      const scrolled = Math.min(Math.max(-pin.getBoundingClientRect().top, 0), travel);
-      const progress = travel > 0 ? scrolled / travel : 1;
+      const rect = grid.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // Progress 0 once the grid's top edge is 3/4 of the way down the
+      // viewport (comfortably visible, not still hiding right at the
+      // bottom edge where the start of the slide goes unnoticed),
+      // progress 1 once it's scrolled up to a quarter of the way down —
+      // a natural scrub tied to the grid's own position, not a reserved
+      // extra scroll distance.
+      const start = vh * 0.75;
+      const end = vh * 0.25;
+      const rawProgress = Math.min(Math.max((start - rect.top) / (start - end), 0), 1);
+      maxProgress = Math.max(maxProgress, rawProgress);
+      const progress = maxProgress;
       const remaining = 1 - progress;
 
       cards.forEach((card, index) => {
@@ -170,15 +180,6 @@ export function FeatureGrid() {
         card.style.transform = `translate3d(${direction * remaining * window.innerWidth}px, 0, 0)`;
         card.style.opacity = `${Math.min(progress * 3, 1)}`;
       });
-    };
-
-    // One viewport of vertical scroll maps to one viewport of horizontal
-    // travel. The pin's extra height ends at the exact point the cards are
-    // centred, so normal document scrolling resumes without an unlock.
-    const measure = () => {
-      travel = window.innerWidth;
-      pin.style.height = `${sticky.offsetHeight + travel}px`;
-      apply();
     };
 
     const onScroll = () => {
@@ -190,64 +191,56 @@ export function FeatureGrid() {
       });
     };
 
-    measure();
+    apply();
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", measure);
-
-    const resizeObserver = new ResizeObserver(measure);
-    resizeObserver.observe(sticky);
+    window.addEventListener("resize", onScroll);
 
     return () => {
       cancelAnimationFrame(rafId);
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", measure);
-      resizeObserver.disconnect();
+      window.removeEventListener("resize", onScroll);
     };
   }, []);
 
   return (
     <section id="product" className={`bg-panel-alt ${styles.featuresSection}`}>
-      <div ref={pinRef} className={styles.featuresPin}>
-        <div ref={stickyRef} className={styles.featuresSticky}>
-          <ScrollRevealGroup className="wrap">
-            <div className="section-intro">
-              <div data-reveal-item style={{ transitionDelay: "0ms" }}>
-                <TypingEyebrow className="border-[#00b4d8]/25 bg-[#00b4d8]/10 text-[#00b4d8]">Built for services that matter</TypingEyebrow>
-              </div>
-              <h2 data-reveal-item style={{ transitionDelay: "160ms" }} className="section-heading">Government standards without enterprise complexity.</h2>
-              <p data-reveal-item style={{ transitionDelay: "320ms" }} className="muted">
-                Govform is designed for teams that need more than a basic form builder. Launch quickly
-                while retaining the security, accessibility and control expected of production-grade
-                digital services.
-              </p>
-            </div>
-
-            <div ref={gridRef} className={styles.featuresBento}>
-              {FEATURES.map(([slug, title, body, visual], i) => (
-                <div
-                  key={slug}
-                  id={slug}
-                  className={styles.featureCard}
-                  style={{
-                    ["--feature-reveal-x" as string]: i < 3 ? "-100vw" : "100vw",
-                  }}
-                >
-                  <div className={styles.featureVisual}>
-                    <div className={styles.featureCardGlow} />
-                    <div className={styles.featureVisualContent}>
-                      <FeatureVisual kind={visual} />
-                    </div>
-                  </div>
-                  <div className={styles.featureBody}>
-                    <div className={styles.featureTitle}>{title}</div>
-                    <div className={styles.featureDesc}>{body}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </ScrollRevealGroup>
+      <ScrollRevealGroup className="wrap">
+        <div className="section-intro">
+          <div data-reveal-item style={{ transitionDelay: "0ms" }}>
+            <TypingEyebrow className="border-[#00b4d8]/25 bg-[#00b4d8]/10 text-[#00b4d8]">Built for services that matter</TypingEyebrow>
+          </div>
+          <h2 data-reveal-item style={{ transitionDelay: "160ms" }} className="section-heading">Government standards without enterprise complexity.</h2>
+          <p data-reveal-item style={{ transitionDelay: "320ms" }} className="muted">
+            Govform is designed for teams that need more than a basic form builder. Launch quickly
+            while retaining the security, accessibility and control expected of production-grade
+            digital services.
+          </p>
         </div>
-      </div>
+
+        <div ref={gridRef} className={styles.featuresBento}>
+          {FEATURES.map(([slug, title, body, visual], i) => (
+            <div
+              key={slug}
+              id={slug}
+              className={styles.featureCard}
+              style={{
+                ["--feature-reveal-x" as string]: i < 3 ? "-100vw" : "100vw",
+              }}
+            >
+              <div className={styles.featureVisual}>
+                <div className={styles.featureCardGlow} />
+                <div className={styles.featureVisualContent}>
+                  <FeatureVisual kind={visual} />
+                </div>
+              </div>
+              <div className={styles.featureBody}>
+                <div className={styles.featureTitle}>{title}</div>
+                <div className={styles.featureDesc}>{body}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </ScrollRevealGroup>
     </section>
   );
 }

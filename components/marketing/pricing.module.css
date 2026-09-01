@@ -1,12 +1,6 @@
 /* Bespoke, page-specific styles for the Business Cloud pricing page.
    Shared primitives (.wrap, .btn, .eyebrow) live in app/globals.css. */
 
-.hero {
-  background-color: var(--color-cyan-900);
-  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.075) 0px, rgba(255, 255, 255, 0.075) 1px, transparent 1px);
-  background-size: 16px 16px;
-}
-
 .heroGrid {
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
@@ -185,6 +179,41 @@
   font-size: 14px;
   color: #3b3e47;
 }
+
+.trackCta {
+  margin-top: auto;
+}
+
+/* On wide, tall displays the route cards can use more of the available
+   viewport instead of reading as a short strip. Reserve the same three-line
+   description area in every card, then put the added breathing room at the
+   description-to-price transition so all three price rows stay aligned. */
+@media (min-width: 1440px) and (min-height: 800px) {
+  .trackCard {
+    min-height: clamp(500px, 54vh, 620px);
+    padding: 34px 28px 28px;
+  }
+
+  .trackDesc {
+    height: 66px;
+    min-height: 66px;
+    margin-bottom: 0;
+  }
+
+  .trackPrice {
+    margin-top: auto;
+  }
+
+  .trackList {
+    flex-grow: 0;
+    margin-bottom: 18px;
+  }
+
+  .trackCta {
+    margin-top: 0;
+  }
+}
+
 .trackCheck {
   flex-shrink: 0;
   width: 18px;

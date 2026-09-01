@@ -1,3 +1,4 @@
+import { MarketingPillButton } from "./MarketingPillButton";
 import styles from "./pricing.module.css";
 
 export function FinalCta() {
@@ -15,12 +16,12 @@ export function FinalCta() {
             works with high-touch public-sector organisations.
           </p>
           <div className={styles.finalCtaButtons}>
-            <a className="btn btn-secondary" href="#">
+            <MarketingPillButton href="#">
               Talk to us
-            </a>
-            <a className="btn btn-ghost" href="#plans">
+            </MarketingPillButton>
+            <MarketingPillButton href="#plans" variant="dark-secondary">
               Back to Business Cloud plans
-            </a>
+            </MarketingPillButton>
           </div>
         </div>
       </div>

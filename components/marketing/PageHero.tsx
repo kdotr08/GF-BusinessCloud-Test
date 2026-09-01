@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { Header } from "@/components/marketing/Header";
+import { MarketingPillButton } from "@/components/marketing/MarketingPillButton";
 import { MAIN_NAV_LINKS } from "@/components/marketing/nav-links";
 import styles from "./content-page.module.css";
 
@@ -17,7 +17,7 @@ export function PageHero({
   secondaryCta?: { label: string; href: string };
 }) {
   return (
-    <header className={`${styles.pageHero} pt-4`}>
+    <header className={`bg-dark-glow ${styles.pageHero} pt-4`}>
       <div className="wrap">
         <Header links={MAIN_NAV_LINKS} cta={{ href: "/pricing#institutional", label: "Talk to us" }} />
 
@@ -29,14 +29,14 @@ export function PageHero({
           {(primaryCta || secondaryCta) && (
             <div className={styles.pageHeroButtons}>
               {primaryCta && (
-                <Link href={primaryCta.href} className="btn-pill-primary btn-hover-shrink !px-6">
+                <MarketingPillButton href={primaryCta.href}>
                   {primaryCta.label}
-                </Link>
+                </MarketingPillButton>
               )}
               {secondaryCta && (
-                <Link href={secondaryCta.href} className={`${styles.pillGhost} btn-hover-shrink`}>
+                <MarketingPillButton href={secondaryCta.href} variant="dark-secondary">
                   {secondaryCta.label}
-                </Link>
+                </MarketingPillButton>
               )}
             </div>
           )}

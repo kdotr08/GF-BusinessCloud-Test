@@ -128,6 +128,22 @@
   background-color: rgba(255, 255, 255, 0.16) !important;
 }
 
+/* Final CTA's "Talk to us": same pill as .darkPillSecondary but with a
+   solid white fill instead of the see-through tint — text flips to navy
+   for contrast against it. Keep those colors fixed through hover/focus;
+   btn-hover-shrink still supplies the scale-down interaction. */
+.pillWhiteSecondary {
+  background-color: #fff !important;
+  color: var(--navy) !important;
+}
+
+.pillWhiteSecondary:hover,
+.pillWhiteSecondary:focus-visible {
+  border-color: rgba(255, 255, 255, 0.82) !important;
+  background-color: #fff !important;
+  color: var(--navy) !important;
+}
+
 /* White-fill counterpart to .heroPrimaryCta — for a "Talk to us"-style
    pill sitting on a colored/dark card where a second gradient or solid-
    white block would compete with the surrounding chrome (Enterprise
@@ -157,18 +173,24 @@
   color: #fff !important;
 }
 
-/* Gradient icon badge that inverts to white on hover (final CTA's "Start
-   building free") — the one accent color on an otherwise white-resting/
-   blue-hover pill. */
-.pillIconGradientInvert .heroCtaIcon {
-  background: var(--gradient) !important;
+/* Final CTA's "Start building free": resting fill is solid --cta-blue
+   instead of .pillWhiteIcon's white, and hover sweeps to the gradient
+   instead of --cta-blue — the reverse of every other pill's hover, so the
+   accent gradient reads as the "engaged" state rather than the resting
+   one. Icon badge is left at .btn-pill-icon's plain white-fill/navy-icon
+   default in both states — no invert. */
+.pillNavyGradientHover {
+  background: var(--cta-blue) !important;
   color: #fff !important;
 }
 
-.pillIconGradientInvert:hover .heroCtaIcon,
-.pillIconGradientInvert:focus-visible .heroCtaIcon {
-  background: #fff !important;
-  color: var(--navy) !important;
+.pillNavyGradientHover::before {
+  background: var(--gradient, linear-gradient(85deg, #036 7.97%, #00b4d8 69.74%, #40e0d0 97.14%));
+}
+
+.pillNavyGradientHover:hover,
+.pillNavyGradientHover:focus-visible {
+  color: #fff !important;
 }
 
 /* Enterprise card's "Talk to us": lighter hover-sweep than the standard
@@ -568,7 +590,7 @@
    These sit on .trustCard's dark background, so the halo around them is
    built from values pulled from Figma dev mode rather than the
    box-shadow approximation this replaces:
-   - a slim (10px) translucent white border (0.22 alpha) directly on
+   - a slim (5px) translucent white border (0.22 alpha) directly on
      the card — background-clip: padding-box keeps the card's own #fff
      fill confined inside that border instead of painting underneath it,
      so the border blends with .trustCard's dark background behind it
@@ -581,8 +603,8 @@
      it doesn't need a wrapper div reshuffling the grid — it doesn't
      affect layout, and modern browsers round it to follow border-radius.
    Browsers derive the white fill's inner corner radius from the outer
-   radius minus the border width. A 24px outer radius therefore preserves
-   the softly rounded 14px inner corners with this slimmer 10px frame. */
+   radius minus the border width, keeping the fill concentric with the
+   24px outer curve. */
 .bentoCard {
   border-radius: 24px;
   padding: 32px 32px 28px;
@@ -591,7 +613,7 @@
   justify-content: flex-end;
   background: #fff;
   background-clip: padding-box;
-  border: 10px solid rgba(255, 255, 255, 0.22);
+  border: 5px solid rgba(255, 255, 255, 0.22);
   outline: 1px solid rgba(255, 255, 255, 0.76);
   outline-offset: 0;
 }
@@ -883,28 +905,29 @@
 .featuresSection {
   position: relative;
 }
-.featuresPin {
-  position: relative;
+
+/* The first three product sections share the same panel background, so the
+   end of one was visually running straight into the next on desktop. Match
+   the breathing room used by the later homepage sections without changing
+   the tighter tablet/mobile flow or the sticky section's internal geometry. */
+@media (min-width: 1024px) {
+  .solutionsSection,
+  .featuresSection {
+    margin-top: clamp(72px, 7vw, 96px);
+  }
 }
-.featuresSticky {
-  position: sticky;
-  top: 0;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 32px 0;
-  overflow: hidden;
-}
+
 .featuresBento {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
 }
-/* FeatureGrid maps sticky-section scroll progress directly to these
-   transforms: the top row enters from the left and the bottom row from
-   the right. There is deliberately no transition here; easing would make
-   the cards lag behind the mouse wheel and break the reversible 1:1 feel. */
+/* FeatureGrid scrubs these transforms directly off natural scroll
+   position as the grid passes through the viewport (top row enters from
+   the left, bottom row from the right) — deliberately no transition here,
+   easing would make the cards lag behind the mouse wheel and break the
+   1:1 scrub feel. Unlike the old pin/sticky version, there's no reserved
+   extra scroll distance, so there's no dead zone either direction. */
 .featureCard {
   position: relative;
   display: flex;
@@ -918,16 +941,10 @@
   will-change: opacity, transform;
 }
 @media (prefers-reduced-motion: reduce) {
-  .featuresPin {
-    height: auto !important;
-  }
-  .featuresSticky {
-    position: static;
-    padding: 64px 0;
-  }
   .featureCard {
     opacity: 1 !important;
     transform: none !important;
+    transition: none;
   }
 }
 
@@ -1057,13 +1074,6 @@
   line-height: 1.5;
 }
 @media (max-width: 820px) {
-  .featuresPin {
-    height: auto !important;
-  }
-  .featuresSticky {
-    position: static;
-    padding: 64px 0;
-  }
   .featuresBento {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1747,6 +1757,19 @@
     radial-gradient(circle at 20% 15%, rgba(0, 180, 216, 0.16) 0%, rgba(0, 180, 216, 0) 55%),
     radial-gradient(circle at 85% 85%, rgba(28, 164, 218, 0.12) 0%, rgba(28, 164, 218, 0) 50%);
 }
+/* If a <video>/<img> is dropped in as a child of .placeholder instead of
+   swapping the wrapper out, it fills the wrapper's exact (responsive)
+   box rather than sitting at its own intrinsic size. */
+.placeholder > video,
+.placeholder > img {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
 .placeholderLabel {
   position: relative;
   z-index: 1;
@@ -1800,6 +1823,9 @@
   margin-right: auto;
 }
 
+/* Outer ring matches .tourCard's own border color/width below, so the
+   badge reads as an extension of the card's stroke rather than its own
+   separate tinted glow. */
 .builderStepIcon {
   display: flex;
   width: 56px;
@@ -1809,14 +1835,14 @@
   border-radius: 50%;
   background: var(--navy);
   color: #fff;
-  box-shadow: 0 0 0 5px rgba(0, 31, 63, 0.06);
+  box-shadow: 0 0 0 1px #e3e8ec;
 }
 
 .builderStepIcon svg {
   width: 34px;
   height: 34px;
   stroke: currentColor;
-  stroke-width: 1.8;
+  stroke-width: 2.6;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
@@ -1838,45 +1864,76 @@
 }
 
 .stepTab {
+  position: relative;
+  isolation: isolate;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
   min-height: 46px;
   padding: 5px 5px 5px 18px;
-  border: 1px solid rgba(0, 31, 63, 0.08);
   border-radius: 9999px;
-  background: #eef3f6;
+  background: rgba(0, 31, 63, 0.08);
   color: var(--navy);
   font-size: 13.5px;
   font-weight: 600;
   cursor: pointer;
   box-shadow: 0 1px 2px rgba(0, 31, 63, 0.04);
   transition:
-    border-color 0.2s ease,
     background 0.2s ease,
     color 0.2s ease,
     transform 0.2s ease;
 }
 
-.stepTab:hover {
-  border-color: rgba(0, 96, 142, 0.22);
-  background: #e4edf2;
+.stepTab::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 1px;
+  border-radius: 9999px;
+  background: #eef3f6;
+  transition: background 0.2s ease;
+}
+
+.stepTab:hover:not([data-filled]) {
+  background: rgba(0, 96, 142, 0.22);
   transform: translateY(-1px);
 }
 
-.stepTab[data-active] {
-  border-color: var(--navy);
-  background: var(--navy);
-  color: #fff;
+.stepTab:hover:not([data-filled])::before {
+  background: #e4edf2;
+}
+
+/* Steps at or before the active one stay filled with their own solid
+   color (--tab-fill, set inline per step in PlatformShowcase.tsx) —
+   reuses the sector-icon circle colors from the trust section's bento
+   grid — so progress reads as each step being filled out in turn rather
+   than a single tab being highlighted at a time. Both layers are set to
+   the same color so the border gap disappears and the pill reads as one
+   seamless fill. Label color (--tab-text) is also set per step:
+   Build/Connect's fills are light enough that white text loses contrast,
+   so those two use dark navy instead. */
+.stepTab[data-filled] {
+  background: var(--tab-fill, var(--navy));
+  color: var(--tab-text, #fff);
+}
+
+.stepTab[data-filled]::before {
+  background: var(--tab-fill, var(--navy));
 }
 
 .stepTabLabel {
+  position: relative;
+  z-index: 1;
   min-width: 0;
   text-align: left;
 }
 
+/* Stays white in both resting and active states by design — the pill
+   background is what carries each step's color, not the marker. */
 .stepTabMarker {
+  position: relative;
+  z-index: 1;
   display: inline-flex;
   flex-shrink: 0;
   align-items: center;
@@ -1892,17 +1949,13 @@
   box-shadow: 0 1px 3px rgba(0, 31, 63, 0.12);
 }
 
-.stepTab[data-active] .stepTabMarker {
-  background: var(--hero-accent);
-  color: var(--navy);
-}
-
 .stepDetail {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 10px;
-  text-align: center;
+  justify-content: center;
+  gap: 20px;
+  text-align: left;
   animation: stepDetailFade 0.4s ease;
 }
 
@@ -1919,7 +1972,8 @@
 }
 
 .stepDetail p {
-  max-width: 68ch;
+  max-width: 46ch;
+  text-wrap: balance;
   margin: 0;
   color: #69727d;
   font-size: 13.5px;
@@ -2011,12 +2065,17 @@
   height: 460px;
   overflow: hidden;
   pointer-events: none;
+  /* Top fade starts later and ramps up faster than the original (which
+     held near-zero-but-visible opacity from 0-21%) — a saturated brand
+     color (e.g. an orange/red platform logo) sitting in that long
+     near-invisible stretch read as a stray warm glow rather than an icon
+     easing into view, so that stretch is now mostly fully transparent. */
   -webkit-mask-image: linear-gradient(
     to bottom,
     transparent 0%,
-    rgba(0, 0, 0, 0.03) 7%,
-    rgba(0, 0, 0, 0.1) 14%,
-    rgba(0, 0, 0, 0.22) 21%,
+    transparent 12%,
+    rgba(0, 0, 0, 0.06) 18%,
+    rgba(0, 0, 0, 0.2) 24%,
     rgba(0, 0, 0, 0.4) 29%,
     rgba(0, 0, 0, 0.62) 37%,
     rgba(0, 0, 0, 0.8) 44%,
@@ -2032,9 +2091,9 @@
   mask-image: linear-gradient(
     to bottom,
     transparent 0%,
-    rgba(0, 0, 0, 0.03) 7%,
-    rgba(0, 0, 0, 0.1) 14%,
-    rgba(0, 0, 0, 0.22) 21%,
+    transparent 12%,
+    rgba(0, 0, 0, 0.06) 18%,
+    rgba(0, 0, 0, 0.2) 24%,
     rgba(0, 0, 0, 0.4) 29%,
     rgba(0, 0, 0, 0.62) 37%,
     rgba(0, 0, 0, 0.8) 44%,
@@ -2075,15 +2134,19 @@
   transform: rotate(var(--integration-angle)) translateX(calc(var(--integration-orbit-size) / 2 - 36px));
 }
 
+/* Ring is opaque and clipped to the padding box (not the old translucent
+   rgba(255,255,255,0.9) painted over background: border-box, which let
+   ~10% of each platform's own saturated color — visibly cream on the
+   orange/yellow brand colors — bleed through the "white" ring). */
 .integrationLogoDisc {
   display: flex;
   width: 64px;
   height: 64px;
   align-items: center;
   justify-content: center;
-  border: 5px solid rgba(255, 255, 255, 0.9);
+  border: 3px solid #eef1f4;
   border-radius: 50%;
-  background: var(--integration-color);
+  background: var(--integration-color) padding-box;
   transform: rotate(var(--integration-counter-angle));
   box-shadow: 0 0 0 1px rgba(13, 31, 61, 0.08);
 }
@@ -2101,11 +2164,6 @@
   z-index: 4;
   width: min(1080px, 94%);
   margin: -8px auto 0;
-  padding: 10px;
-  border: 1px solid rgba(13, 31, 61, 0.12);
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(16px);
 }
 
 .integrationActionsGrid {
@@ -2125,16 +2183,6 @@
 
 .integrationAction:last-child {
   border-right: 0;
-}
-
-.integrationLabel {
-  margin-bottom: 7px;
-  color: #0087b0;
-  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
 }
 
 .integrationAction h3 {
@@ -2184,22 +2232,18 @@
 }
 
 .customerSuccessLayout {
-  --success-intro-release-space: clamp(700px, 58vw, 760px);
   display: flex;
   flex-direction: column;
 }
 
 .customerSuccessIntro {
-  position: sticky;
-  top: 14px;
-  z-index: 50;
+  position: relative;
   width: 100%;
   margin-right: auto;
   margin-left: auto;
-  margin-bottom: calc(64px + var(--success-intro-release-space));
+  margin-bottom: 64px;
   padding: 10px 0 0;
   text-align: center;
-  background: #fff;
 }
 
 .customerSuccessIntro > *,
@@ -2214,30 +2258,85 @@
   color: #69727d;
 }
 
+/* Entrance for the front card only — it's the one card guaranteed to be
+   on screen the moment this section's reveal fires, so it fades and
+   slides up right after the heading/subheading finish their own stagger.
+   Deliberately its own class rather than the shared [data-reveal-item]
+   (scroll-reveal.module.css): that one scales in, this one needs a slide,
+   and .successStackCard already owns `top`/`transform` for the sticky
+   stack effect that this must layer on top of without fighting it. */
+.successCardEnter {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity var(--reveal-duration, 2200ms) cubic-bezier(0.16, 1, 0.3, 1),
+    transform var(--reveal-duration, 2200ms) cubic-bezier(0.16, 1, 0.3, 1);
+}
+.customerSuccessLayout[data-visible] .successCardEnter {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .successCardEnter {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 .successStack {
   position: relative;
   display: flex;
   flex-direction: column;
-  margin-top: calc(-1 * var(--success-intro-release-space));
-  padding-bottom: 104px;
+  margin-top: 0;
+  padding-bottom: 0;
+}
+
+/* A real flex item, rather than parent padding: Chromium does not count a
+   sticky flex container's bottom padding as usable travel for its final
+   child. This spacer lets DEFRA reach and hold the fourth stop before the
+   completed stack leaves the section. */
+.successStack::after {
+  content: "";
+  flex: 0 0 clamp(180px, 28vh, 320px);
+}
+
+/* Between the single-column mobile breakpoint (below) and roughly the
+   .wrap max-width, each card otherwise stretches to the full container
+   width while its content-driven height stays fairly short — reading as
+   an overly flat, wide rectangle rather than a card. Narrowing (and
+   centering) the stack at these widths keeps its proportions closer to
+   the desktop version. */
+@media (min-width: 821px) and (max-width: 1300px) {
+  .successStack {
+    max-width: 800px;
+    margin-right: auto;
+    margin-left: auto;
+  }
 }
 
 .successStackCard {
   --success-card-color: #214a78;
   --success-card-color-end: #3c91b5;
+  --success-card-outline: rgba(227, 232, 236, 0.38);
   position: sticky;
   top: var(--success-stack-top);
   z-index: var(--success-stack-z);
   isolation: isolate;
-  margin-top: var(--success-stack-entry-gap);
-  margin-bottom: var(--success-stack-exit-gap);
+  margin: 0;
   color: #fff;
+}
+
+.successStackCard + .successStackCard {
+  margin-top: 56px;
 }
 
 .successFolderTab {
   position: absolute;
   z-index: 2;
-  top: 0;
+  /* Overlap the panel by one pixel so the curve and horizontal border
+     share the same antialiased pixel centre. */
+  top: 1px;
   left: var(--success-folder-tab-left);
   display: flex;
   height: 64px;
@@ -2245,6 +2344,8 @@
   align-items: center;
   justify-content: center;
   padding: 0 22px;
+  border: 1px solid var(--success-card-outline);
+  border-bottom: 0;
   border-radius: 16px 16px 0 0;
   background: var(--success-card-color);
   color: #fff;
@@ -2252,6 +2353,20 @@
   font-size: 19px;
   font-weight: 500;
   letter-spacing: -0.02em;
+}
+
+/* Masks the panel's top border beneath the title and through both concave
+   joins. A single exposed pixel at either end lets the curved stroke meet
+   the horizontal outline without leaving a short visible stub. */
+.successFolderTabSeamMask {
+  position: absolute;
+  z-index: 3;
+  right: -21px;
+  bottom: -1px;
+  left: -21px;
+  height: 2px;
+  background: var(--success-card-color);
+  pointer-events: none;
 }
 
 .successFolderTab::before,
@@ -2266,16 +2381,32 @@
 
 .successFolderTab::before {
   left: -22px;
-  background: radial-gradient(circle at 0 0, transparent 21px, var(--success-card-color) 22px);
+  background: radial-gradient(
+    circle at 0 0,
+    transparent 20px,
+    var(--success-card-outline) 20.5px,
+    var(--success-card-outline) 21.5px,
+    var(--success-card-color) 22px
+  );
 }
 
 .successFolderTab::after {
   right: -22px;
-  background: radial-gradient(circle at 100% 0, transparent 21px, var(--success-card-color) 22px);
+  background: radial-gradient(
+    circle at 100% 0,
+    transparent 20px,
+    var(--success-card-outline) 20.5px,
+    var(--success-card-outline) 21.5px,
+    var(--success-card-color) 22px
+  );
 }
 
 .successStackCard:first-child .successFolderTab::before {
   display: none;
+}
+
+.successStackCard:first-child .successFolderTabSeamMask {
+  left: 0;
 }
 
 .successStackCard:nth-child(2) {
@@ -2291,9 +2422,11 @@
 .successStackCard:nth-child(4) {
   --success-card-color: #317fa4;
   --success-card-color-end: #58a2bd;
-  margin-top: calc(var(--success-stack-entry-gap) - 96px);
 }
 
+/* Leave the tab-height area transparent so each organisation title keeps
+   its rounded folder-tab silhouette instead of becoming a full-width,
+   solid bar. The card surface begins inside .successCardPanelClip below. */
 .successCardPanel {
   padding-top: 64px;
   opacity: 1;
@@ -2311,8 +2444,7 @@
 }
 
 .successCardContent {
-  border: 1px solid rgba(255, 255, 255, 0.24);
-  border-top: 0;
+  border: 1px solid var(--success-card-outline);
   border-radius: 20px;
   background:
     linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
@@ -2333,7 +2465,7 @@
   max-width: 18ch;
   margin: 0 0 16px;
   color: #fff;
-  font-size: clamp(30px, 3.2vw, 46px);
+  font-size: clamp(30px, 3.2vw, 40px);
   line-height: 1.06;
   text-wrap: balance;
 }
@@ -2352,38 +2484,69 @@
   aspect-ratio: 16 / 10;
   border: 1px solid rgba(255, 255, 255, 0.24);
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.08);
+  padding: 5px;
+  background: #fff;
 }
 
 .successStoryImage img {
+  display: block;
   width: 100%;
   height: 100%;
+  border-radius: 11px;
   object-fit: cover;
 }
 
+/* Positioning only now — visual style (pill shape, border, hover shrink)
+   comes from the btn-pill-secondary/darkPillSecondary classes applied
+   alongside this in CustomerSuccessCard.tsx, matching the "Talk to us"
+   pill in the final CTA instead of a plain text link. */
 .successSourceLink {
-  display: inline-flex;
   margin-top: 32px;
-  align-items: center;
-  gap: 8px;
-  color: #fff;
-  font-size: 13px;
-  font-weight: 700;
-  text-decoration: none;
 }
 
-.successSourceLink:hover {
-  text-decoration: underline;
-}
-
+/* Keep the sticky fan on shorter desktop/tablet-landscape viewports too,
+   while reducing the card height so all four tab stops and the active
+   card remain readable within the viewport. */
 @media (min-width: 921px) and (max-height: 820px) {
-  .successStackCard {
-    top: var(--success-stack-top-compact);
-    margin-top: var(--success-stack-entry-gap-compact);
-    margin-bottom: var(--success-stack-exit-gap-compact);
+  .successStack {
+    margin-top: 0;
+    padding-bottom: 0;
   }
-  .successStackCard:nth-child(4) {
-    margin-top: calc(var(--success-stack-entry-gap-compact) - 66px);
+  .customerSuccessIntro {
+    position: relative;
+    top: auto;
+    margin-bottom: 40px;
+  }
+  /* On a shorter window the card's content (72px top/bottom padding, a
+     46px heading, a 16:10 image) could still add up to more than the
+     viewport shows at once — shrinking padding/type/image here keeps the
+     whole card, "View project" included, closer to a single screenful.
+     .successCardPanel's padding-top stays equal to .successFolderTab's
+     height so the rounded tab and card surface meet without a gap. */
+  .successStoryLead {
+    /* Match the 56px sticky-layer step so an earlier card's image cannot
+       enter the transparent tab band, while the final card still fits. */
+    padding: 56px clamp(28px, 3.4vw, 44px);
+  }
+  .successFolderTab {
+    height: 52px;
+  }
+  .successCardPanel {
+    padding-top: 52px;
+  }
+  .successStoryCopy h3 {
+    margin-bottom: 10px;
+    font-size: clamp(22px, 2.4vw, 32px);
+  }
+  .successStoryCopy p {
+    font-size: clamp(14px, 1.1vw, 16px);
+    line-height: 1.45;
+  }
+  .successSourceLink {
+    margin-top: 18px;
+  }
+  .successStoryImage {
+    aspect-ratio: 16 / 9;
   }
 }
 
@@ -2754,6 +2917,9 @@
     margin-top: 0;
     padding-bottom: 0;
   }
+  .successStack::after {
+    display: none;
+  }
   .customerSuccessIntro {
     position: relative;
     top: auto;
@@ -2764,6 +2930,9 @@
     top: auto;
     margin-top: 30px;
     margin-bottom: 0;
+  }
+  .successStackCard + .successStackCard {
+    margin-top: 30px;
   }
   .successStackCard:first-child {
     margin-top: 0;
@@ -2779,6 +2948,18 @@
   }
   .successFolderTab::before {
     display: none;
+  }
+  .successFolderTabSeamMask {
+    left: 0;
+  }
+  /* The tab sits flush at left:0 with its left notch curve hidden above,
+     for every card now (not just :first-child, the only one this applies
+     to at the wider breakpoint) — so every card's own top-left corner
+     needs to be squared off here too, or the card's rounded corner shows
+     through as an unwanted curve/groove where the tab meets it. */
+  .successCardPanelClip,
+  .successCardContent {
+    border-top-left-radius: 0;
   }
   .successCardPanel {
     padding-top: 60px;
@@ -2811,16 +2992,14 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .stepDetail {
+    flex-direction: column;
     align-items: center;
     gap: 10px;
+    text-align: center;
   }
   .integrationNodes {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 12px;
-  }
-  .integrationPanel {
-    padding: 7px;
-    border-radius: 16px;
   }
   .integrationPanelHeader {
     align-items: flex-start;

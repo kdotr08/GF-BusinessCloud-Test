@@ -11,7 +11,7 @@ const INTEGRATION_PLATFORMS = [
   { name: "Power BI", icon: "powerbi", color: "#d7a900" },
   { name: "Salesforce", icon: "salesforce", color: "#00a1e0" },
   { name: "Jira", icon: "jira", color: "#2684ff" },
-  { name: "ServiceNow", icon: "servicenow", color: "#4f8f78" },
+  { name: "ServiceNow", icon: "servicenow", color: "#4f8f78", asset: "/icons/integrations/servicenow.svg" },
   { name: "HubSpot", icon: "hubspot", color: "#ff7a59" },
   { name: "Microsoft Azure", icon: "microsoftazure", color: "#0078d4" },
   { name: "AWS S3", icon: "amazons3", color: "#e98200" },
@@ -26,29 +26,25 @@ const INTEGRATION_PLATFORMS = [
   { name: "Zendesk", icon: "zendesk", color: "#03363d" },
   { name: "Auth0", icon: "auth0", color: "#eb5424" },
   { name: "Google Analytics", icon: "googleanalytics", color: "#e37400" },
-  { name: "SendGrid", icon: "sendgrid", color: "#1a82e2" },
-  { name: "Freshdesk", icon: "freshworks", color: "#25c16f" },
-  { name: "Worldpay", icon: "worldpay", color: "#d71920" },
+  { name: "SendGrid", icon: "sendgrid", color: "#1a82e2", asset: "/icons/integrations/sendgrid.svg" },
+  { name: "Freshdesk", icon: "freshworks", color: "#25c16f", asset: "/icons/integrations/freshdesk.svg" },
+  { name: "Worldpay", icon: "worldpay", color: "#d71920", asset: "/icons/integrations/worldpay.svg" },
 ];
 
 const CONNECTION_ACTIONS = [
   {
-    label: "Exchange data",
     title: "APIs",
     body: "Call existing platforms mid-journey and securely exchange the data each step needs.",
   },
   {
-    label: "Send events",
     title: "Webhooks",
     body: "Send signed events as submissions progress so downstream systems stay in sync.",
   },
   {
-    label: "Keep people updated",
     title: "Notify & email",
     body: "Trigger confirmations, reminders and status updates without creating manual hand-offs.",
   },
   {
-    label: "Shape every payload",
     title: "Map & transform",
     body: "Reshape validated form data into the format required by each destination.",
   },
@@ -60,10 +56,31 @@ type OrbitStyle = CSSProperties & {
   "--integration-color": string;
 };
 
+type RevealDurationStyle = CSSProperties & {
+  "--reveal-duration": string;
+};
+
 export function IntegrationsSection() {
   return (
-    <section id="integrations" className={styles.integrationsSection}>
-      <ScrollRevealGroup className={`wrap ${styles.integrationsLayout}`}>
+    <section
+      id="integrations"
+      className={styles.integrationsSection}
+      // Slower than the site's default 2200ms reveal — this section's
+      // orbit + panel felt like it snapped into place too quickly at the
+      // default pace.
+      style={{ "--reveal-duration": "3400ms" } as RevealDurationStyle}
+    >
+      {/* This section is min-height: 100vh with its content centered, so
+          the default trigger (8% of the content peeking in) fires while
+          the content is still well below a comfortable viewing position —
+          by the time it actually scrolls into view the reveal has long
+          since finished. Delaying until the content is within the middle
+          band of the viewport keeps the animation visible. */}
+      <ScrollRevealGroup
+        className={`wrap ${styles.integrationsLayout}`}
+        rootMargin="-30% 0px -30% 0px"
+        threshold={0}
+      >
         <div className={styles.integrationOrbit}>
           <div className={`section-intro section-intro--center ${styles.integrationsIntro}`}>
             <div data-reveal-item style={{ transitionDelay: "0ms" }}>
@@ -71,21 +88,21 @@ export function IntegrationsSection() {
                 Integrations
               </TypingEyebrow>
             </div>
-            <h2 data-reveal-item style={{ transitionDelay: "160ms" }} className="section-heading">
+            <h2 data-reveal-item style={{ transitionDelay: "200ms" }} className="section-heading">
               Connect every service to the tools behind it.
             </h2>
-            <p data-reveal-item style={{ transitionDelay: "320ms" }}>
+            <p data-reveal-item style={{ transitionDelay: "400ms" }}>
               Use ready-made connections or secure APIs to move validated data through the systems
               your teams already rely on.
             </p>
-            <div data-reveal-item style={{ transitionDelay: "480ms" }} className={styles.integrationsCta}>
+            <div data-reveal-item style={{ transitionDelay: "600ms" }} className={styles.integrationsCta}>
               <MarketingPillButton href="/integrations" variant="secondary">
                 Explore integrations
               </MarketingPillButton>
             </div>
           </div>
 
-          <div data-reveal-item className={styles.integrationCarousel} aria-label="Supported integration platforms">
+          <div data-reveal-item style={{ transitionDelay: "600ms" }} className={styles.integrationCarousel} aria-label="Supported integration platforms">
             <div className={styles.integrationCarouselTrack}>
               {INTEGRATION_PLATFORMS.map((platform, index) => {
                 const angle = (index * 360) / INTEGRATION_PLATFORMS.length;
@@ -99,9 +116,8 @@ export function IntegrationsSection() {
                   <div key={platform.name} className={styles.integrationCarouselItem} style={nodeStyle}>
                     <div className={styles.integrationLogoDisc} title={platform.name} aria-label={platform.name}>
                       <img
-                        src={`https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/${platform.icon}.svg`}
+                        src={platform.asset ?? `https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/${platform.icon}.svg`}
                         alt=""
-                        loading="lazy"
                       />
                     </div>
                   </div>
@@ -111,11 +127,10 @@ export function IntegrationsSection() {
           </div>
         </div>
 
-        <div data-reveal-item style={{ transitionDelay: "760ms" }} className={styles.integrationPanel}>
+        <div data-reveal-item style={{ transitionDelay: "1000ms" }} className={styles.integrationPanel}>
           <div className={styles.integrationActionsGrid}>
             {CONNECTION_ACTIONS.map((action) => (
               <article key={action.title} className={styles.integrationAction}>
-                <div className={styles.integrationLabel}>{action.label}</div>
                 <h3>{action.title}</h3>
                 <p>{action.body}</p>
               </article>

@@ -1,3 +1,4 @@
+import { MarketingPillButton } from "./MarketingPillButton";
 import styles from "./pricing.module.css";
 
 export function InstitutionalSection({ rows }: { rows: [string, string][] }) {
@@ -27,9 +28,9 @@ export function InstitutionalSection({ rows }: { rows: [string, string][] }) {
           </tbody>
         </table>
         <div className="mt-6 text-center">
-          <a className="btn btn-primary" href="#">
+          <MarketingPillButton href="#">
             Need Institutional pricing? Talk to us
-          </a>
+          </MarketingPillButton>
         </div>
       </div>
     </section>

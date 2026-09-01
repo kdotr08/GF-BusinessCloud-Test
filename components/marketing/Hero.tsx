@@ -1,12 +1,17 @@
 import { Header } from "@/components/marketing/Header";
+import { MarketingPillButton } from "@/components/marketing/MarketingPillButton";
+import { MAIN_NAV_LINKS } from "@/components/marketing/nav-links";
 import type { HeroRung } from "@/lib/content";
 import styles from "./pricing.module.css";
 
 export function Hero({ rungs }: { rungs: HeroRung[] }) {
   return (
-    <header className={`${styles.hero} pt-14`}>
+    <header className="bg-dark-glow pt-14">
       <div className="wrap">
-        <Header />
+        <Header
+          links={MAIN_NAV_LINKS}
+          cta={{ href: "/pricing#institutional", label: "Talk to us" }}
+        />
 
         <div className={styles.heroGrid}>
           <div>
@@ -30,15 +35,15 @@ export function Hero({ rungs }: { rungs: HeroRung[] }) {
             </div>
 
             <div className="mt-7 flex flex-wrap gap-3">
-              <a className="btn btn-secondary" href="#plans">
+              <MarketingPillButton href="#plans">
                 Start building free
-              </a>
-              <a className="btn btn-ghost" href="#calculator">
+              </MarketingPillButton>
+              <MarketingPillButton href="#calculator" variant="dark-secondary">
                 Calculate your live cost
-              </a>
-              <a className="btn btn-ghost" href="#institutional">
+              </MarketingPillButton>
+              <MarketingPillButton href="#institutional" variant="dark-secondary">
                 Talk to us
-              </a>
+              </MarketingPillButton>
             </div>
             <div className="mt-3.5 text-[12.5px] text-white/50">
               Prices exclude VAT / local sales taxes. Annual-plan prices shown. Monthly-flex

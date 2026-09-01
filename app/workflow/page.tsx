@@ -3,6 +3,7 @@ import { Header } from "@/components/marketing/Header";
 import { MAIN_NAV_LINKS } from "@/components/marketing/nav-links";
 import { WorkflowCard } from "@/components/marketing/WorkflowCard";
 import { ClosingCta } from "@/components/marketing/ClosingCta";
+import { MarketingPillButton } from "@/components/marketing/MarketingPillButton";
 import styles from "@/components/marketing/content-page.module.css";
 
 export const metadata: Metadata = {
@@ -108,7 +109,7 @@ const FAQS: [string, string][] = [
 export default function WorkflowPage() {
   return (
     <>
-      <header className={`${styles.pageHero} pt-4`}>
+      <header className={`bg-dark-glow ${styles.pageHero} pt-4`}>
         <div className="wrap">
           <Header links={MAIN_NAV_LINKS} cta={{ href: "/pricing#institutional", label: "Talk to us" }} />
 
@@ -122,12 +123,12 @@ export default function WorkflowPage() {
                 delivery, or a mapping step into another system.
               </p>
               <div className={styles.pageHeroButtons}>
-                <a className="btn-pill-primary btn-hover-shrink !px-6" href="/pricing#addons">
+                <MarketingPillButton href="/pricing#addons">
                   See automation pricing
-                </a>
-                <a className={`${styles.pillGhost} btn-hover-shrink`} href="/demo">
+                </MarketingPillButton>
+                <MarketingPillButton href="/demo" variant="dark-secondary">
                   View demo
-                </a>
+                </MarketingPillButton>
               </div>
             </div>
             <div className="max-w-[420px] justify-self-center">

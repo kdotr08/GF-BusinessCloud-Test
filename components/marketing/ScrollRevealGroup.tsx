@@ -6,9 +6,17 @@ import styles from "./scroll-reveal.module.css";
 export function ScrollRevealGroup({
   children,
   className = "",
+  rootMargin = "0px 0px -8%",
+  threshold = 0.08,
 }: {
   children: ReactNode;
   className?: string;
+  // Lets a section override when its reveal fires — e.g. a full-viewport-
+  // height section needs a later (more negative) rootMargin so it doesn't
+  // trigger while it's still mostly off-screen and finish animating
+  // before the user actually scrolls it into a comfortable view.
+  rootMargin?: string;
+  threshold?: number;
 }) {
   const groupRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
@@ -28,12 +36,12 @@ export function ScrollRevealGroup({
         setVisible(true);
         observer.disconnect();
       },
-      { rootMargin: "0px 0px -8%", threshold: 0.08 },
+      { rootMargin, threshold },
     );
 
     observer.observe(group);
     return () => observer.disconnect();
-  }, []);
+  }, [rootMargin, threshold]);
 
   return (
     <div

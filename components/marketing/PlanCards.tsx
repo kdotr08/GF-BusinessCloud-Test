@@ -1,4 +1,5 @@
 import type { PlanCardData } from "@/lib/content";
+import { MarketingPillButton } from "./MarketingPillButton";
 import styles from "./pricing.module.css";
 
 export function PlanCards({
@@ -42,12 +43,13 @@ export function PlanCards({
                   </li>
                 ))}
               </ul>
-              <a
-                className={`btn w-full ${plan.ctaVariant === "primary" ? "btn-primary" : "btn-secondary"}`}
+              <MarketingPillButton
                 href="#"
+                variant={plan.ctaVariant === "primary" ? "primary" : "secondary"}
+                className={`w-full ${plan.ctaVariant === "primary" ? "justify-between" : "justify-center"}`}
               >
                 {plan.cta}
-              </a>
+              </MarketingPillButton>
             </div>
           ))}
         </div>

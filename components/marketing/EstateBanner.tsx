@@ -1,4 +1,5 @@
 import type { EstateBand } from "@/lib/content";
+import { MarketingPillButton } from "./MarketingPillButton";
 import styles from "./pricing.module.css";
 
 export function EstateBanner({ bands }: { bands: EstateBand[] }) {
@@ -13,9 +14,9 @@ export function EstateBanner({ bands }: { bands: EstateBand[] }) {
               portfolio economics, not high-touch delivery support.
             </p>
           </div>
-          <a className="btn btn-ghost" href="#institutional">
+          <MarketingPillButton href="#institutional">
             Talk to us about Estate
-          </a>
+          </MarketingPillButton>
         </div>
 
         <details className={`${styles.estateDetail} mt-5`}>

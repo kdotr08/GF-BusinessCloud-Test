@@ -3,6 +3,7 @@ import { Header } from "@/components/marketing/Header";
 import { MAIN_NAV_LINKS } from "@/components/marketing/nav-links";
 import { WorkflowCard } from "@/components/marketing/WorkflowCard";
 import { ClosingCta } from "@/components/marketing/ClosingCta";
+import { MarketingPillButton } from "@/components/marketing/MarketingPillButton";
 import styles from "@/components/marketing/content-page.module.css";
 
 export const metadata: Metadata = {
@@ -31,7 +32,7 @@ const SERVICES: { title: string; body: string }[] = [
 export default function DemoPage() {
   return (
     <>
-      <header className={`${styles.pageHero} pt-4`}>
+      <header className={`bg-dark-glow ${styles.pageHero} pt-4`}>
         <div className="wrap">
           <Header links={MAIN_NAV_LINKS} cta={{ href: "/pricing#institutional", label: "Talk to us" }} />
 
@@ -45,9 +46,9 @@ export default function DemoPage() {
                 not a slide deck.
               </p>
               <div className={styles.pageHeroButtons}>
-                <a className="btn-pill-primary btn-hover-shrink !px-6" href="/pricing#institutional">
+                <MarketingPillButton href="/pricing#institutional">
                   Talk to us
-                </a>
+                </MarketingPillButton>
               </div>
             </div>
             <div className="max-w-[420px] justify-self-center">
