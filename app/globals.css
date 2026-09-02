@@ -94,6 +94,11 @@ p {
   }
   .eyebrow-typing-text {
     display: inline-block;
+    /* Preserve a few pixels of glyph overhang at both edges. The negative
+       margin keeps the pill's measured width unchanged while preventing the
+       typing clip-path from trimming the final character on mobile fonts. */
+    margin-inline: -1px -3px;
+    padding-inline: 1px 3px;
     white-space: nowrap;
     clip-path: inset(0 100% 0 0);
   }

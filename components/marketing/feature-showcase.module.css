@@ -1,8 +1,3 @@
-/* Hover-expand card row, modelled on the Grovia Webflow template's
-   "process" section: 3 cards per row, one expanded to 50% width by
-   default, the others at 25%; hovering, focusing or clicking a card
-   makes it the row's active card until another card is selected. */
-
 .stack {
   display: flex;
   width: 100%;
@@ -20,63 +15,49 @@
 }
 
 .row {
-  --feature-expanded-copy-width: clamp(150px, 18vw, 260px);
-  --feature-collapsed-copy-width: max(0px, calc((100cqw - 24px) / 4 - 48px));
-  display: flex;
-  container-type: inline-size;
-  height: 380px;
-  align-items: stretch;
-  gap: 12px;
-  overflow: hidden;
   padding: 12px;
   border: 1px solid rgba(0, 96, 142, 0.12);
   border-radius: 20px;
   background:
-    linear-gradient(135deg, rgba(0, 31, 63, 0.065), rgba(0, 180, 216, 0.09)),
-    #f7fbfc;
+    linear-gradient(135deg, rgba(0, 31, 63, 0.055), rgba(0, 180, 216, 0.08)),
+    #fff;
+}
+
+.cardTrack {
+  --feature-expanded-copy-width: clamp(230px, 20vw, 310px);
+  --feature-collapsed-copy-width: max(0px, calc((100cqw - 24px) / 4 - 48px));
+  display: flex;
+  container-type: inline-size;
+  height: 410px;
+  align-items: stretch;
+  gap: 12px;
 }
 
 .card {
   display: flex;
-  flex: 1 1 0;
-  flex-direction: column;
   min-width: 0;
   height: 100%;
+  flex: 1 1 0;
+  flex-direction: column;
   overflow: hidden;
-  padding: 0;
   border: 1px solid #e3e4e8;
   border-radius: 14px;
   background: #fff;
-  cursor: default;
   transition:
     flex-grow 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.5s,
-    background-color 0.5s,
-    box-shadow 0.5s;
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
 }
 
 .card:hover,
-.card:focus-visible {
-  border-color: #c7cad1;
-  background: #fff;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-  outline: none;
+.card:focus-within,
+.cardActive {
+  border-color: rgba(0, 135, 176, 0.28);
+  box-shadow: 0 7px 20px rgba(0, 31, 63, 0.055);
 }
 
 .cardActive {
   flex-grow: 2;
-}
-
-.cardSolo {
-  flex-grow: 1;
-}
-
-.cardNum {
-  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
-  font-size: 12px;
-  font-weight: 700;
-  color: #0087b0;
-  flex-shrink: 0;
 }
 
 .cardContent {
@@ -87,21 +68,27 @@
 .cardContentExpanded {
   display: grid;
   grid-template-columns: calc(var(--feature-expanded-copy-width) + 48px) minmax(0, 1fr);
-  gap: 0;
   align-items: stretch;
 }
 
 .cardCopy {
   display: flex;
-  flex-direction: column;
   min-width: 0;
   height: 100%;
   padding: 24px;
+  flex-direction: column;
+}
+
+.cardNum {
+  flex: 0 0 auto;
+  color: #0087b0;
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .cardText {
   width: var(--feature-collapsed-copy-width);
-  max-width: none;
   margin-top: auto;
 }
 
@@ -112,58 +99,113 @@
 }
 
 .cardTitle {
-  font-size: 16px;
-  font-weight: 700;
+  margin: 0 0 8px;
   color: var(--navy);
-  margin-bottom: 6px;
-  white-space: normal;
-  overflow: visible;
+  font-size: 17px;
+  font-weight: 750;
+  line-height: 1.25;
   overflow-wrap: anywhere;
 }
 
 .cardBody {
-  font-size: 13.5px;
-  color: #565a64;
   margin: 0;
-  overflow-wrap: anywhere;
-}
-
-.cardList {
-  margin: 10px 0 0;
-  padding: 0;
-  list-style: none;
-  font-size: 13.5px;
   color: #565a64;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.cardList li {
-  padding-left: 16px;
-  position: relative;
+  font-size: 13.5px;
+  line-height: 1.52;
   overflow-wrap: anywhere;
 }
 
-.cardList li::before {
-  content: "";
+.highlightList,
+.capabilityList {
+  display: flex;
+  margin: 14px 0 0;
+  padding: 0;
+  flex-direction: column;
+  gap: 7px;
+  list-style: none;
+  color: #565a64;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.highlightList li,
+.capabilityList li {
+  position: relative;
+  padding-left: 17px;
+}
+
+.highlightList li::before,
+.capabilityList li::before {
   position: absolute;
+  top: 0.67em;
   left: 0;
-  top: 8px;
   width: 6px;
   height: 6px;
   border-radius: 999px;
+  background: #0087b0;
+  content: "";
+  transform: translateY(-50%);
+}
+
+.highlightList li::before {
+  background: #88deeb;
+  box-shadow: inset 0 0 0 1px rgba(0, 31, 63, 0.15);
+}
+
+.expandButton {
+  display: inline-flex;
+  width: fit-content;
+  margin-top: 18px;
+  padding: 0;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  background: transparent;
+  color: var(--navy);
+  cursor: pointer;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.expandButton:hover {
+  color: #006f95;
+}
+
+.expandButton:focus-visible {
+  border-radius: 4px;
+  outline: 3px solid #88deeb;
+  outline-offset: 4px;
+}
+
+.expandIcon {
+  display: inline-grid;
+  width: 23px;
+  height: 23px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 999px;
   background: var(--navy);
-  opacity: 0.35;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.expandButton[aria-expanded="true"] .expandIcon {
+  transform: rotate(45deg);
 }
 
 .cardMedia {
   display: flex;
+  min-width: 0;
   min-height: 100%;
-  overflow: hidden;
+  padding: 12px;
   align-items: center;
   justify-content: center;
-  padding: 12px;
+  overflow: hidden;
   border-left: 1px dashed rgba(0, 135, 176, 0.35);
   border-radius: 0 13px 13px 0;
   background:
@@ -185,10 +227,79 @@
   object-fit: cover;
 }
 
+.capabilityPanels {
+  display: flex;
+  flex-direction: column;
+}
+
+.capabilityReveal {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.28s ease;
+}
+
+.capabilityRevealOpen {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.capabilityRevealInner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.capabilityPanel {
+  margin-top: 12px;
+  padding: 22px 24px 24px;
+  border: 1px solid rgba(0, 135, 176, 0.2);
+  border-radius: 13px;
+  background: #fff;
+}
+
+.capabilityPanelHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.capabilityPanelHeader span {
+  color: #0087b0;
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.capabilityPanelHeader h4 {
+  margin: 0;
+  color: var(--navy);
+  font-size: 16px;
+}
+
+.capabilityPanel .capabilityList {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 18px;
+  gap: 10px 24px;
+}
+
+.complianceNote {
+  margin: 20px 0 0;
+  padding: 14px;
+  border-left: 3px solid #0087b0;
+  border-radius: 0 8px 8px 0;
+  background: rgba(136, 222, 235, 0.12);
+  color: #4d5661;
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
 @keyframes feature-copy-rise {
   from {
     opacity: 0.72;
-    transform: translateY(72px);
+    transform: translateY(54px);
   }
   to {
     opacity: 1;
@@ -196,41 +307,75 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .card,
-  .cardContentExpanded .cardText {
-    transition: none;
-    animation: none;
-  }
-}
-
-@media (max-width: 860px) {
-  .stack {
-    width: 100%;
-  }
-
-  .row {
-    --feature-expanded-copy-width: min(100%, 32ch);
-    --feature-collapsed-copy-width: min(100%, 32ch);
+@media (max-width: 980px) {
+  .cardTrack {
+    --feature-expanded-copy-width: min(100%, 34ch);
+    --feature-collapsed-copy-width: min(100%, 34ch);
     height: auto;
     flex-direction: column;
-    overflow: visible;
   }
 
   .card,
-  .cardActive,
-  .cardSolo {
-    flex: 0 0 auto;
+  .cardActive {
+    min-height: 220px;
     height: auto;
-    min-height: 190px;
+    flex: 0 0 auto;
   }
 
   .cardContentExpanded {
-    grid-template-columns: minmax(0, 0.9fr) minmax(120px, 1.1fr);
-    gap: 0;
+    grid-template-columns: minmax(0, 1fr) minmax(240px, 0.9fr);
+  }
+
+  .cardContentExpanded .cardText {
+    margin-top: 20px;
+  }
+
+  .capabilityPanel .capabilityList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .row {
+    padding: 8px;
+    border-radius: 16px;
+  }
+
+  .cardContentExpanded {
+    grid-template-columns: 1fr;
+  }
+
+  .cardCopy {
+    min-height: 260px;
+    padding: 22px;
+  }
+
+  .cardContentExpanded .cardText {
+    width: 100%;
   }
 
   .cardMedia {
-    min-height: 100%;
+    min-height: 240px;
+    border-top: 1px dashed rgba(0, 135, 176, 0.35);
+    border-left: 0;
+    border-radius: 0 0 13px 13px;
+  }
+
+  .capabilityPanel {
+    padding: 20px;
+  }
+
+  .capabilityPanel .capabilityList {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .cardContentExpanded .cardText,
+  .expandIcon,
+  .capabilityReveal {
+    transition: none;
+    animation: none;
   }
 }

@@ -8,6 +8,7 @@ export function ScrollRevealGroup({
   className = "",
   rootMargin = "0px 0px -8%",
   threshold = 0.08,
+  motion = "scale",
 }: {
   children: ReactNode;
   className?: string;
@@ -17,6 +18,7 @@ export function ScrollRevealGroup({
   // before the user actually scrolls it into a comfortable view.
   rootMargin?: string;
   threshold?: number;
+  motion?: "scale" | "rise";
 }) {
   const groupRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
@@ -46,7 +48,7 @@ export function ScrollRevealGroup({
   return (
     <div
       ref={groupRef}
-      className={`${styles.group} ${className}`}
+      className={`${styles.group} ${motion === "rise" ? styles.rise : ""} ${className}`}
       data-visible={visible || undefined}
     >
       {children}

@@ -12,6 +12,14 @@
   transform: scale(1);
 }
 
+.group.rise :global([data-reveal-item]) {
+  transform: translateY(28px);
+}
+
+.group.rise[data-visible] :global([data-reveal-item]) {
+  transform: translateY(0);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .group :global([data-reveal-item]) {
     opacity: 1;

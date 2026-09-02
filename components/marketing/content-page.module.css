@@ -75,7 +75,7 @@
   border-radius: 22px;
   background:
     linear-gradient(135deg, rgba(136, 222, 235, 0.2), rgba(255, 255, 255, 0.82)),
-    #f7fbfc;
+    #fff;
   box-shadow: 0 6px 18px rgba(0, 31, 63, 0.04);
   color: var(--navy);
   font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
@@ -195,7 +195,7 @@
 }
 
 .analyticsTintSection {
-  background: #f4f9fb;
+  background: #f2f6fa;
 }
 
 .analyticsPrivacyGrid,
@@ -215,22 +215,21 @@
 
 .analyticsChecklist {
   display: grid;
-  gap: 2px;
-  padding: 24px;
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgba(0, 96, 142, 0.16);
   border-radius: 18px;
-  background-color: var(--navy);
-  background-image: radial-gradient(circle, rgba(136, 222, 235, 0.2) 1px, transparent 1.2px);
-  background-size: 16px 16px;
-  box-shadow: 0 12px 30px rgba(0, 31, 63, 0.1);
+  background: #fff;
 }
 
 .analyticsChecklist li {
   position: relative;
-  padding: 15px 16px 15px 44px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  color: #fff;
+  padding: 17px 22px 17px 48px;
+  border-bottom: 1px solid #e3e4e8;
+  color: var(--navy);
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 650;
 }
 
 .analyticsChecklist li:last-child {
@@ -238,10 +237,21 @@
 }
 
 .analyticsChecklist li::before {
-  content: "✓";
+  content: "\2713";
   position: absolute;
-  left: 14px;
-  color: #88deeb;
+  left: 20px;
+  top: 50%;
+  display: grid;
+  width: 18px;
+  height: 18px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--hero-accent);
+  color: var(--blue-deep);
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
+  transform: translateY(-50%);
 }
 
 .analyticsQuestionList {
@@ -268,9 +278,19 @@
   content: "?";
   position: absolute;
   left: 20px;
-  color: #0087b0;
+  top: 50%;
+  display: grid;
+  width: 18px;
+  height: 18px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--hero-accent);
+  color: var(--blue-deep);
   font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 11px;
   font-weight: 800;
+  line-height: 1;
+  transform: translateY(-50%);
 }
 
 @media (max-width: 860px) {
@@ -298,10 +318,6 @@
   .analyticsCard {
     min-height: 0;
     padding: 22px;
-  }
-
-  .analyticsChecklist {
-    padding: 14px;
   }
 }
 
@@ -461,6 +477,77 @@
 }
 .faqItem[open] summary::before {
   content: "\2212";
+}
+
+.featuresFaqSection {
+  background: #fff;
+}
+
+.featuresFaqList {
+  max-width: 920px;
+}
+
+.featuresFaqList .faqItem {
+  padding: 20px 0;
+  border-color: rgba(0, 96, 142, 0.18);
+}
+
+.featuresFaqList .faqItem:last-child {
+  border-bottom: 1px solid rgba(0, 96, 142, 0.18);
+}
+
+.featuresFaqList .faqItem summary {
+  display: flex;
+  align-items: flex-start;
+  color: var(--navy);
+  font-size: 17px;
+  line-height: 1.4;
+}
+
+.featuresFaqList .faqItem summary::before {
+  flex: 0 0 26px;
+}
+
+.faqAnswerReveal {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition:
+    grid-template-rows 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 240ms ease,
+    transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.faqItem[open] .faqAnswerReveal {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.faqItem[data-closing="true"] .faqAnswerReveal {
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+.faqAnswerInner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.featuresFaqList .faqItem p {
+  max-width: 76ch;
+  margin: 14px 0 0 26px;
+  color: #565a64;
+  font-size: 14.5px;
+  line-height: 1.65;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faqAnswerReveal {
+    transition: none;
+  }
 }
 
 .tableWrap {

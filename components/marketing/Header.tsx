@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./header.module.css";
 
 type SimpleLink = { label: string; href: string };
@@ -67,14 +67,18 @@ export function Header({
   cta,
   variant = "dark",
   invertedCta = false,
+  mobileAutoHide = false,
 }: {
   links?: NavLink[];
   cta?: NavLink;
   variant?: "dark" | "light";
   invertedCta?: boolean;
+  mobileAutoHide?: boolean;
 }) {
   const [open, setOpen] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileHeaderVisible, setMobileHeaderVisible] = useState(true);
+  const lastScrollYRef = useRef(0);
   const light = variant === "light";
   const navRevealDelay = (index: number) =>
     `${120 + Math.abs(index - (links.length - 1) / 2) * 150}ms`;
@@ -84,9 +88,56 @@ export function Header({
     setMobileOpen(false);
   };
 
+  useEffect(() => {
+    if (!mobileAutoHide) return;
+
+    const mobileQuery = window.matchMedia("(max-width: 1023.98px)");
+    let animationFrame = 0;
+    lastScrollYRef.current = Math.max(window.scrollY, 0);
+
+    const updateHeader = () => {
+      animationFrame = 0;
+      const currentScrollY = Math.max(window.scrollY, 0);
+
+      if (!mobileQuery.matches) {
+        setMobileHeaderVisible(true);
+        lastScrollYRef.current = currentScrollY;
+        return;
+      }
+
+      if (mobileOpen || currentScrollY <= 16) {
+        setMobileHeaderVisible(true);
+      } else {
+        const scrollDelta = currentScrollY - lastScrollYRef.current;
+        if (Math.abs(scrollDelta) >= 6) {
+          setMobileHeaderVisible(scrollDelta < 0);
+        }
+      }
+
+      lastScrollYRef.current = currentScrollY;
+    };
+
+    const handleScroll = () => {
+      if (!animationFrame) animationFrame = window.requestAnimationFrame(updateHeader);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    mobileQuery.addEventListener("change", updateHeader);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      mobileQuery.removeEventListener("change", updateHeader);
+      if (animationFrame) window.cancelAnimationFrame(animationFrame);
+    };
+  }, [mobileAutoHide, mobileOpen]);
+
   return (
-    <div className="pb-10">
-      <div className="relative grid grid-cols-[1fr_auto] items-center lg:grid-cols-[1fr_auto_1fr]">
+    <div className={`${mobileAutoHide ? styles.mobileStickyShell : ""} pb-10`}>
+      <div
+        className={`${
+          mobileAutoHide ? styles.mobileStickyBar : ""
+        } ${mobileAutoHide && !mobileHeaderVisible ? styles.mobileStickyBarHidden : ""} relative grid grid-cols-[1fr_auto] items-center lg:grid-cols-[1fr_auto_1fr]`}
+      >
         <Link
           href="/"
           className={`${styles.navReveal} justify-self-start font-serif text-xl font-bold tracking-tight ${light ? "text-navy" : "text-white"}`}
@@ -164,7 +215,10 @@ export function Header({
           style={{ animationDelay: "165ms" }}
           aria-label="Toggle menu"
           aria-expanded={mobileOpen}
-          onClick={() => setMobileOpen((v) => !v)}
+          onClick={() => {
+            setMobileHeaderVisible(true);
+            setMobileOpen((value) => !value);
+          }}
         >
           <span className={`${styles.hamburgerBar} ${light ? styles.hamburgerBarLight : ""}`} />
           <span className={`${styles.hamburgerBar} ${light ? styles.hamburgerBarLight : ""}`} />
@@ -221,10 +275,10 @@ export function Header({
                       ))}
                       <Link
                         href={link.mega.banner.href}
-                        className="mt-2 rounded-lg bg-navy px-3 py-2.5 text-sm font-semibold text-white no-underline"
+                        className={styles.mobileBanner}
                         onClick={closeAll}
                       >
-                        <span className="block text-[11px] font-normal text-white/65">
+                        <span className={styles.mobileBannerEyebrow}>
                           {link.mega.banner.title}
                         </span>
                         {link.mega.banner.cta}

@@ -6,14 +6,17 @@ export function PageHero({
   eyebrow,
   title,
   subtitle,
+  supportingText,
   note,
   primaryCta,
   secondaryCta,
   reveal = false,
+  revealMotion = "scale",
 }: {
   eyebrow: string;
   title: string;
   subtitle: string;
+  supportingText?: string;
   note?: string;
   primaryCta?: {
     label: string;
@@ -21,8 +24,9 @@ export function PageHero({
     variant?: "primary" | "white-icon";
     className?: string;
   };
-  secondaryCta?: { label: string; href: string };
+  secondaryCta?: { label: string; href: string; scrollDurationMs?: number };
   reveal?: boolean;
+  revealMotion?: "scale" | "rise";
 }) {
   const heroContent = (
     <div className={`${styles.pageHeroBody} subpage-hero-clearance`}>
@@ -31,10 +35,15 @@ export function PageHero({
       </div>
       <h1 data-reveal-item={reveal ? "" : undefined} style={{ transitionDelay: "160ms" }}>{title}</h1>
       <p data-reveal-item={reveal ? "" : undefined} style={{ transitionDelay: "320ms" }}>{subtitle}</p>
+      {supportingText && (
+        <p data-reveal-item={reveal ? "" : undefined} style={{ transitionDelay: "440ms" }}>
+          {supportingText}
+        </p>
+      )}
       {note && (
         <p
           data-reveal-item={reveal ? "" : undefined}
-          style={{ transitionDelay: "440ms" }}
+          style={{ transitionDelay: supportingText ? "560ms" : "440ms" }}
           className={styles.pageHeroNote}
         >
           {note}
@@ -44,7 +53,7 @@ export function PageHero({
       {(primaryCta || secondaryCta) && (
         <div
           data-reveal-item={reveal ? "" : undefined}
-          style={{ transitionDelay: note ? "600ms" : "480ms" }}
+          style={{ transitionDelay: note || supportingText ? "680ms" : "480ms" }}
           className={styles.pageHeroButtons}
         >
           {primaryCta && (
@@ -57,7 +66,11 @@ export function PageHero({
             </MarketingPillButton>
           )}
           {secondaryCta && (
-            <MarketingPillButton href={secondaryCta.href} variant="dark-secondary">
+            <MarketingPillButton
+              href={secondaryCta.href}
+              variant="dark-secondary"
+              scrollDurationMs={secondaryCta.scrollDurationMs}
+            >
               {secondaryCta.label}
             </MarketingPillButton>
           )}
@@ -69,7 +82,9 @@ export function PageHero({
   return (
     <header className={`bg-dark-glow ${styles.pageHero}`}>
       {reveal ? (
-        <ScrollRevealGroup className="wrap">{heroContent}</ScrollRevealGroup>
+        <ScrollRevealGroup className="wrap" motion={revealMotion}>
+          {heroContent}
+        </ScrollRevealGroup>
       ) : (
         <div className="wrap">{heroContent}</div>
       )}

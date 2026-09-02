@@ -12,6 +12,7 @@ export function HomeHero() {
           links={MAIN_NAV_LINKS}
           cta={{ href: "/pricing#institutional", label: "Talk to us" }}
           variant="light"
+          mobileAutoHide
         />
 
         <div className={styles.heroGrid}>

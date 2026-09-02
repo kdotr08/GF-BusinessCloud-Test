@@ -1,4 +1,6 @@
-import type { ReactNode } from "react";
+"use client";
+
+import type { MouseEvent, ReactNode } from "react";
 import styles from "./home.module.css";
 
 export function MarketingPillButton({
@@ -6,16 +8,72 @@ export function MarketingPillButton({
   children,
   variant = "primary",
   className = "",
+  scrollDurationMs,
 }: {
   href: string;
   children: ReactNode;
   variant?: "primary" | "secondary" | "dark-secondary" | "white-icon";
   className?: string;
+  scrollDurationMs?: number;
 }) {
+  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (
+      !scrollDurationMs ||
+      !href.startsWith("#") ||
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    ) {
+      return;
+    }
+
+    const target = document.querySelector(href);
+    if (!target) return;
+
+    event.preventDefault();
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      target.scrollIntoView();
+      window.history.pushState(null, "", href);
+      return;
+    }
+
+    const start = window.scrollY;
+    const destination = target.getBoundingClientRect().top + start;
+    const distance = destination - start;
+    const startedAt = performance.now();
+    const previousScrollBehavior = document.documentElement.style.scrollBehavior;
+
+    document.documentElement.style.scrollBehavior = "auto";
+
+    const animate = (now: number) => {
+      const progress = Math.min((now - startedAt) / scrollDurationMs, 1);
+      const eased =
+        progress < 0.5
+          ? 4 * progress * progress * progress
+          : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+      window.scrollTo(0, start + distance * eased);
+
+      if (progress < 1) {
+        window.requestAnimationFrame(animate);
+        return;
+      }
+
+      document.documentElement.style.scrollBehavior = previousScrollBehavior;
+      window.history.pushState(null, "", href);
+    };
+
+    window.requestAnimationFrame(animate);
+  };
+
   if (variant === "secondary" || variant === "dark-secondary") {
     return (
       <a
         href={href}
+        onClick={handleClick}
         className={`btn-pill-secondary btn-hover-shrink ${
           variant === "dark-secondary" ? styles.darkPillSecondary : styles.heroSecondaryCta
         } ${className}`}
@@ -33,6 +91,7 @@ export function MarketingPillButton({
   return (
     <a
       href={href}
+      onClick={handleClick}
       className={`btn-pill-primary ${variant === "white-icon" ? styles.pillWhiteIcon : styles.heroPrimaryCta} ${className}`}
     >
       <span className={styles.heroCtaLabel}>{children}</span>
