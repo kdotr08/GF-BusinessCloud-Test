@@ -1,4 +1,6 @@
-import type { CSSProperties } from "react";
+"use client";
+
+import { useEffect, useRef, type CSSProperties } from "react";
 import { ScrollRevealGroup } from "./ScrollRevealGroup";
 import { MarketingPillButton } from "./MarketingPillButton";
 import styles from "./home.module.css";
@@ -60,7 +62,69 @@ type RevealDurationStyle = CSSProperties & {
   "--reveal-duration": string;
 };
 
+type MobileLogoStyle = CSSProperties & {
+  "--integration-color": string;
+};
+
 export function IntegrationsSection() {
+  const mobileMarqueeRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const marquee = mobileMarqueeRef.current;
+    if (!marquee) return;
+
+    let frame = 0;
+    let resumeTimer = 0;
+    let paused = false;
+
+    const groupWidth = () => marquee.scrollWidth / 3;
+    const keepInMiddleCopy = () => {
+      const width = groupWidth();
+      if (!width) return;
+      if (marquee.scrollLeft >= width * 2) marquee.scrollLeft -= width;
+      if (marquee.scrollLeft <= 1) marquee.scrollLeft += width;
+    };
+    const pause = () => {
+      paused = true;
+      window.clearTimeout(resumeTimer);
+    };
+    const resume = () => {
+      window.clearTimeout(resumeTimer);
+      resumeTimer = window.setTimeout(() => {
+        keepInMiddleCopy();
+        paused = false;
+      }, 900);
+    };
+
+    marquee.scrollLeft = groupWidth();
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const tick = () => {
+        if (!paused) {
+          marquee.scrollLeft += 0.35;
+          keepInMiddleCopy();
+        }
+        frame = window.requestAnimationFrame(tick);
+      };
+      frame = window.requestAnimationFrame(tick);
+    }
+
+    marquee.addEventListener("pointerdown", pause);
+    marquee.addEventListener("pointerup", resume);
+    marquee.addEventListener("pointercancel", resume);
+    marquee.addEventListener("wheel", pause, { passive: true });
+    marquee.addEventListener("wheel", resume, { passive: true });
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.clearTimeout(resumeTimer);
+      marquee.removeEventListener("pointerdown", pause);
+      marquee.removeEventListener("pointerup", resume);
+      marquee.removeEventListener("pointercancel", resume);
+      marquee.removeEventListener("wheel", pause);
+      marquee.removeEventListener("wheel", resume);
+    };
+  }, []);
+
   return (
     <section
       id="integrations"
@@ -123,6 +187,43 @@ export function IntegrationsSection() {
                   </div>
                 );
               })}
+            </div>
+          </div>
+
+          <div
+            ref={mobileMarqueeRef}
+            data-reveal-item
+            style={{ transitionDelay: "600ms" }}
+            className={styles.integrationMobileMarquee}
+            aria-label="Supported integration platforms. Swipe to explore."
+          >
+            <div className={styles.integrationMobileMarqueeTrack}>
+              {[0, 1, 2].map((copy) => (
+                <div
+                  key={copy}
+                  className={styles.integrationMobileMarqueeGroup}
+                  aria-hidden={copy === 1 ? undefined : "true"}
+                >
+                  {INTEGRATION_PLATFORMS.map((platform) => (
+                    <div
+                      key={`${copy}-${platform.name}`}
+                      className={styles.integrationMobileMarqueeItem}
+                      style={{ "--integration-color": platform.color } as MobileLogoStyle}
+                    >
+                      <div
+                        className={styles.integrationLogoDisc}
+                        title={copy === 1 ? platform.name : undefined}
+                        aria-label={copy === 1 ? platform.name : undefined}
+                      >
+                        <img
+                          src={platform.asset ?? `https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/${platform.icon}.svg`}
+                          alt=""
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ))}
             </div>
           </div>
         </div>

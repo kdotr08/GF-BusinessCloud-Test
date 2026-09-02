@@ -42,7 +42,11 @@ export default function DemoPage() {
                 not a slide deck.
               </p>
               <div className={styles.pageHeroButtons}>
-                <MarketingPillButton href="/pricing#institutional">
+                <MarketingPillButton
+                  href="/pricing#institutional"
+                  variant="white-icon"
+                  className={styles.pageHeroPrimary}
+                >
                   Talk to us
                 </MarketingPillButton>
               </div>

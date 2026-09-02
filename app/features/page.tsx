@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/marketing/PageHero";
 import { ClosingCta } from "@/components/marketing/ClosingCta";
+import { FeatureShowcase } from "@/components/marketing/FeatureShowcase";
+import { ScrollRevealGroup } from "@/components/marketing/ScrollRevealGroup";
 import styles from "@/components/marketing/content-page.module.css";
 
 export const metadata: Metadata = {
@@ -15,15 +17,6 @@ const FEATURES: { title: string; body: string; bullets: string[] }[] = [
       "Prompt-to-service in seconds, with iterative refinement",
       "Inspects and updates existing services, not just new ones",
       "Human approval and role-based permissions on every change",
-    ],
-  },
-  {
-    title: "UX and content design",
-    body: "GDS-compliant, accessible patterns and components with the collaboration tools a design team actually needs.",
-    bullets: [
-      "Comments, version history and shared previews",
-      "Access management and shared design libraries",
-      "Instant deploy to QA or Production",
     ],
   },
   {
@@ -100,56 +93,44 @@ const FEATURES: { title: string; body: string; bullets: string[] }[] = [
   },
 ];
 
-const STATS: { num: string; label: string }[] = [
-  { num: "99.9%", label: "Uptime SLA" },
-  { num: "WCAG 2.2 AA", label: "Accessibility, out of the box" },
-  { num: "ISO 27001", label: "Certified information security" },
-  { num: "0", label: "Analytics cookies required" },
-];
-
 export default function FeaturesPage() {
   return (
     <>
       <PageHero
-        eyebrow="Digital service builder"
-        title="Everything you need to design, build and run a service."
-        subtitle="Powerful service-building tools on the UK Design System, with accessible UX, easy collaboration and unrivalled customisation."
-        primaryCta={{ label: "Start building free", href: "/pricing#plans" }}
+        eyebrow="Digital service platform"
+        title="Build better public services, faster."
+        subtitle="Design accessible journeys, automate complex workflows and manage every service securely—all from one flexible platform."
+        primaryCta={{
+          label: "Start building free",
+          href: "/pricing/plans",
+        }}
         secondaryCta={{ label: "View demo", href: "/demo" }}
+        reveal
       />
 
       <section className={styles.section}>
         <div className="wrap">
-          <div className="section-intro">
-            <div className="eyebrow border-[#0087b0]/25 bg-[#0087b0]/10 text-[#0087b0]">Feature set</div>
-            <h2 className="section-heading">Ten capabilities, one platform.</h2>
-          </div>
-          <div className={styles.featureGrid}>
-            {FEATURES.map((f) => (
-              <div key={f.title} className={styles.featureCard}>
-                <div className={styles.featureCardTitle}>{f.title}</div>
-                <p className="text-[13.5px] text-muted">{f.body}</p>
-                <ul className={styles.featureCardList}>
-                  {f.bullets.map((b) => (
-                    <li key={b}>{b}</li>
-                  ))}
-                </ul>
+          <ScrollRevealGroup>
+            <div className="section-intro">
+              <div data-reveal-item style={{ transitionDelay: "0ms" }}>
+                <div className="eyebrow border-[#0087b0]/25 bg-[#0087b0]/10 text-[#0087b0]">Platform capabilities</div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className={`${styles.section} ${styles.sectionAlt}`}>
-        <div className="wrap">
-          <div className={styles.statRow}>
-            {STATS.map((s) => (
-              <div key={s.label} className={styles.statCard}>
-                <div className={styles.statNum}>{s.num}</div>
-                <div className={styles.statLabel}>{s.label}</div>
-              </div>
-            ))}
-          </div>
+              <h2 data-reveal-item style={{ transitionDelay: "160ms" }} className="section-heading">
+                Everything your team needs, from first form to final submission.
+              </h2>
+            </div>
+          </ScrollRevealGroup>
+          <ScrollRevealGroup rootMargin="0px 0px -6%">
+            <div
+              data-reveal-item
+              className={styles.featuresUxPlaceholder}
+              role="img"
+              aria-label="Placeholder for a Govform user experience screenshot"
+            >
+              <span>Image placeholder</span>
+            </div>
+          </ScrollRevealGroup>
+          <FeatureShowcase features={FEATURES} />
         </div>
       </section>
 

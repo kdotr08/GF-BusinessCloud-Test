@@ -10,12 +10,11 @@ export function SubpageHeader() {
 
   if (pathname === "/") return null;
 
-  const hasDarkHero = [
+  const hasDarkHero = pathname.startsWith("/pricing") || [
     "/analytics",
     "/demo",
     "/features",
     "/integrations",
-    "/pricing",
     "/security",
     "/support",
     "/templates",
@@ -40,6 +39,18 @@ export function SubpageFinalCta() {
   const pathname = usePathname();
 
   if (pathname === "/") return null;
+
+  if (pathname === "/analytics") {
+    return (
+      <HomeFinalCta
+        eyebrow="Ready when you are"
+        title="Build your next digital service with confidence"
+        body="Create an accessible, secure and production-ready digital service—and use real service data to keep improving it."
+        primaryCta={{ label: "Start building free", href: "/pricing#plans" }}
+        secondaryCta={{ label: "Talk to a digital services expert", href: "/contact" }}
+      />
+    );
+  }
 
   return <HomeFinalCta />;
 }

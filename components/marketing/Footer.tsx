@@ -18,12 +18,12 @@ const COLUMNS: FooterColumn[] = [
   {
     title: "Pricing",
     links: [
-      { label: "Business Cloud plans", href: "/pricing#plans" },
-      { label: "Add-ons", href: "/pricing#addons" },
-      { label: "Pricing calculator", href: "/pricing#calculator" },
-      { label: "Business Estate", href: "/pricing#estate" },
-      { label: "Institutional & Central Government", href: "/pricing#institutional" },
-      { label: "Go-live reviews", href: "/pricing#go-live" },
+      { label: "Business Cloud plans", href: "/pricing/plans" },
+      { label: "Add-ons", href: "/pricing/add-ons" },
+      { label: "Pricing calculator", href: "/pricing/calculator" },
+      { label: "Business Estate", href: "/pricing/business-estate" },
+      { label: "Institutional & Central Government", href: "/pricing/institutional" },
+      { label: "Go-live reviews", href: "/pricing/go-live" },
     ],
   },
   {
@@ -35,13 +35,13 @@ const COLUMNS: FooterColumn[] = [
       { label: "Book a demo", href: "/demo" },
       { label: "Customer successes", href: "/successes" },
       { label: "Analytics", href: "/analytics" },
-      { label: "Pricing FAQ", href: "/pricing#faq" },
+      { label: "Pricing FAQ", href: "/pricing/faq" },
     ],
   },
   {
     title: "Company",
     links: [
-      { label: "Contact us", href: "/#contact" },
+      { label: "Contact us", href: "/contact" },
       { label: "Support centre", href: "/support" },
       { label: "Privacy policy", href: "/privacy" },
       { label: "Terms of service", href: "/terms" },

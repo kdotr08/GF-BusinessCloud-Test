@@ -12,7 +12,7 @@ export function CustomerSuccessCard({ story, index }: CustomerSuccessCardProps) 
   const stackStyle = {
     // Each card stops one visible tab-height below the previous card.
     // DEFRA follows the same linear offset so it completes layer four.
-    "--success-stack-top": `${24 + index * 56}px`,
+    "--success-stack-index": index,
     "--success-stack-z": 10 + index,
     "--success-folder-tab-left": tabPositions[index] ?? "0%",
   } as CSSProperties;

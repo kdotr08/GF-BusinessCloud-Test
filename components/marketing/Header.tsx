@@ -193,6 +193,22 @@ export function Header({
                   </button>
                   {open === link.href && (
                     <div className="flex flex-col gap-0.5 border-l border-navy/15 pb-2 pl-3.5">
+                      <div className="pb-1 pt-2 font-mono text-[10px] font-bold uppercase tracking-[0.08em] text-navy/45">
+                        {link.mega.gridTitle}
+                      </div>
+                      {link.mega.gridColumns.flat().map((item) => (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          className="py-2 text-sm text-navy/70 no-underline hover:text-navy"
+                          onClick={closeAll}
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                      <div className="pb-1 pt-3 font-mono text-[10px] font-bold uppercase tracking-[0.08em] text-navy/45">
+                        {link.mega.listTitle}
+                      </div>
                       {link.mega.listItems.map((item) => (
                         <Link
                           key={item.href}
@@ -203,6 +219,16 @@ export function Header({
                           {item.label}
                         </Link>
                       ))}
+                      <Link
+                        href={link.mega.banner.href}
+                        className="mt-2 rounded-lg bg-navy px-3 py-2.5 text-sm font-semibold text-white no-underline"
+                        onClick={closeAll}
+                      >
+                        <span className="block text-[11px] font-normal text-white/65">
+                          {link.mega.banner.title}
+                        </span>
+                        {link.mega.banner.cta}
+                      </Link>
                     </div>
                   )}
                 </div>

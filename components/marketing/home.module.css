@@ -904,6 +904,7 @@
    what's inside it. */
 .featuresSection {
   position: relative;
+  overflow-x: clip;
 }
 
 /* The first three product sections share the same panel background, so the
@@ -2159,6 +2160,10 @@
   animation: integration-logo-counter-spin 42s linear infinite;
 }
 
+.integrationMobileMarquee {
+  display: none;
+}
+
 .integrationPanel {
   position: relative;
   z-index: 4;
@@ -2319,8 +2324,10 @@
   --success-card-color: #214a78;
   --success-card-color-end: #3c91b5;
   --success-card-outline: rgba(227, 232, 236, 0.38);
+  --success-stack-start: 24px;
+  --success-stack-step: 56px;
   position: sticky;
-  top: var(--success-stack-top);
+  top: calc(var(--success-stack-start) + var(--success-stack-index) * var(--success-stack-step));
   z-index: var(--success-stack-z);
   isolation: isolate;
   margin: 0;
@@ -2926,16 +2933,55 @@
   .integrationOrbit {
     min-height: 0;
   }
-  /* .integrationCarousel is absolutely positioned but inset:0, so once
-     .integrationsIntro switches to normal flow below (position: relative,
-     no longer absolute) it's what actually gives .integrationOrbit its
-     height on narrow viewports — and the carousel's inset:0 then matches
-     that full (much taller, stacked-text) box instead of the shallow
-     clipped band it gets on desktop, re-exposing most of the 1040px ring
-     over the heading. Simplest fix: drop the decorative orbit below the
-     920px breakpoint rather than rebuilding it as a static mobile layout. */
+  /* Replace the large decorative desktop orbit with an auto-moving mobile
+     marquee. Its viewport remains natively scrollable, so touching the rail
+     pauses the motion and lets visitors swipe in either direction. */
   .integrationCarousel {
     display: none;
+  }
+  .integrationMobileMarquee {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 64px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0 4px;
+    pointer-events: auto;
+    touch-action: pan-x;
+    scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 18px, #000 calc(100% - 18px), transparent);
+    mask-image: linear-gradient(to right, transparent, #000 18px, #000 calc(100% - 18px), transparent);
+  }
+  .integrationMobileMarquee::-webkit-scrollbar {
+    display: none;
+  }
+  .integrationMobileMarqueeTrack {
+    display: flex;
+    width: max-content;
+    height: 56px;
+  }
+  .integrationMobileMarqueeGroup {
+    display: flex;
+    flex-shrink: 0;
+    gap: 10px;
+    padding-right: 10px;
+  }
+  .integrationMobileMarqueeItem {
+    flex: 0 0 52px;
+    width: 52px;
+    height: 52px;
+  }
+  .integrationMobileMarquee .integrationLogoDisc {
+    width: 52px;
+    height: 52px;
+    border-width: 2px;
+    transform: none;
+  }
+  .integrationMobileMarquee .integrationLogoDisc img {
+    width: 25px;
+    height: 25px;
+    animation: none;
   }
   .integrationsIntro {
     position: relative;
@@ -2944,24 +2990,6 @@
     width: 100%;
     margin-bottom: 34px;
     transform: none;
-  }
-  .integrationNodes {
-    position: relative;
-    display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 14px;
-    pointer-events: auto;
-  }
-  .integrationNode,
-  .integrationNode:nth-child(3n) {
-    position: relative;
-    top: auto;
-    left: auto;
-    width: 48px;
-    height: 48px;
-    margin: auto;
-    transform: none;
-    animation: none;
   }
   .integrationPanel {
     width: 100%;
@@ -2984,7 +3012,8 @@
     padding-bottom: 0;
   }
   .successStack::after {
-    display: none;
+    display: block;
+    flex-basis: clamp(180px, 28vh, 260px);
   }
   .customerSuccessIntro {
     position: relative;
@@ -2992,19 +3021,12 @@
     margin-bottom: 64px;
   }
   .successStackCard {
-    position: relative;
-    top: auto;
-    margin-top: 30px;
+    --success-stack-start: 12px;
+    position: sticky;
     margin-bottom: 0;
   }
   .successStackCard + .successStackCard {
-    margin-top: 30px;
-  }
-  .successStackCard:first-child {
-    margin-top: 0;
-  }
-  .successStackCard:nth-child(4) {
-    margin-top: 30px;
+    margin-top: var(--success-stack-step);
   }
   .successFolderTab {
     left: 0;
@@ -3058,14 +3080,11 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .stepDetail {
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr);
     align-items: center;
-    gap: 10px;
-    text-align: center;
-  }
-  .integrationNodes {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
+    gap: 16px;
+    text-align: left;
   }
   .integrationPanelHeader {
     align-items: flex-start;

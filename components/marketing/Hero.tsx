@@ -1,5 +1,6 @@
 import { MarketingPillButton } from "@/components/marketing/MarketingPillButton";
 import type { HeroRung } from "@/lib/content";
+import contentStyles from "./content-page.module.css";
 import styles from "./pricing.module.css";
 
 export function Hero({ rungs }: { rungs: HeroRung[] }) {
@@ -28,7 +29,11 @@ export function Hero({ rungs }: { rungs: HeroRung[] }) {
             </div>
 
             <div className="mt-7 flex flex-wrap gap-3">
-              <MarketingPillButton href="#plans">
+              <MarketingPillButton
+                href="#plans"
+                variant="white-icon"
+                className={contentStyles.pageHeroPrimary}
+              >
                 Start building free
               </MarketingPillButton>
               <MarketingPillButton href="#calculator" variant="dark-secondary">

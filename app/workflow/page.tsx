@@ -119,7 +119,11 @@ export default function WorkflowPage() {
                 delivery, or a mapping step into another system.
               </p>
               <div className={styles.pageHeroButtons}>
-                <MarketingPillButton href="/pricing#addons">
+                <MarketingPillButton
+                  href="/pricing#addons"
+                  variant="white-icon"
+                  className={styles.pageHeroPrimary}
+                >
                   See automation pricing
                 </MarketingPillButton>
                 <MarketingPillButton href="/demo" variant="dark-secondary">
