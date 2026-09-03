@@ -107,14 +107,18 @@ export function Header({
 
       if (mobileOpen || currentScrollY <= 16) {
         setMobileHeaderVisible(true);
-      } else {
-        const scrollDelta = currentScrollY - lastScrollYRef.current;
-        if (Math.abs(scrollDelta) >= 6) {
-          setMobileHeaderVisible(scrollDelta < 0);
-        }
+        lastScrollYRef.current = currentScrollY;
+        return;
       }
 
-      lastScrollYRef.current = currentScrollY;
+      // Only advance the reference point once a decision is made, so a
+      // slow scroll (a few px per animation frame) accumulates toward the
+      // threshold instead of resetting every frame and never triggering.
+      const scrollDelta = currentScrollY - lastScrollYRef.current;
+      if (Math.abs(scrollDelta) >= 6) {
+        setMobileHeaderVisible(scrollDelta < 0);
+        lastScrollYRef.current = currentScrollY;
+      }
     };
 
     const handleScroll = () => {
