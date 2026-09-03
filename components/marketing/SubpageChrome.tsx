@@ -52,5 +52,17 @@ export function SubpageFinalCta() {
     );
   }
 
+  if (pathname === "/integrations") {
+    return (
+      <HomeFinalCta
+        eyebrow="Ready when you are"
+        title="Build a connected digital service"
+        body="Connect Govform with the tools, data and processes your organisation already uses. Start building independently or talk to our team about a more complex integration."
+        primaryCta={{ label: "Start building free", href: "/pricing#plans" }}
+        secondaryCta={{ label: "Talk to us", href: "/pricing#institutional" }}
+      />
+    );
+  }
+
   return <HomeFinalCta />;
 }

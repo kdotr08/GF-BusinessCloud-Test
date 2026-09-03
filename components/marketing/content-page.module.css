@@ -349,6 +349,35 @@
   opacity: 0.35;
 }
 
+.solidBlueCta {
+  background-color: var(--cta-blue) !important;
+  border-color: var(--cta-blue) !important;
+  color: #fff !important;
+}
+
+.solidBlueCta:hover,
+.solidBlueCta:focus-visible {
+  background-color: var(--navy) !important;
+  border-color: var(--navy) !important;
+}
+
+.contextLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.contextLinks a {
+  color: #0087b0;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.contextLinks a:hover {
+  text-decoration: underline;
+}
+
 .pillRow {
   display: flex;
   flex-wrap: wrap;
