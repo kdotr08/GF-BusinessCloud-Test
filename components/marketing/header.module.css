@@ -269,10 +269,63 @@
   padding: 24px;
   z-index: 50;
   text-align: left;
+  white-space: normal;
 }
 
 .panelCompact {
   width: 600px;
+}
+
+.panelNarrow {
+  width: 520px;
+}
+
+.panelNarrow .megaLayout {
+  gap: 12px;
+}
+
+.panelNarrow .gridArea {
+  flex: 0 0 200px;
+  padding-right: 10px;
+}
+
+.panelNarrow .listArea {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.panelNarrow .listLink {
+  white-space: nowrap;
+}
+
+.panelSlimExplore {
+  width: 560px;
+}
+
+.panelSlimExplore .megaLayout {
+  gap: 16px;
+}
+
+.panelSlimExplore .gridArea {
+  flex: 1 1 auto;
+  padding-right: 12px;
+}
+
+.panelSlimExplore .listArea {
+  flex: 0 0 100px;
+}
+
+.panelSlimExplore .iconGrid {
+  gap: 48px;
+}
+
+.panelSlimExplore .gridCol {
+  flex: 0 0 auto;
+}
+
+.panelSlimExplore .gridItem {
+  gap: 8px;
+  white-space: nowrap;
 }
 
 .megaLayout {
@@ -351,6 +404,7 @@
 .listLink {
   display: block;
   padding: 7px 4px;
+  overflow-wrap: anywhere;
   font-size: 13px;
   font-weight: 600;
   color: var(--navy);

@@ -8,6 +8,8 @@ export const MAIN_NAV_LINKS: NavLink[] = [
     href: "#product",
     label: "Platform",
     mega: {
+      compact: true,
+      slimExplore: true,
       gridTitle: "Platform",
       gridColumns: [
         [
@@ -39,12 +41,11 @@ export const MAIN_NAV_LINKS: NavLink[] = [
     label: "Pricing",
     mega: {
       compact: true,
+      narrow: true,
       gridTitle: "Pricing",
       gridColumns: [
         [
           { label: "Business Cloud Plans", href: "/pricing#plans" },
-        ],
-        [
           { label: "Pricing Calculator", href: "/pricing#calculator" },
         ],
       ],

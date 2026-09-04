@@ -12,6 +12,8 @@ type MegaConfig = {
   listItems: SimpleLink[];
   banner: { title: string; cta: string; href: string };
   compact?: boolean;
+  narrow?: boolean;
+  slimExplore?: boolean;
 };
 export type NavLink = { href: string; label: string; mega?: MegaConfig };
 
@@ -27,7 +29,9 @@ const SIGN_IN_HREF = "https://govforms.uk/builder/libraries";
 
 function MegaMenu({ config }: { config: MegaConfig }) {
   return (
-    <div className={`${styles.panel} ${config.compact ? styles.panelCompact : ""}`}>
+    <div
+      className={`${styles.panel} ${config.compact ? styles.panelCompact : ""} ${config.narrow ? styles.panelNarrow : ""} ${config.slimExplore ? styles.panelSlimExplore : ""}`}
+    >
       <div className={styles.megaLayout}>
         <div className={styles.gridArea}>
           <div className={styles.sectionTitle}>{config.gridTitle}</div>
