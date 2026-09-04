@@ -17,7 +17,7 @@ const FEATURES: [string, string, string, VisualKind][] = [
   [
     "automation-webhooks",
     "Automation & webhooks",
-    "Run integrations mid-journey — outbound API calls, inbound actions, Notify/email steps and mapping, priced per action, not per seat.",
+    "Run integrations mid-journey: outbound API calls, inbound actions, Notify/email steps and mapping, priced per action, not per seat.",
     "automation",
   ],
   [
@@ -41,7 +41,7 @@ const FEATURES: [string, string, string, VisualKind][] = [
   [
     "custom-domains",
     "Custom domains",
-    "Point your own domain at a live service, with standard, documented configuration — no professional-services ticket needed.",
+    "Point your own domain at a live service, with standard, documented configuration, no professional-services ticket needed.",
     "domain",
   ],
 ];

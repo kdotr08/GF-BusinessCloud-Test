@@ -1,6 +1,9 @@
 import styles from "./pricing.module.css";
 
-const FAQS: [string, string][] = [
+// Exported so pricing/page.tsx (and the /pricing/faq section route) can
+// build FAQPage structured data from the exact same content this renders,
+// instead of duplicating the questions/answers a second time.
+export const FAQS: [string, string][] = [
   [
     "What is a submission?",
     "One production journey instance after the user submits at least one page. Page-by-page server validation isn't counted separately. Draft, prototype and test traffic is excluded.",
@@ -19,7 +22,7 @@ const FAQS: [string, string][] = [
   ],
   [
     "What support is included in Business Cloud?",
-    "Documentation, examples, standard evidence packs and email/ticket product support — covering use of the product, not service design, delivery, migration or bespoke integration work.",
+    "Documentation, examples, standard evidence packs and email/ticket product support, covering use of the product, not service design, delivery, migration or bespoke integration work.",
   ],
   [
     "Can Govform.com build forms for us?",

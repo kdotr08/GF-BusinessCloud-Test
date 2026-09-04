@@ -10,12 +10,14 @@ export function TemplateCard({
   image,
   previewHref,
   category,
+  ctaLabel = "Preview template",
 }: {
   title: string;
   body: string;
   image: string;
   previewHref: string;
   category: string;
+  ctaLabel?: string;
 }) {
   const [hovering, setHovering] = useState(false);
 
@@ -59,7 +61,7 @@ export function TemplateCard({
           href={previewHref}
           className={`btn-pill-secondary btn-hover-shrink ${styles.solidBlueCta} ${styles.templatePreviewCta} h-9 !px-4 text-[13px]`}
         >
-          Preview template
+          {ctaLabel}
         </TemplatePreviewLink>
       </div>
     </div>

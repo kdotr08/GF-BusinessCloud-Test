@@ -4,44 +4,7 @@ import { useState } from "react";
 import { ScrollRevealGroup } from "./ScrollRevealGroup";
 import styles from "./home.module.css";
 import { TypingEyebrow } from "./TypingEyebrow";
-
-const FAQS = [
-  {
-    question: "Can I try Govform before purchasing?",
-    answer:
-      "Yes. You can create and test services for free and select a paid plan when you are ready to publish.",
-  },
-  {
-    question: "Is Govform only for government organisations?",
-    answer:
-      "No. Govform is proven in UK public services, but the platform is available to businesses, charities, healthcare providers, education organisations and other teams handling complex or sensitive processes.",
-  },
-  {
-    question: "Do I need technical experience?",
-    answer:
-      "No coding is required for most services. Developers can also use APIs, webhooks and integrations for more advanced requirements.",
-  },
-  {
-    question: "Can Govform connect with our existing systems?",
-    answer:
-      "Yes. Govform can connect with storage, identity, messaging and operational systems through supported integrations, APIs and webhooks.",
-  },
-  {
-    question: "Can Govform support complex workflows?",
-    answer:
-      "Yes. Services can include conditional journeys, document collection, internal review, approvals, notifications and case-management processes.",
-  },
-  {
-    question: "How does Govform support accessibility?",
-    answer:
-      "Govform provides accessible components and patterns from the start. Your team remains responsible for the accessibility of its questions, guidance and uploaded content, while Govform supports the underlying service experience.",
-  },
-  {
-    question: "How is our information protected?",
-    answer:
-      "Govform uses server-side validation, encryption, access controls and independently certified information-security processes. More detailed assurance documentation is available for procurement and security teams.",
-  },
-];
+import { FAQS } from "./home-faq-data";
 
 function HomeFaqItem({ question, answer }: { question: string; answer: string }) {
   const [isOpen, setIsOpen] = useState(false);

@@ -27,8 +27,39 @@ const displayFont = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Govform.com",
-  description: "Accessible, secure, production-grade digital service forms.",
+  metadataBase: new URL("https://govform.com"),
+  title: {
+    default: "Govform.com - Accessible, Secure Digital Service Forms",
+    template: "%s | Govform.com",
+  },
+  description:
+    "Build accessible, secure digital services and forms with workflow automation, integrations and analytics. Proven in UK public services, available to organisations of every size.",
+  alternates: { canonical: "https://govform.com" },
+  robots: { index: true, follow: true },
+  // No images key on either of these — app/icon.tsx and
+  // app/opengraph-image.tsx (next/og ImageResponse) hit a genuine bug in
+  // Next 14.2.35's bundled @vercel/og on this Windows path: its default-
+  // font loader builds a malformed file:// URL and throws ERR_INVALID_URL,
+  // reproduced at both `next dev` and `next build`, regardless of whether
+  // a custom font is supplied. Pointing openGraph/twitter.images at a
+  // route that 500s is worse than omitting it — social crawlers fall back
+  // to a text-only card instead. Revisit on Mac/Linux or once deployed;
+  // this looked like an environment-specific bug, not one in the
+  // ImageResponse usage itself, but that couldn't be confirmed here.
+  openGraph: {
+    type: "website",
+    siteName: "Govform.com",
+    title: "Govform.com - Accessible, Secure Digital Service Forms",
+    description:
+      "Build accessible, secure digital services and forms with workflow automation, integrations and analytics. Proven in UK public services, available to organisations of every size.",
+    url: "https://govform.com",
+  },
+  twitter: {
+    card: "summary",
+    title: "Govform.com - Accessible, Secure Digital Service Forms",
+    description:
+      "Build accessible, secure digital services and forms with workflow automation, integrations and analytics.",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

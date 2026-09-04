@@ -12,22 +12,17 @@ type Template = {
   category: string;
 };
 
-// Every category below has at least one template, so switching to it never
-// lands on an empty grid — these 10 are a featured subset of the full
-// (20+, per the page copy) catalogue, not the whole thing, so the mapping
-// is necessarily approximate for a couple of them (e.g. Subject Access
-// Request under the same category as the FOI request, the closest sibling
-// among these 9 rather than a perfect match).
+// Every service type below has at least one template, so filtering never
+// produces an empty grid.
 const CATEGORIES = [
-  "Search, register and directory services",
   "Review and approval workflows",
   "Task-list services",
   "Calculators and decision tools",
   "Health, safety and risk",
-  "Payments, fees and charges",
   "Licensing and permits",
   "Applications and eligibility",
-  "Complaints, appeals and reviews",
+  "Consultations and feedback",
+  "Information requests",
 ];
 
 const TEMPLATES: Template[] = [
@@ -40,7 +35,7 @@ const TEMPLATES: Template[] = [
   },
   {
     title: "Eligibility checker",
-    body: "A question-led tool that qualifies applicants against a set of rules before they start a full application.",
+    body: "A question-led tool that helps users check whether they are likely to qualify before starting a full application.",
     image: "/images/templates/eligibility-checker.png",
     previewHref: "https://govforms.uk/prototypes/templates/eligibility-checker-for-a-small-business-grant",
     category: "Calculators and decision tools",
@@ -54,17 +49,17 @@ const TEMPLATES: Template[] = [
   },
   {
     title: "Apply for a grant or funding",
-    body: "A comprehensive starter for grant and funding applications, including evidence collection and eligibility checks.",
+    body: "A reusable starting point for grant and funding applications, including eligibility questions, applicant details, supporting evidence and declarations.",
     image: "/images/templates/grant.png",
     previewHref: "https://govforms.uk/prototypes/templates/apply-for-a-community-development-grant",
-    category: "Payments, fees and charges",
+    category: "Applications and eligibility",
   },
   {
     title: "Public consultation response",
-    body: "Collect structured responses to a policy consultation from the public, businesses or stakeholder groups.",
+    body: "Collect structured responses to public consultations, including respondent details, consultation questions and consent.",
     image: "/images/templates/consultation.png",
     previewHref: "https://govforms.uk/prototypes/templates/respond-to-a-local-policy-consultation",
-    category: "Complaints, appeals and reviews",
+    category: "Consultations and feedback",
   },
   {
     title: "Report an incident or concern",
@@ -75,21 +70,21 @@ const TEMPLATES: Template[] = [
   },
   {
     title: "Freedom of Information request",
-    body: "Capture and route FOI and EIR requests, with the fields and validation regulators expect.",
+    body: "Capture and route Freedom of Information and Environmental Information Regulation requests, including contact details, request scope and preferred response format.",
     image: "/images/templates/foi-request.png",
     previewHref: "https://govforms.uk/prototypes/templates/submit-an-f-o-i-or-e-i-r-request",
-    category: "Search, register and directory services",
+    category: "Information requests",
   },
   {
-    title: "Subject Access Request",
-    body: "A structured template for handling personal data access requests under UK GDPR.",
+    title: "Subject access request",
+    body: "Collect identity details, request scope and supporting evidence for subject access requests under UK GDPR.",
     image: "/images/templates/subject-access-request.png",
     previewHref: "https://govforms.uk/prototypes/templates/subject-access-request",
-    category: "Search, register and directory services",
+    category: "Information requests",
   },
   {
     title: "Application management dashboard",
-    body: "A reviewer-facing interface for teams to triage, assign and progress incoming applications.",
+    body: "Give teams one place to review, assign, track and progress incoming applications.",
     image: "/images/templates/manage-applications.png",
     previewHref: "https://govforms.uk/prototypes/templates/manage-incoming-licensing-applications",
     category: "Review and approval workflows",

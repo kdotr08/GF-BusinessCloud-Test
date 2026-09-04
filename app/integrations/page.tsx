@@ -8,7 +8,7 @@ import styles from "@/components/marketing/content-page.module.css";
 import directoryStyles from "@/components/marketing/integration-directory.module.css";
 
 export const metadata: Metadata = {
-  title: "Integrations | Govform.com",
+  title: "Integrations",
   description:
     "Connect Govform.com to Microsoft 365, cloud storage, CRMs, payment providers and internal systems with built-in connectors, APIs, webhooks and data feeds.",
   alternates: {
@@ -142,7 +142,7 @@ export default function IntegrationsPage() {
         subtitle="Seamlessly integrate Govform.com into the rest of your software ecosystem. Start with a built-in connector or create a tailored integration using secure APIs, webhooks and data feeds."
         supportingText="Connect your digital services without replacing the systems and processes your organisation already relies on."
         primaryCta={{ label: "Explore integrations", href: "#integration-directory" }}
-        secondaryCta={{ label: "Talk to us", href: "/pricing#institutional" }}
+        secondaryCta={{ label: "Talk to us", href: "/contact" }}
         reveal
       />
 

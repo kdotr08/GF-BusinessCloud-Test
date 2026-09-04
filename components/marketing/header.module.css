@@ -80,6 +80,55 @@
   transform: translateY(-110%);
 }
 
+/* Documentation articles use the same scroll-direction behaviour as the
+   homepage, but keep the fixed bar inside the site's normal 1200px wrap.
+   Below that width, the narrower outer gutter plus 8px internal padding
+   keeps the nav content aligned with the page's 24px content gutter. */
+.mobileStickyBarContained {
+  right: auto;
+  left: 50%;
+  isolation: isolate;
+  width: min(calc(100% - 32px), 1200px);
+  padding-right: 8px;
+  padding-left: 8px;
+  transform: translateX(-50%);
+}
+
+/* Keep the navigation content constrained, but let the solid surface that
+   appears on scroll-up span the viewport like a conventional site header. */
+.mobileStickyBarContained.mobileStickyBarSolid {
+  border-bottom-color: transparent;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.mobileStickyBarContained.mobileStickyBarSolid::before {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  border-bottom: 1px solid rgba(0, 31, 63, 0.08);
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 8px 24px rgba(0, 31, 63, 0.11);
+  backdrop-filter: blur(12px);
+  content: "";
+  transform: translateX(-50%);
+}
+
+.mobileStickyBarContained.mobileStickyBarHidden {
+  transform: translate(-50%, -110%);
+}
+
+@media (min-width: 1232px) {
+  .mobileStickyBarContained {
+    padding-right: 24px;
+    padding-left: 24px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .mobileStickyBar {
     transition: none;
@@ -146,7 +195,7 @@
    space that belongs to the nav bar, not the dropdown — the mouse crosses
    it, fires mouseleave on .menuWrap, and the panel closes mid-hover. */
 .menuWrap {
-  position: static;
+  position: relative;
   padding-bottom: 20px;
   margin-bottom: -20px;
 }
@@ -220,6 +269,10 @@
   padding: 24px;
   z-index: 50;
   text-align: left;
+}
+
+.panelCompact {
+  width: 600px;
 }
 
 .megaLayout {

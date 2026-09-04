@@ -4,7 +4,10 @@ import { ClosingCta } from "@/components/marketing/ClosingCta";
 import styles from "@/components/marketing/content-page.module.css";
 
 export const metadata: Metadata = {
-  title: "Govform.com — Support",
+  title: "Support",
+  description:
+    "Fully inclusive live service support, expert tech support and on-the-ground delivery help, from proactive monitoring to hands-on service design and UX consulting.",
+  alternates: { canonical: "https://govform.com/support" },
 };
 
 const CHANNELS: { title: string; body: string; bullets: string[] }[] = [
@@ -44,7 +47,7 @@ export default function SupportPage() {
         eyebrow="Support"
         title="Support that goes from tech answers to on-the-ground delivery."
         subtitle="Any service you deploy to our Production platform comes with UK-based, comprehensive live service support as standard."
-        primaryCta={{ label: "Talk to us", href: "/pricing#institutional" }}
+        primaryCta={{ label: "Talk to us", href: "/contact" }}
         secondaryCta={{ label: "View demo", href: "/demo" }}
       />
 
@@ -97,7 +100,7 @@ export default function SupportPage() {
         eyebrow="Get started"
         title="Get started with smarter digital service delivery"
         body="Take the first step towards streamlined digital services with a personalised consultation from our expert team."
-        primaryCta={{ label: "Talk to us", href: "/pricing#institutional" }}
+        primaryCta={{ label: "Talk to us", href: "/contact" }}
         secondaryCta={{ label: "View demo", href: "/demo" }}
       />
     </>

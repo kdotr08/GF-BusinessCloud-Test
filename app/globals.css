@@ -13,7 +13,7 @@
   --amber-bg: rgba(0, 31, 63, 0.08);
   /* Dark-surface treatment (hero, estate banner, final CTA only) — a dotted
      texture on Deep Sea, replacing the old navy-to-black gradient. */
-  --color-cyan-900: #023247;
+  --color-cyan-900: #001f3f;
   --hero-accent: #88deeb;
   /* Column's "Signal Orange" — reserved for a single deliberate call-out
      per page (one stat, one badge), never chrome/buttons. See the

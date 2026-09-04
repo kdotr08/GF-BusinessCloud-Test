@@ -5,7 +5,17 @@ import { SecurityGrid } from "@/components/marketing/SecurityGrid";
 import styles from "@/components/marketing/content-page.module.css";
 
 export const metadata: Metadata = {
-  title: "Govform.com — Security & compliance",
+  title: "Security & Compliance for Digital Services",
+  description:
+    "Encryption in transit and at rest, role-based access control, isolated environments, full audit trails and UK-only hosting, built to meet UK public-sector security standards.",
+  keywords: [
+    "digital service security",
+    "GDPR compliant forms",
+    "UK data residency",
+    "government security standards",
+    "encrypted form data",
+  ],
+  alternates: { canonical: "https://govform.com/security" },
 };
 
 const AREAS: { title: string; body: string; bullets: string[] }[] = [
@@ -53,7 +63,7 @@ const AREAS: { title: string; body: string; bullets: string[] }[] = [
     body: "UK-only hosting, UK-only backups, no exceptions.",
     bullets: [
       "UK-only hosting on AWS UK regions",
-      "UK-resident backups — 1-hour RPO, 24-hour RTO on Enhanced support",
+      "UK-resident backups: 1-hour RPO, 24-hour RTO on Enhanced support",
       "GDPR compliance support and data portability",
       "Private cloud arrangements available",
     ],
@@ -67,7 +77,7 @@ export default function SecurityPage() {
         eyebrow="Security & compliance"
         title="Built for the security bar UK government and public sector set."
         subtitle="Govform.com is designed from the ground up to meet the security, compliance and data handling requirements of regulated organisations."
-        primaryCta={{ label: "Talk to us", href: "/pricing#institutional" }}
+        primaryCta={{ label: "Talk to us", href: "/contact" }}
         secondaryCta={{ label: "View demo", href: "/demo" }}
       />
 
@@ -99,7 +109,7 @@ export default function SecurityPage() {
         eyebrow="Get started"
         title="Need a security questionnaire answered before you can move?"
         body="Talk to us for penetration test reports, evidence packs and answers to your procurement or assurance questions."
-        primaryCta={{ label: "Talk to us", href: "/pricing#institutional" }}
+        primaryCta={{ label: "Talk to us", href: "/contact" }}
         secondaryCta={{ label: "View demo", href: "/demo" }}
       />
     </>

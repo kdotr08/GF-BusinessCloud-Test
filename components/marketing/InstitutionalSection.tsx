@@ -28,7 +28,7 @@ export function InstitutionalSection({ rows }: { rows: [string, string][] }) {
           </tbody>
         </table>
         <div className="mt-6 text-center">
-          <MarketingPillButton href="#">
+          <MarketingPillButton href="/contact">
             Need Institutional pricing? Talk to us
           </MarketingPillButton>
         </div>

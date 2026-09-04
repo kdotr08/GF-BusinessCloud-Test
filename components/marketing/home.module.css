@@ -648,7 +648,14 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 35%;
+  /* This card is portrait; the source photo is landscape (hands on a
+     trackpad/keyboard, roughly center-right and vertically mid-frame), so
+     a plain "center" crop was cutting straight through the hands and
+     leaving mostly blank desk/background visible above .bentoHeroPanel —
+     the actual focal point ended up hidden behind the panel at the
+     bottom. 68% right keeps the hands/keyboard in frame; 30% top keeps
+     them above the panel instead of underneath it. */
+  object-position: 68% 30%;
 }
 
 .bentoHeroPanel {
@@ -800,7 +807,7 @@
 .bentoNumHero {
   font-family: var(--font-display), "Inter", sans-serif;
   font-weight: 700;
-  font-size: 40px;
+  font-size: 36px;
   color: var(--navy);
   letter-spacing: -0.01em;
 }

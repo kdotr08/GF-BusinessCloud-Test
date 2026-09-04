@@ -73,7 +73,7 @@ export function PricingCalculator({ plans }: { plans: Plan[] }) {
                 Do you need file uploads, authentication, reviewer workflows or custom identity?
               </label>
               <select value={complex ? "yes" : "no"} onChange={(e) => setComplex(e.target.value === "yes")}>
-                <option value="no">No — standard components only</option>
+                <option value="no">No, standard components only</option>
                 <option value="yes">Yes</option>
               </select>
             </div>

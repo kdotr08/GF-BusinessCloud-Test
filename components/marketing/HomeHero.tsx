@@ -16,7 +16,7 @@ export function HomeHero() {
       <div className={`wrap relative z-30 ${styles.heroContent}`}>
         <Header
           links={MAIN_NAV_LINKS}
-          cta={{ href: "/pricing#institutional", label: "Talk to us" }}
+          cta={{ href: "/contact", label: "Talk to us" }}
           variant="light"
           mobileAutoHide
         />
@@ -47,7 +47,7 @@ export function HomeHero() {
           >
             <a
               className={`btn-pill-secondary btn-hover-shrink ${styles.heroSecondaryCta} 2xl:h-14 2xl:px-7 2xl:text-[17px]`}
-              href="/pricing#institutional"
+              href="/contact"
             >
               Talk to us
             </a>

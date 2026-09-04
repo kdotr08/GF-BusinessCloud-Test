@@ -7,7 +7,7 @@ import { ScrollRevealGroup } from "@/components/marketing/ScrollRevealGroup";
 import styles from "@/components/marketing/content-page.module.css";
 
 export const metadata: Metadata = {
-  title: "Digital Service Platform Features | Govform.com",
+  title: "Digital Service Platform Features",
   description:
     "Explore Govform.com’s accessible form builder, workflow automation, AI assistant, integrations, analytics, security and digital service features.",
   alternates: {

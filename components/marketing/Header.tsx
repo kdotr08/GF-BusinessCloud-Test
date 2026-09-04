@@ -11,6 +11,7 @@ type MegaConfig = {
   listTitle: string;
   listItems: SimpleLink[];
   banner: { title: string; cta: string; href: string };
+  compact?: boolean;
 };
 export type NavLink = { href: string; label: string; mega?: MegaConfig };
 
@@ -26,7 +27,7 @@ const SIGN_IN_HREF = "https://govforms.uk/builder/libraries";
 
 function MegaMenu({ config }: { config: MegaConfig }) {
   return (
-    <div className={styles.panel}>
+    <div className={`${styles.panel} ${config.compact ? styles.panelCompact : ""}`}>
       <div className={styles.megaLayout}>
         <div className={styles.gridArea}>
           <div className={styles.sectionTitle}>{config.gridTitle}</div>
@@ -68,12 +69,14 @@ export function Header({
   variant = "dark",
   invertedCta = false,
   mobileAutoHide = false,
+  containedAutoHide = false,
 }: {
   links?: NavLink[];
   cta?: NavLink;
   variant?: "dark" | "light";
   invertedCta?: boolean;
   mobileAutoHide?: boolean;
+  containedAutoHide?: boolean;
 }) {
   const [open, setOpen] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -86,7 +89,9 @@ export function Header({
   // since by then the user has already scrolled the page once.
   const [mobileHeaderSolid, setMobileHeaderSolid] = useState(false);
   const lastScrollYRef = useRef(0);
-  const light = variant === "light";
+  const hasSolidSurface = mobileAutoHide && (mobileHeaderSolid || mobileOpen);
+  const light = variant === "light" || hasSolidSurface;
+  const useInvertedCta = invertedCta && !hasSolidSurface;
   const navRevealDelay = (index: number) =>
     `${120 + Math.abs(index - (links.length - 1) / 2) * 150}ms`;
 
@@ -140,8 +145,10 @@ export function Header({
       <div
         className={`${
           mobileAutoHide ? styles.mobileStickyBar : ""
-        } ${mobileAutoHide && !mobileHeaderVisible ? styles.mobileStickyBarHidden : ""} ${
-          mobileAutoHide && (mobileHeaderSolid || mobileOpen) ? styles.mobileStickyBarSolid : ""
+        } ${mobileAutoHide && containedAutoHide ? styles.mobileStickyBarContained : ""} ${
+          mobileAutoHide && !mobileHeaderVisible ? styles.mobileStickyBarHidden : ""
+        } ${
+          hasSolidSurface ? styles.mobileStickyBarSolid : ""
         } relative grid grid-cols-[1fr_auto] items-center lg:grid-cols-[1fr_auto_1fr]`}
       >
         <Link
@@ -207,7 +214,7 @@ export function Header({
             >
               <Link
                 href={cta.href}
-                className={`btn-pill-secondary btn-hover-shrink ${styles.navCta} ${invertedCta ? styles.navCtaInverted : ""} h-9 !px-5 text-sm`}
+                className={`btn-pill-secondary btn-hover-shrink ${styles.navCta} ${useInvertedCta ? styles.navCtaInverted : ""} h-9 !px-5 text-sm`}
               >
                 {cta.label}
               </Link>
@@ -313,7 +320,7 @@ export function Header({
             {cta && (
               <Link
                 href={cta.href}
-                className={`btn-pill-secondary btn-hover-shrink ${styles.navCta} ${invertedCta ? styles.navCtaInverted : ""} mt-3 justify-center !px-6`}
+                className={`btn-pill-secondary btn-hover-shrink ${styles.navCta} ${useInvertedCta ? styles.navCtaInverted : ""} mt-3 justify-center !px-6`}
                 onClick={closeAll}
               >
                 {cta.label}

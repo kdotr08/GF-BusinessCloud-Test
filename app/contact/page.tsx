@@ -4,14 +4,17 @@ import { PageHero } from "@/components/marketing/PageHero";
 import styles from "@/components/marketing/content-page.module.css";
 
 export const metadata: Metadata = {
-  title: "Govform.com — Contact us",
+  title: "Contact Us",
+  description:
+    "Get in touch with Govform.com to book a demo, get product support, or discuss Business Cloud, Business Estate and Institutional pricing.",
+  alternates: { canonical: "https://govform.com/contact" },
 };
 
 const CONTACT_ROUTES = [
   {
     title: "Discuss a service",
     body: "Tell us what you are building and see Govform.com applied to a real service journey.",
-    label: "Book a demo",
+    label: "View demo services",
     href: "/demo",
   },
   {
@@ -33,13 +36,14 @@ export default function ContactPage() {
     <>
       <PageHero
         eyebrow="Contact us"
-        title="Start with the team best placed to help."
-        subtitle="Whether you are evaluating Govform.com, planning a complex service or supporting an existing deployment, choose the route below."
-        primaryCta={{ label: "Book a demo", href: "/demo" }}
+        title="Talk to us about your digital service."
+        subtitle="Whether you want to book a demo, plan a complex service or discuss the right commercial route, start here."
+        primaryCta={{ label: "Choose an enquiry", href: "#contact-options" }}
         secondaryCta={{ label: "Get support", href: "/support" }}
+        centered
       />
 
-      <main className={styles.section}>
+      <main id="contact-options" className={styles.section}>
         <div className="wrap">
           <div className={styles.featureGrid}>
             {CONTACT_ROUTES.map((route) => (

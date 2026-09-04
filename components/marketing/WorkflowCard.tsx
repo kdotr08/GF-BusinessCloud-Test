@@ -59,7 +59,7 @@ export function WorkflowCard() {
               <span className={styles.wfStepIcon} />
               <span className={styles.wfStepLabel}>{label}</span>
               <span className={styles.wfStepTime}>
-                {i < doneCount ? timeAt(OFFSETS_SECONDS[i]) : "—"}
+                {i < doneCount ? timeAt(OFFSETS_SECONDS[i]) : "-"}
               </span>
             </div>
           );

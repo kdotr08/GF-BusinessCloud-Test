@@ -14,7 +14,7 @@ export function HomeFinalCta({
   title = "Build your next digital service with confidence.",
   body = "Start building for free, or talk to our team about delivering a more complex service.",
   primaryCta = { label: "Start building free", href: "/pricing#plans" },
-  secondaryCta = { label: "Talk to us", href: "/pricing#institutional" },
+  secondaryCta = { label: "Talk to us", href: "/contact" },
 }: {
   eyebrow?: string;
   title?: string;
