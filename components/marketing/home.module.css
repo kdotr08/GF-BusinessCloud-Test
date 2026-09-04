@@ -280,8 +280,20 @@
   background: #fff;
   position: relative;
   height: calc(56.25vw - 156px);
-  overflow: hidden;
   border-radius: 0 0 28px 28px;
+}
+
+/* Clips only the video + scrim to the section's rounded bounds. Deliberately
+   NOT on .heroSection itself: the mobile nav's position:fixed sticky bar
+   lives inside .heroSection, and Safari clips fixed-position descendants to
+   an overflow:hidden ancestor's box even though the spec containing block
+   for position:fixed is the viewport — so overflow:hidden here was hiding
+   the nav bar behind the hero whenever it re-appeared on scroll-up. */
+.heroClip {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
 }
 
 /* Absolutely positioned behind the nav/copy (z-index:0, vs .heroGrid's
@@ -617,9 +629,36 @@
   outline: 1px solid rgba(255, 255, 255, 0.76);
   outline-offset: 0;
 }
+/* Photo-filled, not the plain white card the other three bento cells
+   use — that read as too much empty white space for just "Millions / of
+   secure submissions processed". padding: 0 + overflow: hidden lets
+   .bentoHeroImage go edge-to-edge (up to the base .bentoCard border) and
+   still get clipped to the card's own 24px radius. */
 .bentoCardHero {
   grid-row: 1 / span 2;
   min-height: 220px;
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+}
+
+.bentoHeroImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 35%;
+}
+
+.bentoHeroPanel {
+  position: relative;
+  z-index: 1;
+  margin: 20px;
+  padding: 20px 22px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 14px 32px rgba(0, 31, 63, 0.22);
 }
 /* gap is a minimum, not a fixed size — space-between still spreads any
    extra room between the two blocks on the tall desktop card (spanning

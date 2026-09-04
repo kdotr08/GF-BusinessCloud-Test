@@ -151,6 +151,197 @@
   margin-bottom: 6px;
 }
 
+/* Templates page only — same card shell as .featureCard, but with a
+   screenshot thumbnail on top, so no padding of its own (the media sits
+   flush against the card edges) and the text block carries .featureCard's
+   old 22px padding instead. Source screenshots (public/images/templates)
+   come from the old site at wildly inconsistent aspect ratios/resolutions
+   (from 765x540 to 2880x3019), so the media is a fixed-height crop rather
+   than width:100%/height:auto like .solutionMedia — object-position: top
+   keeps the crop showing the page title/first fields, the part that
+   actually identifies the template, instead of whatever happens to land
+   in a middle slice. */
+.templateCard {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #e3e4e8;
+  border-radius: 12px;
+}
+
+/* Light static fill behind the image, exposed only at the top-left —
+   the image sits flush against the right and bottom edges of this box
+   (see .templateCardMedia img), with a 20px inset on the top and left
+   only, so the fill and the image's own top-left corner round together
+   and every other corner is a plain flush edge. */
+.templateCardMedia {
+  position: relative;
+  /* Without a real stacking context, overflow: hidden here doesn't
+     reliably clip the blurred ::before glow below to this box — the
+     filter's compositing escapes to the next ancestor that has one
+     (.templateCard's own overflow: hidden, clipping at the full card
+     height instead of just this 200px strip). isolate forces one, same
+     fix already used for .heroGrid/.heroPrimaryCta (home.module.css). */
+  isolation: isolate;
+  height: 200px;
+  overflow: hidden;
+  background: #f5f6f8;
+  border-bottom: 1px solid #e3e4e8;
+}
+
+/* Mesh-gradient glow, swapped in for the flat #f5f6f8 fill on hover — same
+   navy-base-plus-blurred-radial-blend family as .bg-dark-glow (globals.css).
+   A separate layer behind the img, not a background/filter on
+   .templateCardMedia itself: filter blurs an element's entire rendered
+   subtree, so putting it there would blur the sharp screenshot too, not
+   just the fill. Faded via opacity (not swapped in on :hover directly) so
+   it transitions smoothly instead of snapping. Stacks behind the img for
+   free, no z-index needed: both are position:absolute with z-index:auto,
+   and this ::before is generated content, so it's first in document order
+   within .templateCardMedia — same "document order decides" stacking
+   already relied on by .isoShieldShine's sweep (StatsBar.tsx). */
+/* Oversized (260%) relative to the card and centered (-80% inset), not
+   inset: 0 — the exposed part of this box is a thin ~20px L-shaped strip
+   (top+left) around the flush-right/flush-bottom image, and a strip that
+   narrow reads as close to a 1D slice through the mesh: even perfectly
+   tuned, it shows a smooth blend of whatever colors sit along that path,
+   never a full 2D view of distinct blobs the way a wide-open canvas would.
+   Given that ceiling, blur is knocked down from the source recipe's 90px
+   (near half this card's own height — enough to wash all five blobs into
+   one flat color) to 40px, which noticeably widens the visible color range
+   within the strip without going so sharp it reads as hard circles rather
+   than a mesh. The oversized canvas + the drift animation below still do
+   real work here: panning it means a hover sees the blend actually shift
+   through the palette over time, not just one static mix. */
+.templateCardMedia::before {
+  content: "";
+  position: absolute;
+  top: -80%;
+  left: -80%;
+  width: 260%;
+  height: 260%;
+  background-color: #001f3f;
+  background-image: radial-gradient(at 100% 100%, rgba(0, 116, 217, 0.8) 0px, transparent 48%), radial-gradient(
+        at 90% 20%,
+        rgba(127, 219, 255, 0.8) 0px,
+        transparent 40%
+      ), radial-gradient(at 30% 60%, rgba(57, 204, 204, 0.8) 0px, transparent 44%), radial-gradient(
+        at 70% 80%,
+        rgba(0, 31, 63, 0.8) 0px,
+        transparent 36%
+      ), radial-gradient(at 50% 40%, rgba(0, 116, 217, 0.8) 0px, transparent 40%);
+  filter: blur(40px);
+  opacity: 0;
+  transition: opacity 400ms ease;
+  /* Always running, not just while :hover — so opacity fading in mid-cycle
+     picks up wherever the drift already is instead of restarting from 0%
+     every time, avoiding a repeated "reset" look on repeated hovers.
+     Invisible at opacity: 0 in between, so the constant motion costs
+     nothing visually while at rest. */
+  animation: templateMeshDrift 9s ease-in-out infinite;
+  pointer-events: none;
+  will-change: transform;
+}
+
+@keyframes templateMeshDrift {
+  0% {
+    transform: translate(0%, 0%);
+  }
+  25% {
+    transform: translate(-25%, 20%);
+  }
+  50% {
+    transform: translate(18%, -28%);
+  }
+  75% {
+    transform: translate(-20%, -15%);
+  }
+  100% {
+    transform: translate(0%, 0%);
+  }
+}
+
+/* JS-driven class (TemplateCard.tsx), not :hover/:focus-within — the
+   preview link opens in a new tab, which steals window focus without the
+   pointer ever actually leaving this card, so plain :hover/:focus-within
+   stayed frozen "on" once this tab was backgrounded. The JS version clears
+   on a window "blur" listener instead, which fires exactly when that
+   happens. */
+.templateCard.templateCardHovering .templateCardMedia::before {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .templateCardMedia::before {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* width/height set explicitly (not just top/left/right/bottom) — img is a
+   replaced element, and replaced elements don't stretch to fill an inset
+   box the way a plain div does; with width/height left auto they'd fall
+   back to intrinsic size instead, ignoring right/bottom entirely.
+   Flush against the right and bottom edges (only top+left carry the
+   inset, now a bigger 36px for more visible background there), maximizing
+   the image's own box — and object-fit: cover, not contain: these
+   screenshots come from the old site at wildly inconsistent aspect ratios
+   (.templateCard's comment above), and on the more extreme ones contain
+   was shrinking the whole screenshot down so far to avoid any cropping
+   that its own text became illegible. cover crops instead of shrinking,
+   trading a bit of the screenshot's edges for the rest staying readable. */
+.templateCardMedia img {
+  position: absolute;
+  top: 36px;
+  left: 36px;
+  width: calc(100% - 36px);
+  height: calc(100% - 36px);
+  border: 1px solid #e3e4e8;
+  border-radius: 8px 0 0 0;
+  background: #fff;
+  box-shadow: 0 6px 16px rgba(0, 31, 63, 0.08);
+  object-fit: cover;
+  object-position: top center;
+}
+
+.templateCardBody {
+  padding: 18px 22px 22px;
+}
+
+/* Sits on the global .eyebrow class (globals.css) for the actual eyebrow
+   typography (mono, uppercase, bold, tracked) — strips .eyebrow's pill
+   chrome (border/background/padding/rounding) down to bare text, retinted
+   to the same info-blue used throughout this page's own section eyebrows
+   (border-[#0087b0]/25 bg-[#0087b0]/10 text-[#0087b0], e.g. "Featured
+   templates" above) instead of .eyebrow's default navy, so it reads as
+   this card's category rather than a section label, and drops .eyebrow's
+   blinking-cursor ::after — appropriate once per section heading, too
+   busy repeated on ten cards in the same grid at once. */
+.templateCardCategory {
+  margin-top: 0;
+  margin-bottom: 10px;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: none !important;
+  color: #0087b0 !important;
+}
+
+.templateCardCategory::after {
+  content: none;
+}
+
+/* Same btn-pill-secondary/btn-hover-shrink/.solidBlueCta combo as the
+   integrations page's "Talk to us" link below — solid --cta-blue fill,
+   swaps to navy on hover, no icon. Matches AudienceTracks' (home page)
+   non-emphasized plan-card CTAs, which reuse pricing.module.css's
+   .planCard shell and use this same solid/no-icon treatment. This class
+   is just the compact h-9 sizing plus spacing from the card body above. */
+.templatePreviewCta {
+  margin-top: 14px;
+}
+
 .analyticsFeatureGrid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
@@ -394,6 +585,28 @@
   font-size: 13px;
   font-weight: 600;
   color: var(--navy);
+}
+
+/* Interactive variant — templates page category filters (TemplatesShowcase.tsx).
+   Plain .pill above stays a static, non-interactive tag for every other
+   use (CATEGORIES was originally just a display list). */
+.pillButton {
+  cursor: pointer;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+.pillButton:hover {
+  border-color: var(--navy);
+}
+
+.pillButtonActive,
+.pillButtonActive:hover {
+  border-color: var(--navy);
+  background: var(--navy);
+  color: #fff;
 }
 
 .statRow {

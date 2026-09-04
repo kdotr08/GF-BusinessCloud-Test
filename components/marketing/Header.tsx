@@ -78,6 +78,13 @@ export function Header({
   const [open, setOpen] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileHeaderVisible, setMobileHeaderVisible] = useState(true);
+  // Stays false through the initial "at the top of the hero" state so the
+  // bar lands transparent — nav links floating over the hero, nothing
+  // fighting it for attention on first paint. The very first scroll-up
+  // (the same event that makes the hidden bar reappear) flips this on for
+  // good; it's one-way by design, not re-hidden on returning to the top,
+  // since by then the user has already scrolled the page once.
+  const [mobileHeaderSolid, setMobileHeaderSolid] = useState(false);
   const lastScrollYRef = useRef(0);
   const light = variant === "light";
   const navRevealDelay = (index: number) =>
@@ -91,19 +98,12 @@ export function Header({
   useEffect(() => {
     if (!mobileAutoHide) return;
 
-    const mobileQuery = window.matchMedia("(max-width: 1023.98px)");
     let animationFrame = 0;
     lastScrollYRef.current = Math.max(window.scrollY, 0);
 
     const updateHeader = () => {
       animationFrame = 0;
       const currentScrollY = Math.max(window.scrollY, 0);
-
-      if (!mobileQuery.matches) {
-        setMobileHeaderVisible(true);
-        lastScrollYRef.current = currentScrollY;
-        return;
-      }
 
       if (mobileOpen || currentScrollY <= 16) {
         setMobileHeaderVisible(true);
@@ -116,7 +116,9 @@ export function Header({
       // threshold instead of resetting every frame and never triggering.
       const scrollDelta = currentScrollY - lastScrollYRef.current;
       if (Math.abs(scrollDelta) >= 6) {
-        setMobileHeaderVisible(scrollDelta < 0);
+        const scrollingUp = scrollDelta < 0;
+        setMobileHeaderVisible(scrollingUp);
+        if (scrollingUp) setMobileHeaderSolid(true);
         lastScrollYRef.current = currentScrollY;
       }
     };
@@ -126,11 +128,9 @@ export function Header({
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    mobileQuery.addEventListener("change", updateHeader);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      mobileQuery.removeEventListener("change", updateHeader);
       if (animationFrame) window.cancelAnimationFrame(animationFrame);
     };
   }, [mobileAutoHide, mobileOpen]);
@@ -140,7 +140,9 @@ export function Header({
       <div
         className={`${
           mobileAutoHide ? styles.mobileStickyBar : ""
-        } ${mobileAutoHide && !mobileHeaderVisible ? styles.mobileStickyBarHidden : ""} relative grid grid-cols-[1fr_auto] items-center lg:grid-cols-[1fr_auto_1fr]`}
+        } ${mobileAutoHide && !mobileHeaderVisible ? styles.mobileStickyBarHidden : ""} ${
+          mobileAutoHide && (mobileHeaderSolid || mobileOpen) ? styles.mobileStickyBarSolid : ""
+        } relative grid grid-cols-[1fr_auto] items-center lg:grid-cols-[1fr_auto_1fr]`}
       >
         <Link
           href="/"
