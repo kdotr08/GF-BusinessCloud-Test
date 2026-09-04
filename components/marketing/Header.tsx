@@ -11,6 +11,9 @@ type MegaConfig = {
   listTitle: string;
   listItems: SimpleLink[];
   banner: { title: string; cta: string; href: string };
+  compact?: boolean;
+  narrow?: boolean;
+  slimExplore?: boolean;
 };
 export type NavLink = { href: string; label: string; mega?: MegaConfig };
 
@@ -26,7 +29,9 @@ const SIGN_IN_HREF = "https://govforms.uk/builder/libraries";
 
 function MegaMenu({ config }: { config: MegaConfig }) {
   return (
-    <div className={styles.panel}>
+    <div
+      className={`${styles.panel} ${config.compact ? styles.panelCompact : ""} ${config.narrow ? styles.panelNarrow : ""} ${config.slimExplore ? styles.panelSlimExplore : ""}`}
+    >
       <div className={styles.megaLayout}>
         <div className={styles.gridArea}>
           <div className={styles.sectionTitle}>{config.gridTitle}</div>
@@ -68,18 +73,29 @@ export function Header({
   variant = "dark",
   invertedCta = false,
   mobileAutoHide = false,
+  containedAutoHide = false,
 }: {
   links?: NavLink[];
   cta?: NavLink;
   variant?: "dark" | "light";
   invertedCta?: boolean;
   mobileAutoHide?: boolean;
+  containedAutoHide?: boolean;
 }) {
   const [open, setOpen] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileHeaderVisible, setMobileHeaderVisible] = useState(true);
+  // Stays false through the initial "at the top of the hero" state so the
+  // bar lands transparent — nav links floating over the hero, nothing
+  // fighting it for attention on first paint. The very first scroll-up
+  // (the same event that makes the hidden bar reappear) flips this on for
+  // good; it's one-way by design, not re-hidden on returning to the top,
+  // since by then the user has already scrolled the page once.
+  const [mobileHeaderSolid, setMobileHeaderSolid] = useState(false);
   const lastScrollYRef = useRef(0);
-  const light = variant === "light";
+  const hasSolidSurface = mobileAutoHide && (mobileHeaderSolid || mobileOpen);
+  const light = variant === "light" || hasSolidSurface;
+  const useInvertedCta = invertedCta && !hasSolidSurface;
   const navRevealDelay = (index: number) =>
     `${120 + Math.abs(index - (links.length - 1) / 2) * 150}ms`;
 
@@ -91,7 +107,6 @@ export function Header({
   useEffect(() => {
     if (!mobileAutoHide) return;
 
-    const mobileQuery = window.matchMedia("(max-width: 1023.98px)");
     let animationFrame = 0;
     lastScrollYRef.current = Math.max(window.scrollY, 0);
 
@@ -99,7 +114,7 @@ export function Header({
       animationFrame = 0;
       const currentScrollY = Math.max(window.scrollY, 0);
 
-      if (!mobileQuery.matches) {
+      if (mobileOpen || currentScrollY <= 16) {
         setMobileHeaderVisible(true);
         lastScrollYRef.current = currentScrollY;
         return;
@@ -116,7 +131,9 @@ export function Header({
       // threshold instead of resetting every frame and never triggering.
       const scrollDelta = currentScrollY - lastScrollYRef.current;
       if (Math.abs(scrollDelta) >= 6) {
-        setMobileHeaderVisible(scrollDelta < 0);
+        const scrollingUp = scrollDelta < 0;
+        setMobileHeaderVisible(scrollingUp);
+        if (scrollingUp) setMobileHeaderSolid(true);
         lastScrollYRef.current = currentScrollY;
       }
     };
@@ -126,11 +143,9 @@ export function Header({
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    mobileQuery.addEventListener("change", updateHeader);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      mobileQuery.removeEventListener("change", updateHeader);
       if (animationFrame) window.cancelAnimationFrame(animationFrame);
     };
   }, [mobileAutoHide, mobileOpen]);
@@ -140,7 +155,11 @@ export function Header({
       <div
         className={`${
           mobileAutoHide ? styles.mobileStickyBar : ""
-        } ${mobileAutoHide && !mobileHeaderVisible ? styles.mobileStickyBarHidden : ""} relative grid grid-cols-[1fr_auto] items-center lg:grid-cols-[1fr_auto_1fr]`}
+        } ${mobileAutoHide && containedAutoHide ? styles.mobileStickyBarContained : ""} ${
+          mobileAutoHide && !mobileHeaderVisible ? styles.mobileStickyBarHidden : ""
+        } ${
+          hasSolidSurface ? styles.mobileStickyBarSolid : ""
+        } relative grid grid-cols-[1fr_auto] items-center lg:grid-cols-[1fr_auto_1fr]`}
       >
         <Link
           href="/"
@@ -205,7 +224,7 @@ export function Header({
             >
               <Link
                 href={cta.href}
-                className={`btn-pill-secondary btn-hover-shrink ${styles.navCta} ${invertedCta ? styles.navCtaInverted : ""} h-9 !px-5 text-sm`}
+                className={`btn-pill-secondary btn-hover-shrink ${styles.navCta} ${useInvertedCta ? styles.navCtaInverted : ""} h-9 !px-5 text-sm`}
               >
                 {cta.label}
               </Link>
@@ -311,7 +330,7 @@ export function Header({
             {cta && (
               <Link
                 href={cta.href}
-                className={`btn-pill-secondary btn-hover-shrink ${styles.navCta} ${invertedCta ? styles.navCtaInverted : ""} mt-3 justify-center !px-6`}
+                className={`btn-pill-secondary btn-hover-shrink ${styles.navCta} ${useInvertedCta ? styles.navCtaInverted : ""} mt-3 justify-center !px-6`}
                 onClick={closeAll}
               >
                 {cta.label}

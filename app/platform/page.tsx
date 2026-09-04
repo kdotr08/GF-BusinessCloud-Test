@@ -3,8 +3,15 @@ import type { Metadata } from "next";
 import { FeatureGrid } from "@/components/marketing/FeatureGrid";
 import { PlatformShowcase } from "@/components/marketing/PlatformShowcase";
 
+// Orphaned page — not in nav-links.ts, duplicates FeatureGrid/PlatformShowcase
+// content that already lives on /features. noindex + canonical here (belt
+// and suspenders alongside the robots.ts disallow) instead of deleting it,
+// since it's still reachable by direct URL and something may still link to
+// it externally.
 export const metadata: Metadata = {
-  title: "Govform.com — Platform",
+  title: "Platform",
+  robots: { index: false, follow: true },
+  alternates: { canonical: "https://govform.com/features" },
 };
 
 export default function PlatformPage() {

@@ -1,75 +1,68 @@
 import type { Metadata } from "next";
-import { WorkflowCard } from "@/components/marketing/WorkflowCard";
+import { PageHero } from "@/components/marketing/PageHero";
 import { ClosingCta } from "@/components/marketing/ClosingCta";
-import { MarketingPillButton } from "@/components/marketing/MarketingPillButton";
+import { TemplateCard } from "@/components/marketing/TemplateCard";
 import styles from "@/components/marketing/content-page.module.css";
 
 export const metadata: Metadata = {
-  title: "Govform.com — Book a demo",
+  title: "Demo Digital Services",
+  description:
+    "Try out some example Govforms digital services, all created in Govforms Digital Service Builder — no coding required.",
+  alternates: { canonical: "https://govform.com/demo" },
 };
 
-const SERVICES: { title: string; body: string }[] = [
+const SERVICES = [
   {
-    title: "Forestry licence application",
-    body: "Revealing help text with embedded images, file uploads, map-based location selection, postcode address lookup and reference number validation.",
+    title: "Forestry license application",
+    body: "This demo includes revealing help text with embedded images, file uploads, map-based location selection for multiple sites, postcode address lookup, double email capture for verification, and reference number format validation.",
+    image: "/images/demo/forestry-licence.avif",
+    previewHref: "https://www.govforms.uk/prototypes/demo2/apply-for-a-license-demo/LIC-00855420/0",
+    category: "Licensing and permits",
   },
   {
     title: "Test kit order form",
-    body: "Conditional page flow logic, exit pages, dynamic content and links, and dropdown selection lists.",
+    body: "This demo asks questions to determine next steps and dynamic content, depending on the user's local authority. It includes conditional page flow logic, exit pages, dynamic content, dynamic links and drop-down selection lists.",
+    image: "/images/demo/test-kit-order.avif",
+    previewHref: "https://www.govforms.uk/prototypes/demo3/request-postal-pks-kit/PKS100005069/0",
+    category: "Conditional journeys",
   },
   {
     title: "Tax calculator",
-    body: "Income tax calculations across adjustable bands and rates, pre-population, rich tabular content and numeric validation.",
+    body: "This demo calculates income tax and allows the user to change bands and rates. It includes pre-population, rich and dynamic tabular content, page flow controlled by buttons, numeric validation and journey loops.",
+    image: "/images/demo/tax-calculator.avif",
+    previewHref: "https://www.govforms.uk/prototypes/demo4/calculate-your-income-tax/2BRY-RE3N-C93Y/0",
+    category: "Calculators and decision tools",
   },
   {
     title: "Annual training budget submission",
-    body: "Staff training requests via a data grid, real-time budget calculations, repeatable rows and a structured review step.",
+    body: "This demo captures staff training requests using a data grid and calculates budget totals in real time. It includes repeatable rows, spreadsheet-style data entry, dynamic calculations, and a structured review and submission flow.",
+    image: "/images/demo/training-budget.png",
+    previewHref: "https://govforms.uk/prototypes/demo5/training-budget-demo/AHTA-BWD6-RAXD/0",
+    category: "Data and workflow",
   },
 ];
 
 export default function DemoPage() {
   return (
     <>
-      <header className={`bg-dark-glow ${styles.pageHero}`}>
-        <div className="wrap">
-          <div className="subpage-hero-clearance grid min-h-[60vh] items-center gap-12 md:grid-cols-2">
-            <div className={styles.pageHeroBody}>
-              <div className="eyebrow border-white/25 bg-white/10 text-[var(--hero-accent)]">Book a demo</div>
-              <h1 className="max-w-[16ch]">See Govform.com on a real service.</h1>
-              <p className="max-w-[46ch]">
-                Tell us about the service you&apos;re building and we&apos;ll walk through Business
-                Cloud, Darcy AI and how server-side automation works end to end — on your screen,
-                not a slide deck.
-              </p>
-              <div className={styles.pageHeroButtons}>
-                <MarketingPillButton
-                  href="/pricing#institutional"
-                  variant="white-icon"
-                  className={styles.pageHeroPrimary}
-                >
-                  Talk to us
-                </MarketingPillButton>
-              </div>
-            </div>
-            <div className="max-w-[420px] justify-self-center">
-              <WorkflowCard />
-            </div>
-          </div>
-        </div>
-      </header>
+      <PageHero
+        eyebrow="Demo services"
+        title="Try out our demo form services"
+        subtitle="All the digital form services below were created with Govforms Digital Service Builder running on our cloud platform."
+        supportingText="Sign up for your free account to start building your own digital service prototypes."
+        primaryCta={{ label: "Start a free trial", href: "/pricing#plans" }}
+        centered
+      />
 
-      <section className={styles.section}>
+      <section className={`${styles.section} ${styles.sectionAlt}`}>
         <div className="wrap">
-          <div className="section-intro">
-            <div className="eyebrow border-[#0087b0]/25 bg-[#0087b0]/10 text-[#0087b0]">What we&apos;ll show you</div>
-            <h2 className="section-heading">Four real services, built on Govform.com.</h2>
+          <div className="section-intro section-intro--center">
+            <div className="eyebrow border-[#0087b0]/25 bg-[#0087b0]/10 text-[#0087b0]">Example services</div>
+            <h2 className="section-heading">Explore services built with Govforms.</h2>
           </div>
-          <div className={styles.featureGrid}>
-            {SERVICES.map((s) => (
-              <div key={s.title} className={styles.featureCard}>
-                <div className={styles.featureCardTitle}>{s.title}</div>
-                <p className="text-[13.5px] text-muted">{s.body}</p>
-              </div>
+          <div className={`${styles.featureGrid} ${styles.demoGrid} mt-8`}>
+            {SERVICES.map((service) => (
+              <TemplateCard key={service.title} {...service} ctaLabel="Start demo" />
             ))}
           </div>
         </div>
@@ -77,10 +70,10 @@ export default function DemoPage() {
 
       <ClosingCta
         eyebrow="Get started"
-        title="Ready to see it on your own service?"
-        body="Bring the service you're building — we'll show you how it looks on Govform.com, live."
-        primaryCta={{ label: "Talk to us", href: "/pricing#institutional" }}
-        secondaryCta={{ label: "Start a free trial", href: "/pricing#plans" }}
+        title="Get started with smarter digital service delivery"
+        body="Take the first step towards streamlined digital services with a personalised consultation from our expert team."
+        primaryCta={{ label: "Start a free trial", href: "/pricing#plans" }}
+        secondaryCta={{ label: "Talk to us", href: "/contact" }}
       />
     </>
   );

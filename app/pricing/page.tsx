@@ -8,7 +8,7 @@ import { PricingCalculator } from "@/components/marketing/PricingCalculator";
 import { InstitutionalSection } from "@/components/marketing/InstitutionalSection";
 import { GoLiveTable } from "@/components/marketing/GoLiveTable";
 import { ScenariosGrid } from "@/components/marketing/ScenariosGrid";
-import { FaqAccordion } from "@/components/marketing/FaqAccordion";
+import { FaqAccordion, FAQS } from "@/components/marketing/FaqAccordion";
 import { FinalCta } from "@/components/marketing/FinalCta";
 import {
   loadPlans,
@@ -23,7 +23,26 @@ import {
 } from "@/lib/content";
 
 export const metadata: Metadata = {
-  title: "Govform.com — Business Cloud pricing",
+  title: "Business Cloud Pricing",
+  description:
+    "Compare Business Cloud, Business Estate and Institutional pricing for Govform.com: plans, add-ons, go-live reviews and a calculator to estimate your monthly cost.",
+  keywords: [
+    "form builder pricing",
+    "digital service pricing",
+    "Business Cloud plans",
+    "government software pricing",
+  ],
+  alternates: { canonical: "https://govform.com/pricing" },
+};
+
+const FAQ_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQS.map(([question, answer]) => ({
+    "@type": "Question",
+    name: question,
+    acceptedAnswer: { "@type": "Answer", text: answer },
+  })),
 };
 
 // Pricing figures, plan features, addons, go-live tiers, estate bands and
@@ -66,6 +85,10 @@ export default async function PricingPage() {
       <ScenariosGrid scenarios={scenarios} />
       <FaqAccordion />
       <FinalCta />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_SCHEMA) }}
+      />
     </>
   );
 }

@@ -10,6 +10,7 @@ export function PageHero({
   note,
   primaryCta,
   secondaryCta,
+  centered = false,
   reveal = false,
   revealMotion = "scale",
 }: {
@@ -25,11 +26,14 @@ export function PageHero({
     className?: string;
   };
   secondaryCta?: { label: string; href: string; scrollDurationMs?: number };
+  centered?: boolean;
   reveal?: boolean;
   revealMotion?: "scale" | "rise";
 }) {
   const heroContent = (
-    <div className={`${styles.pageHeroBody} subpage-hero-clearance`}>
+    <div
+      className={`${styles.pageHeroBody} ${centered ? styles.pageHeroBodyCentered : ""} subpage-hero-clearance`}
+    >
       <div data-reveal-item={reveal ? "" : undefined} style={{ transitionDelay: "0ms" }}>
         <div className="eyebrow border-white/25 bg-white/10 text-[var(--hero-accent)]">{eyebrow}</div>
       </div>

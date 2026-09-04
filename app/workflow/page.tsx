@@ -5,7 +5,17 @@ import { MarketingPillButton } from "@/components/marketing/MarketingPillButton"
 import styles from "@/components/marketing/content-page.module.css";
 
 export const metadata: Metadata = {
-  title: "Govform.com — Workflow",
+  title: "Workflow Automation for Digital Services",
+  description:
+    "Automate digital service workflows end to end: rules-based logic, API and webhook integrations, role-based release control and real-time monitoring.",
+  keywords: [
+    "workflow automation",
+    "form automation",
+    "service workflow",
+    "API integration",
+    "release management",
+  ],
+  alternates: { canonical: "https://govform.com/workflow" },
 };
 
 const STAGES: {
@@ -19,7 +29,7 @@ const STAGES: {
     steps: [
       {
         title: "Design your service",
-        body: "Build prototypes with GDS patterns and components — file uploads, repeating sections, tables, mapping and search/retrieval.",
+        body: "Build prototypes with GDS patterns and components: file uploads, repeating sections, tables, mapping and search/retrieval.",
       },
       {
         title: "Test with users",
@@ -27,7 +37,7 @@ const STAGES: {
       },
       {
         title: "Configure rules and dynamic content",
-        body: "Use the rules editor to go beyond the basics — conditional pages, calculated fields, dynamic text.",
+        body: "Use the rules editor to go beyond the basics: conditional pages, calculated fields, dynamic text.",
       },
       {
         title: "Review with stakeholders",
@@ -67,7 +77,7 @@ const STAGES: {
       },
       {
         title: "Fine-grained release control",
-        body: "Automatic version management with role-based QA/Production deployment — one-click deploy, update, revert or shutter.",
+        body: "Automatic version management with role-based QA/Production deployment: one-click deploy, update, revert or shutter.",
       },
       {
         title: "Service management and support",
@@ -84,7 +94,7 @@ const STAGES: {
 const FAQS: [string, string][] = [
   [
     "Do I need technical skills to use Govform.com?",
-    "No — services are built with drag-and-drop tools, templates and a visual logic editor, not code.",
+    "No, services are built with drag-and-drop tools, templates and a visual logic editor, not code.",
   ],
   [
     "How long does it take to go live?",
@@ -92,7 +102,7 @@ const FAQS: [string, string][] = [
   ],
   [
     "What authentication methods are supported?",
-    "Seven, including anonymous access, GOV.UK Notify magic links, OIDC/OAuth 2.0, and AWS Cognito with MFA — plus save-and-return and group-based sharing.",
+    "Seven, including anonymous access, GOV.UK Notify magic links, OIDC/OAuth 2.0, and AWS Cognito with MFA, plus save-and-return and group-based sharing.",
   ],
   [
     "What systems can a service connect to?",
@@ -100,9 +110,22 @@ const FAQS: [string, string][] = [
   ],
   [
     "How do changes move from test to live?",
-    "Through three environments — Prototype, QA and Production — with one-click promotion, full version tracking and revert capability.",
+    "Through three environments (Prototype, QA and Production) with one-click promotion, full version tracking and revert capability.",
   ],
 ];
+
+// Same FAQPage pattern as analytics/features/integrations page.tsx — built
+// from the same FAQS array the visible accordion below renders, so the
+// structured data can't drift out of sync with what's actually on the page.
+const FAQ_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQS.map(([question, answer]) => ({
+    "@type": "Question",
+    name: question,
+    acceptedAnswer: { "@type": "Answer", text: answer },
+  })),
+};
 
 export default function WorkflowPage() {
   return (
@@ -115,7 +138,7 @@ export default function WorkflowPage() {
               <h1 className="max-w-[16ch]">From submission to automation, without leaving the server.</h1>
               <p className="max-w-[50ch]">
                 Every submission is validated page by page on the server, then moves into whatever
-                automation the service needs — a Notify/email step, an outbound API call, a webhook
+                automation the service needs: a Notify/email step, an outbound API call, a webhook
                 delivery, or a mapping step into another system.
               </p>
               <div className={styles.pageHeroButtons}>
@@ -185,6 +208,11 @@ export default function WorkflowPage() {
         body="Take the first step towards streamlined digital services with a personalised consultation from our expert team."
         primaryCta={{ label: "Start a free trial", href: "/pricing#plans" }}
         secondaryCta={{ label: "View demo", href: "/demo" }}
+      />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_SCHEMA) }}
       />
     </>
   );

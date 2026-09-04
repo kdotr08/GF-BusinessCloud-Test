@@ -68,8 +68,15 @@ export function StatsBar() {
             <div
               className={`${styles.bentoCard} ${styles.bentoCardHero} ${styles.trustReveal} ${styles.trustRevealCard1}`}
             >
-              <CountUpStat value="12M+" className={styles.bentoNumHero} />
-              <div className={styles.bentoLabelHero}>Secure submissions processed</div>
+              <img
+                src="/images/stats/submissions.jpg"
+                alt=""
+                className={styles.bentoHeroImage}
+              />
+              <div className={styles.bentoHeroPanel}>
+                <CountUpStat value="Millions" className={styles.bentoNumHero} />
+                <div className={styles.bentoLabelHero}>of secure submissions processed</div>
+              </div>
             </div>
 
             <div
@@ -118,7 +125,7 @@ export function StatsBar() {
               className={`${styles.bentoCard} ${styles.bentoCardDark} ${styles.trustReveal} ${styles.trustRevealCard4}`}
             >
               <div>
-                <div className={styles.bentoLabelDarkHeading}>ISO 27001</div>
+                <div className={styles.bentoLabelDarkHeading}>ISO 27001:9001</div>
                 <div className={styles.bentoLabelDark}>
                   Certified information
                   <br />

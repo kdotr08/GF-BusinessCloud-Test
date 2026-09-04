@@ -23,36 +23,43 @@ const PRICING_PAGES = {
     eyebrow: "Business Cloud",
     title: "Choose the right Business Cloud plan.",
     subtitle: "Compare plans, included capacity and the advantages of running production services on Govform.com.",
+    anchor: "plans",
   },
   "add-ons": {
     eyebrow: "Add-ons",
     title: "Extend your plan when your service needs more.",
     subtitle: "Add capacity and specialist capabilities without moving away from your core Business Cloud plan.",
+    anchor: "addons",
   },
   calculator: {
     eyebrow: "Pricing calculator",
     title: "Estimate the monthly cost of your service estate.",
     subtitle: "Model services, submissions and automation actions to find the most suitable starting plan.",
+    anchor: "calculator",
   },
   "business-estate": {
     eyebrow: "Business Estate",
     title: "Portfolio pricing for large service estates.",
     subtitle: "Use predictable estate bands when you operate 100 or more live services across your organisation.",
+    anchor: "estate",
   },
   institutional: {
     eyebrow: "Institutional",
     title: "A commercial route for complex public services.",
     subtitle: "Compare self-service Business Cloud with the hands-on delivery, assurance and support available to institutional teams.",
+    anchor: "institutional",
   },
   "go-live": {
     eyebrow: "Go-live reviews",
     title: "Independent checks before your service goes live.",
     subtitle: "Choose the right level of assurance for complex, high-risk or business-critical services.",
+    anchor: "go-live",
   },
   faq: {
     eyebrow: "Pricing FAQ",
     title: "Pricing definitions and common questions.",
     subtitle: "Understand submissions, automation actions, support, overages and the boundary between product and professional services.",
+    anchor: "faq",
   },
 } as const;
 
@@ -66,9 +73,18 @@ export function generateStaticParams() {
   return Object.keys(PRICING_PAGES).map((section) => ({ section }));
 }
 
+// Each of these renders the same section component /pricing itself renders
+// in full (PlanCards, AddonsGrid, etc. — see the switch below) — so rather
+// than let these compete with /pricing for the same content, canonical
+// points back at the matching anchor on the one comprehensive page.
 export function generateMetadata({ params }: { params: { section: string } }): Metadata {
   if (!isPricingPage(params.section)) return {};
-  return { title: `Govform.com — ${PRICING_PAGES[params.section].eyebrow}` };
+  const page = PRICING_PAGES[params.section];
+  return {
+    title: page.eyebrow,
+    description: page.subtitle,
+    alternates: { canonical: `https://govform.com/pricing#${page.anchor}` },
+  };
 }
 
 export default async function PricingSectionPage({ params }: { params: { section: string } }) {

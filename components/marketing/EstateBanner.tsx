@@ -14,8 +14,8 @@ export function EstateBanner({ bands }: { bands: EstateBand[] }) {
               portfolio economics, not high-touch delivery support.
             </p>
           </div>
-          <MarketingPillButton href="#institutional">
-            Talk to us about Estate
+          <MarketingPillButton href="/business-estate">
+            Explore Business Estate
           </MarketingPillButton>
         </div>
 

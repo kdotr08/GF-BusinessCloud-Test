@@ -7,10 +7,16 @@ import styles from "./home.module.css";
 export function HomeHero() {
   return (
     <header className={`${styles.heroSection} pt-4`}>
-      <div className={`wrap relative z-10 ${styles.heroContent}`}>
+      {/* z-30, not z-10: the fixed nav bar (header.module.css, z-index:100)
+          lives inside this div, but position:fixed doesn't escape an
+          ancestor's stacking context — it only wins locally within it. This
+          div's OWN z-index is what gets compared against .band's z-index:20
+          (OrganisationLogoMarquee), so it has to clear that or the marquee
+          paints over the nav bar whenever they overlap on scroll. */}
+      <div className={`wrap relative z-30 ${styles.heroContent}`}>
         <Header
           links={MAIN_NAV_LINKS}
-          cta={{ href: "/pricing#institutional", label: "Talk to us" }}
+          cta={{ href: "/contact", label: "Talk to us" }}
           variant="light"
           mobileAutoHide
         />
@@ -41,7 +47,7 @@ export function HomeHero() {
           >
             <a
               className={`btn-pill-secondary btn-hover-shrink ${styles.heroSecondaryCta} 2xl:h-14 2xl:px-7 2xl:text-[17px]`}
-              href="/pricing#institutional"
+              href="/contact"
             >
               Talk to us
             </a>
@@ -66,11 +72,13 @@ export function HomeHero() {
         </div>
       </div>
 
-      <video className={styles.heroVideo} autoPlay muted loop playsInline poster="/videos/hero-poster.jpg">
-        <source src="/videos/hero_bg1.mp4" type="video/mp4" />
-      </video>
+      <div className={styles.heroClip}>
+        <video className={styles.heroVideo} autoPlay muted loop playsInline poster="/videos/hero-poster.jpg">
+          <source src="/videos/hero_bg1.mp4" type="video/mp4" />
+        </video>
 
-      <div className={styles.heroBottomScrim} aria-hidden="true" />
+        <div className={styles.heroBottomScrim} aria-hidden="true" />
+      </div>
       <OrganisationLogoMarquee />
     </header>
   );

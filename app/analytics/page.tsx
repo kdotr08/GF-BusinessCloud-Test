@@ -5,7 +5,7 @@ import { ScrollRevealGroup } from "@/components/marketing/ScrollRevealGroup";
 import styles from "@/components/marketing/content-page.module.css";
 
 export const metadata: Metadata = {
-  title: "Digital Service Analytics Without Cookies | Govform.com",
+  title: "Digital Service Analytics Without Cookies",
   description:
     "Understand completions, drop-offs, validation failures and user behaviour with real-time, unsampled digital service analytics without analytics cookies.",
   keywords: [

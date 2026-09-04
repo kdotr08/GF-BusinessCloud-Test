@@ -39,7 +39,7 @@ export function Hero({ rungs }: { rungs: HeroRung[] }) {
               <MarketingPillButton href="#calculator" variant="dark-secondary">
                 Calculate your live cost
               </MarketingPillButton>
-              <MarketingPillButton href="#institutional" variant="dark-secondary">
+              <MarketingPillButton href="/contact" variant="dark-secondary">
                 Talk to us
               </MarketingPillButton>
             </div>
